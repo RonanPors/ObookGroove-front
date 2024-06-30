@@ -1,5 +1,34 @@
-@use 'sass:math';
+/* ---- COLORS ---- */
 
-$color: #fff;
-$color-primary: #61dafb;
-$color-bg: #282c34;
+$c-primary-b: #2165f8;
+$c-primary-g: #2ee6b2;
+$c-primary-gradient-to-down: linear-gradient(
+  180deg,
+  $c-primary-b,
+  $c-primary-g
+);
+$c-primary-gradient-to-up: linear-gradient(0deg, $c-primary-b, $c-primary-g);
+$c-primary-gradient-to-right: linear-gradient(
+  90deg,
+  $c-primary-b,
+  $c-primary-g
+);
+$c-primary-gradient-to-left: linear-gradient(
+  270deg,
+  $c-primary-b,
+  $c-primary-g
+);
+
+$c-secondary-w: #f1f6fd;
+$c-secondary-b: #84aaff;
+$c-secondary-g: #adeedf;
+
+$c-darkest: #0e0e0e;
+$c-dark: #404040;
+$c-neutral: #737373;
+$c-light: #d9d9d9;
+$c-lightest: #f2f2f2;
+
+/* ------ TYPO ------ */
+
+$f-primary: 'Nunito', sans-serif;
