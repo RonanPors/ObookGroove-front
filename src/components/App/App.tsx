@@ -21,8 +21,7 @@ function App() {
       Hello
     </h4>
     <Footer />
-    </>
-    
+    </>  
   );
 }
 

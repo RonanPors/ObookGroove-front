@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { MenuItem, Menu, Segment, Button } from 'semantic-ui-react'
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg'
 import './Header.scss'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -16,15 +17,19 @@ function Header() {
                  </MenuItem>
             </Menu>
             <Menu inverted pointing secondary stackable className="header__menu">
-                 <MenuItem className="header__item text-chapo" link name='Accueil'>
-                  Accueil
-                 </MenuItem>
-            
-                  <MenuItem className="header__item text-chapo" link name='Profil'>
+              <NavLink to={'/'}>
+                  <MenuItem className="header__item text-chapo" link name='Accueil' as={NavLink} to="/">
+                   Accueil
+                  </MenuItem>
+              </NavLink>
+
+              <NavLink to={'/Profile'}>
+                  <MenuItem className="header__item text-chapo" link name='Profil' as={NavLink} to="/Profile">
                    Profil
                   </MenuItem>
+              </NavLink>
              
-                  <MenuItem className="header__item text-chapo" link name='Bibliothèque'>
+                  <MenuItem className="header__item text-chapo" link name='Bibliothèque' as={NavLink} to="/Library" >
                     Bibliothèque
                   </MenuItem>
         
