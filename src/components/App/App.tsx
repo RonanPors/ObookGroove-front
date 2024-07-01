@@ -2,9 +2,11 @@ import logo from '../../assets/logo/svg/logo1_bleuvert.svg';
 import Footer from '../elements/Footer/Footer';
 
 import './App.scss';
+import Header from '../elements/Header/Header';
 
 function App() {
   return (
+    <Header />
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />

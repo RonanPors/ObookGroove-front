@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as v;
+
+
+.ui.inverted.segment {
+  border-radius: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.ui.menu {
+  justify-content: space-between;
+}
+.header {
+  border-radius: 0;
+  align-self: center;
+}
+.ui.menu .item > img:not(.ui).header__img {
+ width: 7em;
+}
+.ui.stackable.inverted.pointing.menu.secondary.header__menu .item {
+  align-self: center;
+  width: auto !important;
+}
