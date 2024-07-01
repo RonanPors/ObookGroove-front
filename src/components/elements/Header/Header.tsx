@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MenuItem, Menu, Segment, Button, GridColumn, Grid } from 'semantic-ui-react'
+import { MenuItem, Menu, Segment, Button } from 'semantic-ui-react'
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg'
 import './Header.scss'
 
