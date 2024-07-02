@@ -1,43 +1,60 @@
 import React, { Component } from 'react'
-import { MenuItem, Menu, Segment, Button } from 'semantic-ui-react'
+import { MenuItem, Menu, Segment, Button, Icon } from 'semantic-ui-react'
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg'
+import { NavLink } from 'react-router-dom'
+import MediaQuery from 'react-responsive'
+
+
 import './Header.scss'
+import Burger from './Burger/Burger'
+import './Burger/Burger'
 
 
 
 function Header() {
   
       return (
-        
           <Segment inverted className="header">
-            <Menu inverted pointing secondary stackable className="header__menu">
-                 <MenuItem className="header__logo text-chapo" link name="logo">
-                   <img className="header__img" src={logo} alt="logo" />
-                 </MenuItem>
-            </Menu>
-            <Menu inverted pointing secondary stackable className="header__menu">
-                 <MenuItem className="header__item text-chapo" link name='Accueil'>
-                  Accueil
-                 </MenuItem>
+
+            <NavLink to={'/member/books'}>
+              <Menu inverted pointing secondary stackable className="header__menu">
+                  <MenuItem className="header__logo text-chapo" link name="logo" as={NavLink} to="/member/books">
+                    <img className="header__img" src={logo} alt="logo" />
+                  </MenuItem>
+              </Menu>
+            </NavLink>
             
-                  <MenuItem className="header__item text-chapo" link name='Profil'>
+            <MediaQuery minWidth={766}>
+             <Menu inverted pointing secondary stackable className="header__menu">
+                <NavLink to={'/member/books'}>
+                  <MenuItem className="header__item text-chapo" link name='Accueil' as={NavLink} to="/member/books">
+                   Accueil
+                  </MenuItem>
+                </NavLink>
+
+                <NavLink to={'/member/profile'}>
+                  <MenuItem className="header__item text-chapo" link name='Profil' as={NavLink} to="/member/profile">
                    Profil
                   </MenuItem>
+                </NavLink>
              
-                  <MenuItem className="header__item text-chapo" link name='Bibliothèque'>
+                <NavLink to={'/member/library'}>
+                  <MenuItem className="header__item text-chapo" link name='Bibliothèque' as={NavLink} to="/member/library" >
                     Bibliothèque
                   </MenuItem>
+                </NavLink>
         
                 <MenuItem>
-                  <Button primary className="button__primary text-chapo">
+                  <Button primary className="header__button button__primary text-chapo">
                      Log In
                   </Button>
-                </MenuItem>  
+                </MenuItem>
+             </Menu> 
+            </MediaQuery>
 
-            </Menu>
+            <Burger />
+
           </Segment>
-   
-        
       )
   }
   
