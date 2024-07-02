@@ -1,14 +1,19 @@
-// import { createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
-// const initialState = {
+type UserReducerState = {
+  menuIsOpen: boolean;
+};
 
-// }
+const initialState: UserReducerState = {
+  menuIsOpen: false,
+};
 
-// const userReducer = createReducer (state = initialState, action = { type: '@@INIT' }) => {
-//   console.log('state donné au reducer', state);
-//   console.log('action donnée au reducer', action);
+export const toggleMenu = createAction('USER/TOGGLE_MENU');
 
-//   return state;
-// };
+const userReducer = createReducer(initialState, (builder) => {
+  builder.addCase(toggleMenu, (state) => {
+    state.menuIsOpen = !state.menuIsOpen;
+  });
+});
 
-// export default userReducer;
+export default userReducer;

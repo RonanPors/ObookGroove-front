@@ -11,8 +11,8 @@ import {
 } from 'react-router-dom';
 
 // lié au store :
-// import { Provider } from 'react-redux';
-// import store from './store/store';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 // fichier racine indiquant les parties "fixes" d'une page (header et footer)
 import Root from './components/pages/Root/Root';
@@ -53,8 +53,8 @@ const router = createBrowserRouter(
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
   <React.StrictMode>
-    {/* <Provider store={ store }> */}
-    <RouterProvider router={router} />
-    {/* </Provider> */}
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
