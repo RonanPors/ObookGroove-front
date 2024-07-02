@@ -13,7 +13,7 @@ function Header() {
         <img className="header__img" src={logo} alt="logo" />
       </NavLink>
 
-      <MediaQuery minWidth={766}>
+      <MediaQuery minWidth={768}>
         <Menu inverted pointing secondary stackable className="header__menu">
           <MenuItem
             className="header__item text-chapo"

@@ -1,0 +1,68 @@
+@use 'src/styles/variables' as v;
+
+.ui.menu {
+  &.header__burger {
+    margin-block: 0;
+    min-height: auto;
+
+    & .item.header__burger-item {
+      &::before {
+        width: 0;
+      }
+
+      $burgerHeight: 1.5rem;
+
+      padding: 1rem;
+
+      div {
+        position: relative;
+        width: 2rem;
+        height: $burgerHeight;
+      }
+      $spanHeight: 2px;
+
+      span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: $spanHeight;
+        background-color: v.$c-lightest;
+        transition-duration: 0.3s;
+        transition-timing-function: ease-in-out;
+        transition-property: top, transform;
+
+        &:nth-child(1) {
+          top: 0;
+        }
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          top: calc(($burgerHeight - $spanHeight) / 2);
+        }
+
+        &:nth-child(4) {
+          top: calc($burgerHeight - $spanHeight);
+        }
+      }
+
+      &.is-open {
+        span {
+          &:nth-child(1),
+          &:nth-child(4) {
+            top: calc(($burgerHeight - $spanHeight) / 2);
+            transform: scale(0);
+          }
+
+          &:nth-child(2) {
+            transform: rotate(45deg);
+          }
+
+          &:nth-child(3) {
+            transform: rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+}
