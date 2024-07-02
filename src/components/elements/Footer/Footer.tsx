@@ -9,46 +9,37 @@ export default function Footer() {
   return (
     <Segment inverted className="footer ">
       <Menu stackable inverted pointing secondary className="footer__menu">
-        <NavLink to="/member/books">
-          <MenuItem
-            className="footer__logo"
-            link
-            name="logo"
-            as={NavLink}
-            to="/member/books"
-          >
-            <img className="footer__img" src={logo} alt="logo" />
-          </MenuItem>
-        </NavLink>
+        <MenuItem
+          className="footer__logo"
+          name="logo"
+          as={NavLink}
+          to="/member/books"
+        >
+          <img className="footer__img" src={logo} alt="logo" />
+        </MenuItem>
 
-        <NavLink to="/legal-notice">
-          <MenuItem
-            className="footer__item text-corpus"
-            link
-            name="legal notices"
-            as={NavLink}
-            to="/legal-notice"
-          >
-            Mentions Légales
-          </MenuItem>
-        </NavLink>
+        <MenuItem
+          className="footer__item text-corpus"
+          name="legal notices"
+          as={NavLink}
+          to="/legal-notice"
+        >
+          Mentions Légales
+        </MenuItem>
 
-        <NavLink to="/general-conditions-use">
-          <MenuItem
-            className="footer__item text-corpus"
-            link
-            name="CGU"
-            as={NavLink}
-            to="/general-conditions-use"
-          >
-            Conditions Générales d&apos;Utilisation
-          </MenuItem>
-        </NavLink>
+        <MenuItem
+          className="footer__item text-corpus"
+          name="CGU"
+          as={NavLink}
+          to="/general-conditions-use"
+        >
+          Conditions Générales d&apos;Utilisation
+        </MenuItem>
 
         <MenuItem className="footer__contact text-corpus" name="Contact">
           <span>
-            Contactez-nous{' '}
-            <a href="mailto:obookgroove@gmail.com"> obookgroove@gmail.com</a>
+            Contactez-nous&nbsp;:{' '}
+            <a href="mailto:obookgroove@gmail.com">obookgroove@gmail.com</a>
           </span>
         </MenuItem>
       </Menu>
