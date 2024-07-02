@@ -2,3 +2,8 @@
 @use 'variables' as v;
 @use 'font' as f;
 @use 'typography' as t;
+
+main {
+  background-color: v.$c-neutral;
+  height: 100vh;
+}

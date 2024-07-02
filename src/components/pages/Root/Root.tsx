@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
+import { Sticky } from 'semantic-ui-react';
 
 import Header from '../../elements/Header/Header';
 import Footer from '../../elements/Footer/Footer';
@@ -13,14 +14,20 @@ export default function Root() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  const contextRef = createRef<HTMLDivElement>();
+
   // this file is a layout for the application. We put the elements statics (header and footer) and the "outlet" display the dynamic part for each page.
   return (
     <>
-      <Header />
+      <div ref={contextRef}>
+        <Sticky context={contextRef}>
+          <Header />
+        </Sticky>
 
-      <main className="main">
-        <Outlet />
-      </main>
+        <main className="main">
+          <Outlet />
+        </main>
+      </div>
 
       <Footer />
     </>

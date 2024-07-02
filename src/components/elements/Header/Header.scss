@@ -1,6 +1,5 @@
 @use '../../../styles/variables' as v;
 
-
 .ui.segment.inverted.header {
   border-radius: 0;
   display: flex;
@@ -19,7 +18,7 @@
 }
 
 .ui.menu .item > img:not(.ui).header__img {
- width: 7rem;
+  width: 7rem;
 }
 .ui.stackable.inverted.pointing.menu.secondary.header__menu .item {
   align-self: center;
