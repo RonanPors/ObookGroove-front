@@ -1,7 +1,7 @@
 // import { createReducer } from '@reduxjs/toolkit';
 
 // const initialState = {
-  
+
 // }
 
 // const userReducer = createReducer (state = initialState, action = { type: '@@INIT' }) => {
