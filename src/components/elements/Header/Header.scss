@@ -18,11 +18,14 @@
   align-items: center;
 }
 
-
 .ui.menu .item > img:not(.ui).header__img {
  width: 7rem;
 }
 .ui.stackable.inverted.pointing.menu.secondary.header__menu .item {
   align-self: center;
   width: auto !important;
+}
+
+.ui.inverted.menu.header__burger-item .item:before {
+  background: none;
 }

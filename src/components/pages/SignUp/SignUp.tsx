@@ -1,12 +1,7 @@
-import Header from "../../elements/Header/Header"
-import Footer from "../../elements/Footer/Footer"
-
-function SignUp (){
-  <>
-    <Header />
-    <Footer />
+export default function SignUp (){
+  return (
+    <>
+    
   </>
-  
+  );
 }
-
-export default SignUp 

@@ -1,11 +1,8 @@
-import Header from "../../elements/Header/Header"
-import Footer from "../../elements/Footer/Footer"
 
-function Login (){
-  <>
+export default function Login (){
+  return (
+    <>
     
   </>
-  
+  );
 }
-
-export default Login 

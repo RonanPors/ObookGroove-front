@@ -1,11 +1,8 @@
-import Header from "../../elements/Header/Header"
-import Footer from "../../elements/Footer/Footer"
-
-function Profile (){
-  <>
+export default function Profile (){
+  return (
+    <>
     
   </>
-  
+  );
 }
 
-export default Profile 
