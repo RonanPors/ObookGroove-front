@@ -1,5 +1,6 @@
 import { Icon, MenuItem, Menu } from 'semantic-ui-react'
 import MediaQuery from 'react-responsive'
+import MenuMobile from '../MenuMobile/MenuMobile'
 
 export type BurgerProps={
   image: HTMLElement
@@ -13,6 +14,7 @@ export default function Burger () {
                 <Icon name='bars' className="header__burger-icon"/>
           </MenuItem>
       </Menu>
-  </MediaQuery>
+      <MenuMobile />
+    </MediaQuery>
   )
 }

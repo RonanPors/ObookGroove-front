@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { MenuItem, Menu, Segment, Button, Icon } from 'semantic-ui-react'
-import './Burger/Burger'
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg'
-import './Header.scss'
 import { NavLink } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
+
+
+import './Header.scss'
 import Burger from './Burger/Burger'
+import './Burger/Burger'
 
 
 
@@ -40,13 +42,13 @@ function Header() {
                   <MenuItem className="header__item text-chapo" link name='Bibliothèque' as={NavLink} to="/member/library" >
                     Bibliothèque
                   </MenuItem>
-                 </NavLink>
+                </NavLink>
         
                 <MenuItem>
                   <Button primary className="header__button button__primary text-chapo">
                      Log In
                   </Button>
-                </MenuItem>  
+                </MenuItem>
              </Menu> 
             </MediaQuery>
 
