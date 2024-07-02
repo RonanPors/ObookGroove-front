@@ -1,9 +1,18 @@
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+// lié à Réact :
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// lié au routeur :
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+
+// lié au store :
+// import { Provider } from 'react-redux';
+// import store from './store/store';
+
+// fichier racine indiquant les parties "fixes" d'une page (header et footer)
 import Root from './components/pages/Root/Root';
 
+// toutes les pages :
 import App from './components/App/App';
 import Bookers from './components/pages/Bookers/Bookers';
 import CGU from './components/pages/CGU/CGU';
@@ -15,7 +24,7 @@ import Login from './components/pages/Login/Login';
 import Profile from './components/pages/Profile/Profile';
 import SignUp from'./components/pages/SignUp/SignUp';
 
-
+// lié au CSS :
 import 'semantic-ui-css/semantic.min.css';
 import './styles/index.scss';
 
@@ -33,8 +42,13 @@ const router = createBrowserRouter(createRoutesFromElements(
   </Route>
 ))
 
+// le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
-  <RouterProvider router={ router } />
+  <React.StrictMode>
+    {/* <Provider store={ store }> */}
+      <RouterProvider router={ router } />
+    {/* </Provider> */}
+  </React.StrictMode>
 )
 
 
