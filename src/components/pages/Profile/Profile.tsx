@@ -3,8 +3,7 @@ import Footer from "../../elements/Footer/Footer"
 
 function Profile (){
   <>
-    <Header />
-    <Footer />
+    
   </>
   
 }

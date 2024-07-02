@@ -3,6 +3,7 @@ import { MenuItem, Menu, Segment, Button } from 'semantic-ui-react'
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg'
 import './Header.scss'
 import { NavLink } from 'react-router-dom'
+import MediaQuery from 'react-responsive'
 
 
 
@@ -16,18 +17,20 @@ function Header() {
                    <img className="header__img" src={logo} alt="logo" />
                  </MenuItem>
             </Menu>
-            <Menu inverted pointing secondary stackable className="header__menu">
-              <NavLink to={'/'}>
+            
+            <MediaQuery minWidth={915}>
+             <Menu inverted pointing secondary stackable className="header__menu">
+               <NavLink to={'/'}>
                   <MenuItem className="header__item text-chapo" link name='Accueil' as={NavLink} to="/">
                    Accueil
                   </MenuItem>
-              </NavLink>
+               </NavLink>
 
-              <NavLink to={'/Profile'}>
+               <NavLink to={'/Profile'}>
                   <MenuItem className="header__item text-chapo" link name='Profil' as={NavLink} to="/Profile">
                    Profil
                   </MenuItem>
-              </NavLink>
+               </NavLink>
              
                   <MenuItem className="header__item text-chapo" link name='Bibliothèque' as={NavLink} to="/Library" >
                     Bibliothèque
@@ -38,8 +41,9 @@ function Header() {
                      Log In
                   </Button>
                 </MenuItem>  
-
-            </Menu>
+             </Menu> 
+            </MediaQuery>
+            
           </Segment>
    
         
