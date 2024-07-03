@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
-import axios from 'axios';
 import { UserData } from '../../@types/settings';
 
 type UserReducerState = {
