@@ -26,7 +26,9 @@
   "workbench.iconTheme": "material-icon-theme",
   "cSpell.words": [
     "airbnb",
-    "bleuvert"
+    "bleuvert",
+    "recaptcha",
+    "sitekey"
   ],
   "workbench.colorCustomizations": {
     "activityBar.background": "#0F2F4E",
