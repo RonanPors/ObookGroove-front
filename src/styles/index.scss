@@ -2,3 +2,8 @@
 @use 'variables' as v;
 @use 'font' as f;
 @use 'typography' as t;
+
+// penser à l'enlever quand chaque page aura du contenu
+main {
+  height: 75vh;
+}
