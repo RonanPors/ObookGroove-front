@@ -1,4 +1,4 @@
-import { Icon, MenuItem, Menu } from 'semantic-ui-react';
+import { MenuItem, Menu } from 'semantic-ui-react';
 import MediaQuery from 'react-responsive';
 import MenuMobile from '../MenuMobile/MenuMobile';
 
