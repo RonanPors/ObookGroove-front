@@ -18,6 +18,15 @@
   width: auto !important;
 }
 
+.ui.secondary.pointing.menu .item.footer__logo {
+  border: none;
+}
+
 .ui.menu .item > img:not(.ui).footer__img {
   width: 5rem;
+}
+
+.footer__contact a {
+  text-decoration: underline;
+  color: v.$c-primary-g;
 }

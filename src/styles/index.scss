@@ -2,14 +2,3 @@
 @use 'variables' as v;
 @use 'font' as f;
 @use 'typography' as t;
-
-body {
-  background-color: v.$c-dark;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
