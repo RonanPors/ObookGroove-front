@@ -1,3 +1,6 @@
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FormField,
   Button,
@@ -6,9 +9,12 @@ import {
   Segment,
   Header,
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { signup } from '../../../store/reducers/userReducer';
+import {
+  signup,
+  updateFieldCredentials,
+  updateFieldUserData,
+} from '../../../store/reducers/userReducer';
 
 import './SignUp.scss';
 
@@ -19,27 +25,39 @@ export default function SignUp() {
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
-  const { pseudo, confirmPassword, phoneNumber, cgu } = useAppSelector(
+  const { pseudo, confirmPassword, phoneNumber } = useAppSelector(
     (store) => store.user.userData
   );
+  const { authSuccess } = useAppSelector((store) => store.user);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authSuccess) {
+      navigate('/member/books');
+    }
+  }, [authSuccess, navigate]);
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (loading) {
       return;
     }
+    recaptchaRef.current.execute();
     dispatch(signup());
   };
 
   return (
-    <Segment inverted className="Segment__SignUp">
+    <Segment inverted className="signup">
       <Form
         inverted
         size="large"
-        className="Form__SignUp"
+        className="signup__form"
         onSubmit={handleSubmit}
       >
-        <Header inverted as="h1" className="h1__header">
+        <Header inverted as="h1" className="h1 signup__header">
           Créer un compte
         </Header>
 
@@ -50,6 +68,14 @@ export default function SignUp() {
             id="email"
             type="email"
             value={email}
+            onChange={(e) =>
+              dispatch(
+                updateFieldCredentials({
+                  value: e.target.value,
+                  field: 'email',
+                })
+              )
+            }
           />
         </FormField>
 
@@ -58,8 +84,16 @@ export default function SignUp() {
           <input
             placeholder="Pseudo"
             id="pseudo"
-            type="password"
-            value={password}
+            type="text"
+            value={pseudo}
+            onChange={(e) =>
+              dispatch(
+                updateFieldUserData({
+                  value: e.target.value,
+                  field: 'pseudo',
+                })
+              )
+            }
           />
         </FormField>
 
@@ -70,6 +104,14 @@ export default function SignUp() {
             id="phone-mobile"
             type="text"
             value={phoneNumber}
+            onChange={(e) =>
+              dispatch(
+                updateFieldUserData({
+                  value: e.target.value,
+                  field: 'phoneNumber',
+                })
+              )
+            }
           />
         </FormField>
 
@@ -80,6 +122,14 @@ export default function SignUp() {
             id="password"
             type="password"
             value={password}
+            onChange={(e) =>
+              dispatch(
+                updateFieldCredentials({
+                  value: e.target.value,
+                  field: 'password',
+                })
+              )
+            }
           />
         </FormField>
 
@@ -90,17 +140,35 @@ export default function SignUp() {
             id="confirm-password"
             type="password"
             value={confirmPassword}
+            onChange={(e) =>
+              dispatch(
+                updateFieldUserData({
+                  value: e.target.value,
+                  field: 'confirmPassword',
+                })
+              )
+            }
           />
         </FormField>
 
         <FormField>
           <Checkbox
-            as={Link}
-            to="/general-conditions-use"
-            label="J'accepte les conditions d'utilisation"
+            label={
+              <label>
+                J&apos;accepte{' '}
+                <Link to="/general-conditions-use">
+                  les conditions d&apos;utilisation
+                </Link>
+              </label>
+            }
           />
         </FormField>
 
+        <ReCAPTCHA
+          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          ref={recaptchaRef}
+          size="invisible"
+        />
         <Button type="submit">Créer un compte</Button>
         {error !== '' && <p> {error}</p>}
       </Form>

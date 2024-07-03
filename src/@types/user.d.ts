@@ -4,10 +4,19 @@ export type UserData = {
   pseudo: string;
   confirmPassword: string;
   phoneNumber?: string;
-  cgu: boolean;
 };
 
 export type Credentials = {
   email: string;
   password: string;
 };
+
+// retour de la requête sur la route auth/signup
+export type SignupResponse = {
+  accessToken: string;
+  tokenType: string;
+  refreshToken: string;
+  pseudo: string;
+};
+
+export declare module 'react-google-recaptcha';
