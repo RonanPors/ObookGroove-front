@@ -1,15 +1,19 @@
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { Button } from 'semantic-ui-react';
+import { useAppSelector } from '../../../hooks/redux';
+import './Bookers.scss';
 
-export default function Bookers (){
-  const dispatch = useAppDispatch();
-  const { pseudo } = useAppSelector(
-    (store) => store.user.userData
-  );
+export default function Bookers() {
+  const { pseudo } = useAppSelector((store) => store.user.userData);
 
   return (
     <>
-    <h1>Bienvenue O'BG {pseudo} !</h1>
-  </>
+      <h1>Bienvenue O'BG {pseudo} !</h1>
+      <p>
+        {' '}
+        Pour obtenir une suggestion de livres, il te faut connecter son compte
+        Spotify.
+      </p>
+      <Button>Ici !</Button>
+    </>
   );
 }
-
