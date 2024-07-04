@@ -28,16 +28,17 @@ export default function SignUp() {
   const { pseudo, confirmPassword, phoneNumber } = useAppSelector(
     (store) => store.user.userData
   );
+
+  // authSuccess: permet la redirection vers la page book une fois que l'authentification est réussie
   const { authSuccess } = useAppSelector((store) => store.user);
-
   const navigate = useNavigate();
-
   useEffect(() => {
     if (authSuccess) {
       navigate('/member/books');
     }
   }, [authSuccess, navigate]);
 
+  // utilisation de captcha
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = (event: React.FormEvent) => {

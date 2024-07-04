@@ -19,4 +19,11 @@ export type SignupResponse = {
   pseudo: string;
 };
 
+export type SigninResponse = {
+  accessToken: string;
+  tokenType: string;
+  refreshToken: string;
+  pseudo: string;
+};
+
 export declare module 'react-google-recaptcha';
