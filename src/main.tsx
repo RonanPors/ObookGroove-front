@@ -24,8 +24,9 @@ import Error from './components/pages/Error/Error';
 import Landing from './components/pages/Landing/Landing';
 import LegalNotice from './components/pages/LegalNotice/LegalNotice';
 import Library from './components/pages/Library/Library';
-import SignIn from './components/pages/SignIn/SignIn';
 import Profile from './components/pages/Profile/Profile';
+import ResetPassword from './components/pages/ResetPassword/ResetPassword';
+import SignIn from './components/pages/SignIn/SignIn';
 import SignUp from './components/pages/SignUp/SignUp';
 
 // lié au CSS :
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
       <Route path="/member/profile" element={<Profile />} />
       <Route path="/general-conditions-use" element={<CGU />} />
       <Route path="/legal-notice" element={<LegalNotice />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
     </Route>
