@@ -97,6 +97,31 @@ export const signup = createAppAsyncThunk(
 );
 
 /*
+------------------- CONFIRM SIGN UP ----------------------
+*/
+
+type NewArgs = {
+  userId: string;
+  confirmToken: string;
+};
+
+export const confirmSignUp = createAppAsyncThunk(
+  'USER/CONFIRM_SIGNUP_ASYNC',
+  async ({ userId, confirmToken }: NewArgs) => {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
+      {
+        userId,
+        confirmToken,
+      }
+    );
+
+    console.log(data);
+    return data;
+  }
+);
+
+/*
 ----------- REDUCER With toggle, signup and signin ---------
 */
 
@@ -127,11 +152,8 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(signup.pending, (state) => {
       state.loading = true;
     })
-    .addCase(signup.fulfilled, (state, action) => {
-      // payload renvoie la réponse demandée à la BDD (ici, le pseudo)
-      state.userData.pseudo = action.payload.pseudo;
+    .addCase(signup.fulfilled, (state) => {
       state.loading = false;
-      state.authSuccess = true;
     })
     .addCase(signup.rejected, (state, action) => {
       state.loading = false;
@@ -152,6 +174,21 @@ const userReducer = createReducer(initialState, (builder) => {
       state.authSuccess = true;
     })
     .addCase(signin.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+    /*-----------------------------
+    ------- CONFIRM SIGN UP ----------
+    ---------------------------------*/
+    .addCase(confirmSignUp.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(confirmSignUp.fulfilled, (state, action) => {
+      state.userData.pseudo = action.payload.pseudo;
+      state.loading = false;
+      state.authSuccess = true;
+    })
+    .addCase(confirmSignUp.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     });
