@@ -1,13 +1,15 @@
 import { Grid, Header, Form, Button, Segment, Image } from 'semantic-ui-react';
 import './ResetPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { updateFieldCredentials } from '../../../store/reducers/userReducer';
-import { resetPassword } from '../../../store/reducers/passwordReducer';
+import {
+  resetPassword,
+  updateField,
+} from '../../../store/reducers/passwordReducer';
 
 export default function ResetPassword() {
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((store) => store.user);
-  const { email } = useAppSelector((store) => store.user.userData.credentials);
+  const { loading, error } = useAppSelector((store) => store.password);
+  const { email } = useAppSelector((store) => store.password.credentials);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -44,7 +46,7 @@ export default function ResetPassword() {
               value={email}
               onChange={(e) =>
                 dispatch(
-                  updateFieldCredentials({
+                  updateField({
                     value: e.target.value,
                     field: 'email',
                   })
