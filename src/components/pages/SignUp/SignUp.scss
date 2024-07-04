@@ -1,0 +1,10 @@
+.signup {
+  &.ui.inverted.segment {
+    display: flex;
+    justify-content: center;
+    border-radius: none;
+  }
+  &__form {
+    width: 30rem;
+  }
+}

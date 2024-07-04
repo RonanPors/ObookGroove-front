@@ -1,0 +1,32 @@
+@use '../../../styles/variables' as v;
+
+.ui.segment.inverted.footer {
+  margin: 0;
+  border-radius: 0;
+  background-color: v.$c-neutral;
+}
+
+.ui.stackable.inverted.menu.secondary.footer__menu {
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui.stackable.inverted.pointing.menu.secondary.footer__menu .item {
+  align-self: center;
+  width: auto !important;
+}
+
+.ui.secondary.pointing.menu .item.footer__logo {
+  border: none;
+}
+
+.ui.menu .item > img:not(.ui).footer__img {
+  width: 5rem;
+}
+
+.footer__contact a {
+  text-decoration: underline;
+  color: v.$c-primary-g;
+}

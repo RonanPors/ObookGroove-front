@@ -25,7 +25,10 @@
   },
   "workbench.iconTheme": "material-icon-theme",
   "cSpell.words": [
-    "airbnb"
+    "airbnb",
+    "bleuvert",
+    "recaptcha",
+    "sitekey"
   ],
   "workbench.colorCustomizations": {
     "activityBar.background": "#0F2F4E",
