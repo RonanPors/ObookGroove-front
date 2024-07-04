@@ -41,8 +41,13 @@ export default function MenuMobile() {
       </MenuItem>
 
       <MenuItem>
-        <Button primary className="mobile__button button__primary text-chapo">
-          Log In
+        <Button
+          primary
+          className="mobile__button button__primary text-chapo"
+          as={NavLink}
+          to="/signin"
+        >
+          Se connecter
         </Button>
       </MenuItem>
     </Menu>
