@@ -1,5 +1,5 @@
 import { MenuItem, Menu, Segment, Button } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg';
@@ -7,6 +7,11 @@ import './Header.scss';
 import Burger from './Burger/Burger';
 
 function Header() {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/signin');
+  };
+
   return (
     <Segment inverted className="header">
       <NavLink className="header__logo" to="/member/books">
@@ -46,8 +51,9 @@ function Header() {
             <Button
               primary
               className="header__button button__primary text-chapo"
+              onClick={handleClick}
             >
-              Log In
+              Se connecter
             </Button>
           </MenuItem>
         </Menu>

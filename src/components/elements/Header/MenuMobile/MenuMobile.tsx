@@ -6,6 +6,10 @@ import './MenuMobile.scss';
 
 export default function MenuMobile() {
   const menuIsOpen = useAppSelector((state) => state.user.menuIsOpen);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/signin');
+  };
   return (
     <Menu
       inverted
@@ -41,8 +45,12 @@ export default function MenuMobile() {
       </MenuItem>
 
       <MenuItem>
-        <Button primary className="mobile__button button__primary text-chapo">
-          Log In
+        <Button
+          primary
+          className="mobile__button button__primary text-chapo"
+          onClick={handleClick}
+        >
+          Se connecter
         </Button>
       </MenuItem>
     </Menu>
