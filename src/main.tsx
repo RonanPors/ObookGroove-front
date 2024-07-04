@@ -46,6 +46,10 @@ const router = createBrowserRouter(
       <Route path="/general-conditions-use" element={<CGU />} />
       <Route path="/legal-notice" element={<LegalNotice />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route
+        path="/reset-password/:userId([0-9]+)/:resetToken"
+        element={<ResetPassword />}
+      />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
     </Route>
