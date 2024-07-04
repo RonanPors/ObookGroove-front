@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
-import { Credentials, SignupResponse, SigninResponse, UserData } from '../../@types/user';
+import {
+  Credentials,
+  SignupResponse,
+  SigninResponse,
+  UserData,
+} from '../../@types/user';
 
 type UserReducerState = {
   menuIsOpen: boolean;
@@ -45,29 +50,37 @@ export const updateFieldCredentials = createAction<{
   value: string;
 }>('USER/UPDATE_FIELD_CREDENTIALS');
 
+/*
+------------------- SIGN IN ----------------------
+*/
+
 export const signin = createAppAsyncThunk(
   'USER/SIGNIN_ASYNC',
-  async(_, thunkAPI) => {
+  async (_, thunkAPI) => {
     const store = thunkAPI.getState();
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
-  };
-  const { data } = await axios.post<SigninResponse>(
-    `${import.meta.env.VITE_API_URL}/auth/signin`,
-    body
-  );
-  console.log(data);
-  return data;
-}
+    };
+    const { data } = await axios.post<SigninResponse>(
+      `${import.meta.env.VITE_API_URL}/auth/signin`,
+      body
+    );
+    console.log(data);
+    return data;
+  }
 );
+
+/*
+------------------- SIGN UP ----------------------
+*/
 
 // inscription de l'utilisateur avec fetch asynchrone
 export const signup = createAppAsyncThunk(
   'USER/SIGNUP_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
-    // on peut ici valider/formatter les données qui vont au back
+    // on peut ici indiquer les données qui vont au back
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
@@ -82,6 +95,10 @@ export const signup = createAppAsyncThunk(
     return data;
   }
 );
+
+/*
+----------- REDUCER With toggle, signup and signin ---------
+*/
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -102,6 +119,11 @@ const userReducer = createReducer(initialState, (builder) => {
       const { field } = action.payload;
       state.userData.credentials[field] = action.payload.value;
     })
+
+    /*  -----------------------------
+    ---------- SIGN UP --------------
+    ---------------------------------*/
+
     .addCase(signup.pending, (state) => {
       state.loading = true;
     })
@@ -115,21 +137,24 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     })
+
+    /*  -----------------------------
+    ---------- SIGN IN --------------
+    ---------------------------------*/
+
     .addCase(signin.pending, (state) => {
-      state.loading = true
+      state.loading = true;
     })
     .addCase(signin.fulfilled, (state, action) => {
       // payload renvoie la réponse demandée à la BDD (ici, le pseudo)
+      state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
       state.authSuccess = true;
-      state.userData.pseudo = action.payload.pseudo;
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
-    
-    ;
+    });
 });
-})
 
 export default userReducer;
