@@ -47,7 +47,7 @@ function Header() {
             Bibliothèque
           </MenuItem>
 
-          <MenuItem>
+          <MenuItem as={NavLink} to="/signin">
             <Button
               primary
               className="header__button button__primary text-chapo"
