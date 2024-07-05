@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import {
   Grid,
   Header,
@@ -10,6 +8,8 @@ import {
   Image,
 } from 'semantic-ui-react';
 import './SignIn.scss';
+import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   signin,
@@ -100,7 +100,7 @@ export default function SignIn() {
         </Form>
 
         <Message>
-          <Link to="#">Mot de passe oublié ? </Link>
+          <Link to="/reset-password">Mot de passe oublié ? </Link>
         </Message>
 
         <Message>
