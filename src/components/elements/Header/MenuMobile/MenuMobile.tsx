@@ -1,5 +1,5 @@
 import { MenuItem, Menu, Button } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../../hooks/redux';
 
 import './MenuMobile.scss';
