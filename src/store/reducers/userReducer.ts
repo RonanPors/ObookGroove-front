@@ -50,30 +50,9 @@ export const updateFieldCredentials = createAction<{
   value: string;
 }>('USER/UPDATE_FIELD_CREDENTIALS');
 
-/*
-------------------- SIGN IN ----------------------
-*/
-
-export const signin = createAppAsyncThunk(
-  'USER/SIGNIN_ASYNC',
-  async (_, thunkAPI) => {
-    const store = thunkAPI.getState();
-    const body = {
-      email: store.user.userData.credentials.email,
-      password: store.user.userData.credentials.password,
-    };
-    const { data } = await axios.post<SigninResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
-    );
-    console.log(data);
-    return data;
-  }
-);
-
-/*
-------------------- SIGN UP ----------------------
-*/
+/* --------------------------------------
+---------------- SIGN UP -----------------
+----------------------------------------*/
 
 // inscription de l'utilisateur avec fetch asynchrone
 export const signup = createAppAsyncThunk(
@@ -96,9 +75,9 @@ export const signup = createAppAsyncThunk(
   }
 );
 
-/*
-------------------- CONFIRM SIGN UP ----------------------
-*/
+/* --------------------------------------
+--------- CONFIRM SIGN UP --------------
+----------------------------------------*/
 
 type NewArgs = {
   userId: string;
@@ -121,9 +100,34 @@ export const confirmSignUp = createAppAsyncThunk(
   }
 );
 
-/*
------------ REDUCER With toggle, signup and signin ---------
-*/
+/* --------------------------------------
+---------------- SIGN IN -----------------
+----------------------------------------*/
+
+export const signin = createAppAsyncThunk(
+  'USER/SIGNIN_ASYNC',
+  async (_, thunkAPI) => {
+    const store = thunkAPI.getState();
+    const body = {
+      email: store.user.userData.credentials.email,
+      password: store.user.userData.credentials.password,
+    };
+    const { data } = await axios.post<SigninResponse>(
+      `${import.meta.env.VITE_API_URL}/auth/signin`,
+      body
+    );
+    console.log(data);
+    return data;
+  }
+);
+
+/* ---------------------------------- 
+---- REDUCER With -------------------
+----------------- toggle
+----------------- signup
+----------------- confirm signup 
+------------------ signin 
+--------------------------------------*/
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -160,6 +164,22 @@ const userReducer = createReducer(initialState, (builder) => {
       state.error = action.error.message || 'Error';
     })
 
+    /*-----------------------------
+    ------- CONFIRM SIGN UP ----------
+    ---------------------------------*/
+    .addCase(confirmSignUp.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(confirmSignUp.fulfilled, (state, action) => {
+      state.userData.pseudo = action.payload.pseudo;
+      state.loading = false;
+      state.authSuccess = true;
+    })
+    .addCase(confirmSignUp.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+
     /*  -----------------------------
     ---------- SIGN IN --------------
     ---------------------------------*/
@@ -174,21 +194,6 @@ const userReducer = createReducer(initialState, (builder) => {
       state.authSuccess = true;
     })
     .addCase(signin.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || 'Error';
-    })
-    /*-----------------------------
-    ------- CONFIRM SIGN UP ----------
-    ---------------------------------*/
-    .addCase(confirmSignUp.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(confirmSignUp.fulfilled, (state, action) => {
-      state.userData.pseudo = action.payload.pseudo;
-      state.loading = false;
-      state.authSuccess = true;
-    })
-    .addCase(confirmSignUp.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     });
