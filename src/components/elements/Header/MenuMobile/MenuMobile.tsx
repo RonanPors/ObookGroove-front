@@ -1,15 +1,20 @@
 import { MenuItem, Menu, Button } from 'semantic-ui-react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 
 import './MenuMobile.scss';
+import { toggleMenu } from '../../../../store/reducers/userReducer';
 
 export default function MenuMobile() {
   const menuIsOpen = useAppSelector((state) => state.user.menuIsOpen);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const handleClick = () => {
+    dispatch(toggleMenu());
     navigate('/signin');
   };
+
   return (
     <Menu
       inverted
@@ -22,6 +27,7 @@ export default function MenuMobile() {
         name="Accueil"
         as={NavLink}
         to="/member/books"
+        onClick={() => dispatch(toggleMenu())}
       >
         Accueil
       </MenuItem>
@@ -31,6 +37,7 @@ export default function MenuMobile() {
         name="Profil"
         as={NavLink}
         to="/member/profile"
+        onClick={() => dispatch(toggleMenu())}
       >
         Profil
       </MenuItem>
@@ -40,6 +47,7 @@ export default function MenuMobile() {
         name="Bibliothèque"
         as={NavLink}
         to="/member/library"
+        onClick={() => dispatch(toggleMenu())}
       >
         Bibliothèque
       </MenuItem>
