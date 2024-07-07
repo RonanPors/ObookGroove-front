@@ -29,6 +29,8 @@ const initialState: UserReducerState = {
     pseudo: '',
     confirmPassword: '',
     phoneNumber: '',
+    accessToken : '',
+    refreshToken : ''
   },
 };
 
@@ -172,6 +174,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
       state.authSuccess = true;
+      state.userData.accessToken = action.payload.accessToken;
+      state.userData.refreshToken = action.payload.refreshToken;
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
