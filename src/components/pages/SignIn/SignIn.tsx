@@ -8,9 +8,13 @@ import {
   Image,
 } from 'semantic-ui-react';
 import './SignIn.scss';
+
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+
+import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
+
 import {
   signin,
   updateFieldCredentials,
@@ -55,7 +59,7 @@ export default function SignIn() {
           textAlign="center"
           className="signin__header"
         >
-          <Image src="src/assets/logo/svg/logo2_noir.svg" /> Connectez-vous!
+          <Image src={logo} /> Connectez-vous!
         </Header>
         <Form className="signin__form" size="large" onSubmit={handleSubmit}>
           <Segment stacked>
