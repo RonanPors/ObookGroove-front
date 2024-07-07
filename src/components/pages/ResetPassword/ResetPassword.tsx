@@ -3,13 +3,14 @@ import './ResetPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   resetPassword,
-  updateField,
-} from '../../../store/reducers/passwordReducer';
+  updateFieldCredentials,
+} from '../../../store/reducers/userReducer';
+import logo from '../../../assets/logo/svg/logo2_bleuvert.svg';
 
 export default function ResetPassword() {
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((store) => store.password);
-  const { email } = useAppSelector((store) => store.password.credentials);
+  const { loading, error } = useAppSelector((store) => store.user);
+  const { email } = useAppSelector((store) => store.user.userData.credentials);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,9 +33,9 @@ export default function ResetPassword() {
           textAlign="center"
           className="signin__header"
         >
-          <Image src="src/assets/logo/svg/logo2_noir.svg" /> Réinitialiser votre
-          mot de passe
+          <Image src={logo} /> Réinitialiser votre mot de passe
         </Header>
+
         <Form className="signin__form" size="large" onSubmit={handleSubmit}>
           <Segment stacked>
             <Form.Input
@@ -46,7 +47,7 @@ export default function ResetPassword() {
               value={email}
               onChange={(e) =>
                 dispatch(
-                  updateField({
+                  updateFieldCredentials({
                     value: e.target.value,
                     field: 'email',
                   })

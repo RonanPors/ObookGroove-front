@@ -1,12 +1,21 @@
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './ConfirmSignup.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { confirmSignUp } from '../../../store/reducers/userReducer';
 
 export default function ConfirmSignup() {
-  const { authSuccess } = useAppSelector((store) => store.user);
   const { userId, confirmToken } = useParams();
   const dispatch = useAppDispatch();
+
+  // pour redirect vers la page de books en cas de succès
+  const { authSuccess } = useAppSelector((store) => store.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (authSuccess) {
+      navigate('/member/books');
+    }
+  }, [authSuccess, navigate]);
 
   dispatch(
     confirmSignUp({
@@ -15,5 +24,5 @@ export default function ConfirmSignup() {
     })
   );
 
-  return <>{authSuccess && <h1>Votre compte a été activé avec succès !</h1>}</>;
+  return <h1>Confirmation en cours</h1>;
 }
