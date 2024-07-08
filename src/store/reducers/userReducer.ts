@@ -87,12 +87,8 @@ type ConfirmSignupArgs = {
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
   async ({ userId, confirmToken }: ConfirmSignupArgs) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
-      {
-        userId,
-        confirmToken,
-      }
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/auth/confirm-signup/${userId}/${confirmToken}`
     );
 
     console.log(data);
