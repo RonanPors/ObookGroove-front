@@ -23,31 +23,24 @@ export const spotifyAuthorization = createAppAsyncThunk(
   'BOOKS/SPOTIFY_AUTHORIZATION',
   async () => {
     const { data } = await axios.get(
-      // TODO : renommer la route en fonction de celle de l'API
-      `${import.meta.env.VITE_API_URL}/auth/spotify`
+      `${import.meta.env.VITE_API_URL}/spotify/connect-user`
     );
+    //? on reçoit quoi dans DATA en retour ?
     console.log(data);
     return data;
   }
 );
 
 /* --------------------------------------
--------------- GET BOOKS -----------------
+---- GET CURRENT BOOKS with GRAPHQL -----
 ----------------------------------------*/
 
-export const getBooks = createAppAsyncThunk('BOOKS/GET_BOOKS', async () => {
-  const { data } = await axios.get(
-    // TODO : renommer la route en fonction de celle de l'API
-    `${import.meta.env.VITE_API_URL}/books`
-  );
-  console.log(data);
-  return data;
-});
+// TODO faire avec graphQL
 
-/* ---------------------------------- 
----- REDUCER With -------------------
------------------ spotify
------------------ get Books
+/* -----------------------------------
+---- REDUCER With --------------------
+----------------- spotify ------------
+----------------- get Books ----------
 --------------------------------------*/
 
 const booksReducer = createReducer(initialState, (builder) => {
@@ -60,28 +53,27 @@ const booksReducer = createReducer(initialState, (builder) => {
     })
     .addCase(spotifyAuthorization.fulfilled, (state) => {
       state.loading = false;
-      // soit on récupère les livres et on set books ici.
+      // on récupère les livres et on set books ici.
       // state.books = action.payload;
-      // soit on refait une autre demande get.
     })
     .addCase(spotifyAuthorization.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
-    })
-    /* --------------------------------------
+    });
+  /* --------------------------------------
     -------------- GET BOOKS ------------------
     ----------------------------------------*/
 
-    .addCase(getBooks.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(getBooks.fulfilled, (state, action) => {
-      state.loading = false;
-      state.books = action.payload;
-    })
-    .addCase(getBooks.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || 'Error';
-    });
+  // .addCase(getBooks.pending, (state) => {
+  //   state.loading = true;
+  // })
+  // .addCase(getBooks.fulfilled, (state, action) => {
+  //   state.loading = false;
+  //   state.books = action.payload;
+  // })
+  // .addCase(getBooks.rejected, (state, action) => {
+  //   state.loading = false;
+  //   state.error = action.error.message || 'Error';
+  // });
 });
 export default booksReducer;
