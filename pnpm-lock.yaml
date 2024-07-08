@@ -26,6 +26,9 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
+      graphql:
+        specifier: ^16.9.0
+        version: 16.9.0
       react:
         specifier: ^18.2.0
         version: 18.3.1
