@@ -1,3 +1,56 @@
+@use '../../../styles/variables' as v;
+
+.body {
+  background-color: black;
+}
 main {
+  background-color: black;
   height: 80vh;
+}
+
+h1 {
+  color: white;
+}
+
+h3 {
+  color: white;
+}
+
+
+p {
+  color: white;
+}
+
+.bookers__header {
+  padding-top: 8rem;
+  padding-bottom: 2rem;
+}
+
+.ui.center.aligned.header {
+  padding-top: 8rem;
+  padding-bottom: 2rem;
+  font-size: 3rem;
+}
+
+.ui.segment:last-child {
+  background-color: black;
+}
+
+#bookers__message {
+  background-color: #2a2b2a;
+    color: #2ee6b2;
+    box-shadow: 0 0 0 1px #2ee6b2 inset, 0 0 0 0 transparent;
+  width: fit-content;
+}
+
+#bookers__segment {
+  margin-top: 5%;
+}
+
+#bookers__content {
+margin-top: 5%;
+}
+
+.bokkers__paragraph{
+  font-size: 1.5rem;
 }

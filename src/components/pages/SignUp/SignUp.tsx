@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-// import ReCAPTCHA from 'react-google-recaptcha';
 import { useEffect, useRef } from 'react';
-=======
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useRef } from 'react';
->>>>>>> 69dea02d73d853a081597f3ab6f08228df5474e4
+// import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FormField,

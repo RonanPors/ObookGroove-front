@@ -53,7 +53,7 @@ const booksReducer = createReducer(initialState, (builder) => {
     })
     .addCase(spotifyAuthorization.fulfilled, (state) => {
       state.loading = false;
-      // on récupère les livres et on set books ici.
+      // on récupère les livres et on set books ici : /graphql/suggestBooks
       // state.books = action.payload;
     })
     .addCase(spotifyAuthorization.rejected, (state, action) => {
