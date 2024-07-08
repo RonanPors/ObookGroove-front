@@ -4,6 +4,8 @@ import { Sticky } from 'semantic-ui-react';
 
 import Header from '../../elements/Header/Header';
 import Footer from '../../elements/Footer/Footer';
+import { useAppSelector } from '../../../hooks/redux';
+import './Root.scss';
 
 export default function Root() {
   // on récupère l'URL pour surveiller lorsqu'elle change
@@ -15,6 +17,16 @@ export default function Root() {
   }, [pathname]);
 
   const contextRef = createRef<HTMLDivElement>();
+
+  const menuIsOpen = useAppSelector((state) => state.user.menuIsOpen);
+
+  useEffect(() => {
+    if (menuIsOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [menuIsOpen]);
 
   // this file is a layout for the application. We put the elements statics (header and footer) and the "outlet" display the dynamic part for each page.
   return (

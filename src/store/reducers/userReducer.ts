@@ -79,14 +79,14 @@ export const signup = createAppAsyncThunk(
 --------- CONFIRM SIGN UP --------------
 ----------------------------------------*/
 
-type NewArgs = {
+type ConfirmSignupArgs = {
   userId: string;
   confirmToken: string;
 };
 
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
-  async ({ userId, confirmToken }: NewArgs) => {
+  async ({ userId, confirmToken }: ConfirmSignupArgs) => {
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
       {
@@ -121,12 +121,63 @@ export const signin = createAppAsyncThunk(
   }
 );
 
-/* ---------------------------------- 
----- REDUCER With -------------------
------------------ toggle
------------------ signup
------------------ confirm signup 
------------------- signin 
+/* --------------------------------------
+------------ RESET PASSWORD -------------
+----------------------------------------*/
+
+export const resetPassword = createAppAsyncThunk(
+  'USER/RESET_PASSWORD_ASYNC',
+  async (_, thunkAPI) => {
+    const store = thunkAPI.getState();
+    const body = {
+      email: store.user.userData.credentials.email,
+    };
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/reset-password`,
+      body
+    );
+    console.log(data);
+    return data;
+  }
+);
+
+/* -------------------------------------
+------------- NEW PASSWORD -------------
+----------------------------------------*/
+
+type NewPasswordArgs = {
+  userId: string;
+  resetToken: string;
+};
+
+export const newPassword = createAppAsyncThunk(
+  'USER/NEW_PASSWORD_ASYNC',
+  async ({ userId, resetToken }: NewPasswordArgs, thunkAPI) => {
+    console.log(userId, resetToken);
+    const store = thunkAPI.getState();
+    const body = {
+      password: store.user.userData.credentials.password,
+      confirmPassword: store.user.userData.confirmPassword,
+    };
+
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/reset-password/${userId}/${resetToken}`,
+      body
+    );
+
+    console.log(data);
+    return data;
+  }
+);
+
+/* -----------------------------------
+---- REDUCER With --------------------
+----------------- toggle -------------
+----------------- signup -------------
+----------------- confirm signup -----
+----------------- signin -------------
+----------------- reset password -----
+----------------- new password -------
 --------------------------------------*/
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -138,6 +189,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
+      // pour pouvoir avoir la mise à jour des champs credentials
       if (field === 'credentials') {
         return;
       }
@@ -149,7 +201,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.userData.credentials[field] = action.payload.value;
     })
 
-    /*  -----------------------------
+    /* ------------------------------
     ---------- SIGN UP --------------
     ---------------------------------*/
 
@@ -164,9 +216,10 @@ const userReducer = createReducer(initialState, (builder) => {
       state.error = action.error.message || 'Error';
     })
 
-    /*-----------------------------
+    /* -------------------------------
     ------- CONFIRM SIGN UP ----------
     ---------------------------------*/
+
     .addCase(confirmSignUp.pending, (state) => {
       state.loading = true;
     })
@@ -180,7 +233,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.error = action.error.message || 'Error';
     })
 
-    /*  -----------------------------
+    /* ------------------------------
     ---------- SIGN IN --------------
     ---------------------------------*/
 
@@ -194,6 +247,36 @@ const userReducer = createReducer(initialState, (builder) => {
       state.authSuccess = true;
     })
     .addCase(signin.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+
+    /* -------------------------------
+    --------- RESET PASSWORD ---------
+    ---------------------------------*/
+
+    .addCase(resetPassword.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(resetPassword.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+
+    /* -------------------------------
+    --------- NEW PASSWORD ---------
+    ---------------------------------*/
+
+    .addCase(newPassword.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(newPassword.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     });

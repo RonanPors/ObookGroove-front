@@ -5,16 +5,19 @@ import './NewPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   newPassword,
-  updateConfirmPassword,
-  updateField,
-} from '../../../store/reducers/passwordReducer';
+  updateFieldCredentials,
+  updateFieldUserData,
+} from '../../../store/reducers/userReducer';
+
+import logo from '../../../assets/logo/svg/logo2_noir.svg';
 
 export default function NewPassword() {
   const dispatch = useAppDispatch();
-  const { loading, error, confirmPassword } = useAppSelector(
-    (store) => store.password
+  const { loading, error } = useAppSelector((store) => store.user);
+  const { confirmPassword } = useAppSelector((store) => store.user.userData);
+  const { password } = useAppSelector(
+    (store) => store.user.userData.credentials
   );
-  const { password } = useAppSelector((store) => store.password.credentials);
   const { userId, resetToken } = useParams();
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -40,8 +43,7 @@ export default function NewPassword() {
           textAlign="center"
           className="new-password__header"
         >
-          <Image src="src/assets/logo/svg/logo2_noir.svg" /> Réinitialiser votre
-          mot de passe
+          <Image src={logo} /> Réinitialiser votre mot de passe
         </Header>
         <Form
           className="new-password__form"
@@ -58,7 +60,7 @@ export default function NewPassword() {
               value={password}
               onChange={(e) =>
                 dispatch(
-                  updateField({
+                  updateFieldCredentials({
                     value: e.target.value,
                     field: 'password',
                   })
@@ -74,8 +76,9 @@ export default function NewPassword() {
               value={confirmPassword}
               onChange={(e) =>
                 dispatch(
-                  updateConfirmPassword({
+                  updateFieldUserData({
                     value: e.target.value,
+                    field: 'confirmPassword',
                   })
                 )
               }
