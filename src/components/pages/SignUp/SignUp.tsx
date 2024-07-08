@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 // import ReCAPTCHA from 'react-google-recaptcha';
 import { useEffect, useRef } from 'react';
+=======
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useRef } from 'react';
+>>>>>>> 69dea02d73d853a081597f3ab6f08228df5474e4
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FormField,
   Button,
   Checkbox,
   Form,
+  Image,
   Segment,
   Header,
 } from 'semantic-ui-react';
@@ -17,6 +23,7 @@ import {
 } from '../../../store/reducers/userReducer';
 
 import './SignUp.scss';
+import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
@@ -29,14 +36,7 @@ export default function SignUp() {
     (store) => store.user.userData
   );
 
-  // authSuccess: permet la redirection vers la page book une fois que l'authentification est réussie
-  const { authSuccess } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (authSuccess) {
-      navigate('/member/books');
-    }
-  }, [authSuccess, navigate]);
 
   // utilisation de captcha
   // const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -48,6 +48,9 @@ export default function SignUp() {
     }
     // recaptchaRef.current.execute();
     dispatch(signup());
+    // redirection vers la landing page
+    // TODO message toaster : "Consulter vos mails pour valider votre inscription"
+    navigate('/');
   };
 
   return (
@@ -59,6 +62,7 @@ export default function SignUp() {
         onSubmit={handleSubmit}
       >
         <Header inverted as="h1" className="h1 signup__header">
+          <Image src={logo} />
           Créer un compte
         </Header>
 

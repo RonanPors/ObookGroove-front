@@ -52,30 +52,9 @@ export const updateFieldCredentials = createAction<{
   value: string;
 }>('USER/UPDATE_FIELD_CREDENTIALS');
 
-/*
-------------------- SIGN IN ----------------------
-*/
-
-export const signin = createAppAsyncThunk(
-  'USER/SIGNIN_ASYNC',
-  async (_, thunkAPI) => {
-    const store = thunkAPI.getState();
-    const body = {
-      email: store.user.userData.credentials.email,
-      password: store.user.userData.credentials.password,
-    };
-    const { data } = await axios.post<SigninResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
-    );
-    console.log(data);
-    return data;
-  }
-);
-
-/*
-------------------- SIGN UP ----------------------
-*/
+/* --------------------------------------
+---------------- SIGN UP -----------------
+----------------------------------------*/
 
 // inscription de l'utilisateur avec fetch asynchrone
 export const signup = createAppAsyncThunk(
@@ -98,18 +77,18 @@ export const signup = createAppAsyncThunk(
   }
 );
 
-/*
-------------------- CONFIRM SIGN UP ----------------------
-*/
+/* --------------------------------------
+--------- CONFIRM SIGN UP --------------
+----------------------------------------*/
 
-type NewArgs = {
+type ConfirmSignupArgs = {
   userId: string;
   confirmToken: string;
 };
 
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
-  async ({ userId, confirmToken }: NewArgs) => {
+  async ({ userId, confirmToken }: ConfirmSignupArgs) => {
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
       {
@@ -123,9 +102,85 @@ export const confirmSignUp = createAppAsyncThunk(
   }
 );
 
-/*
------------ REDUCER With toggle, signup and signin ---------
-*/
+/* --------------------------------------
+---------------- SIGN IN -----------------
+----------------------------------------*/
+
+export const signin = createAppAsyncThunk(
+  'USER/SIGNIN_ASYNC',
+  async (_, thunkAPI) => {
+    const store = thunkAPI.getState();
+    const body = {
+      email: store.user.userData.credentials.email,
+      password: store.user.userData.credentials.password,
+    };
+    const { data } = await axios.post<SigninResponse>(
+      `${import.meta.env.VITE_API_URL}/auth/signin`,
+      body
+    );
+    console.log(data);
+    return data;
+  }
+);
+
+/* --------------------------------------
+------------ RESET PASSWORD -------------
+----------------------------------------*/
+
+export const resetPassword = createAppAsyncThunk(
+  'USER/RESET_PASSWORD_ASYNC',
+  async (_, thunkAPI) => {
+    const store = thunkAPI.getState();
+    const body = {
+      email: store.user.userData.credentials.email,
+    };
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/reset-password`,
+      body
+    );
+    console.log(data);
+    return data;
+  }
+);
+
+/* -------------------------------------
+------------- NEW PASSWORD -------------
+----------------------------------------*/
+
+type NewPasswordArgs = {
+  userId: string;
+  resetToken: string;
+};
+
+export const newPassword = createAppAsyncThunk(
+  'USER/NEW_PASSWORD_ASYNC',
+  async ({ userId, resetToken }: NewPasswordArgs, thunkAPI) => {
+    console.log(userId, resetToken);
+    const store = thunkAPI.getState();
+    const body = {
+      password: store.user.userData.credentials.password,
+      confirmPassword: store.user.userData.confirmPassword,
+    };
+
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/reset-password/${userId}/${resetToken}`,
+      body
+    );
+
+    console.log(data);
+    return data;
+  }
+);
+
+/* -----------------------------------
+---- REDUCER With --------------------
+----------------- toggle -------------
+----------------- signup -------------
+----------------- confirm signup -----
+----------------- signin -------------
+----------------- reset password -----
+----------------- new password -------
+--------------------------------------*/
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -136,6 +191,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
+      // pour pouvoir avoir la mise à jour des champs credentials
       if (field === 'credentials') {
         return;
       }
@@ -147,7 +203,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.userData.credentials[field] = action.payload.value;
     })
 
-    /*  -----------------------------
+    /* ------------------------------
     ---------- SIGN UP --------------
     ---------------------------------*/
 
@@ -162,7 +218,24 @@ const userReducer = createReducer(initialState, (builder) => {
       state.error = action.error.message || 'Error';
     })
 
-    /*  -----------------------------
+    /* -------------------------------
+    ------- CONFIRM SIGN UP ----------
+    ---------------------------------*/
+
+    .addCase(confirmSignUp.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(confirmSignUp.fulfilled, (state, action) => {
+      state.userData.pseudo = action.payload.pseudo;
+      state.loading = false;
+      state.authSuccess = true;
+    })
+    .addCase(confirmSignUp.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+
+    /* ------------------------------
     ---------- SIGN IN --------------
     ---------------------------------*/
 
@@ -181,18 +254,33 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     })
-    /*-----------------------------
-    ------- CONFIRM SIGN UP ----------
+
+    /* -------------------------------
+    --------- RESET PASSWORD ---------
     ---------------------------------*/
-    .addCase(confirmSignUp.pending, (state) => {
+
+    .addCase(resetPassword.pending, (state) => {
       state.loading = true;
     })
-    .addCase(confirmSignUp.fulfilled, (state, action) => {
-      state.userData.pseudo = action.payload.pseudo;
+    .addCase(resetPassword.fulfilled, (state) => {
       state.loading = false;
-      state.authSuccess = true;
     })
-    .addCase(confirmSignUp.rejected, (state, action) => {
+    .addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Error';
+    })
+
+    /* -------------------------------
+    --------- NEW PASSWORD ---------
+    ---------------------------------*/
+
+    .addCase(newPassword.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(newPassword.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Error';
     });
