@@ -9,13 +9,17 @@ export default function ConfirmSignup() {
   const dispatch = useAppDispatch();
 
   // pour redirect vers la page de books en cas de succès
-  const { authSuccess } = useAppSelector((store) => store.user);
+  const { authSuccess, error } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   useEffect(() => {
     if (authSuccess) {
       navigate('/member/books');
     }
-  }, [authSuccess, navigate]);
+    // TODO renvoyer vers une page 404
+    if (error) {
+      navigate('/');
+    }
+  }, [authSuccess, error, navigate]);
 
   dispatch(
     confirmSignUp({
