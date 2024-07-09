@@ -68,3 +68,11 @@ p {
   padding-bottom: 4rem;
 }
 
+.ui.grid {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-around;
+}

@@ -20,17 +20,17 @@ export default function Bookers() {
     throw new Error('Function not implemented.');
   }
 
-// const [response, setResponse] = useState();
-//   useEffect(() => {
-//     fetch('http://localhost:4000/auth/tokens')
-//       .then((res) => {
-//         return res.json();
-//       })
-//       .then((data) => {
-//         console.log(data);
-//         setResponse(data);
-//       });
-//   }, []);
+  // const [response, setResponse] = useState();
+  //   useEffect(() => {
+  //     fetch('http://localhost:4000/auth/tokens')
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         console.log(data);
+  //         setResponse(data);
+  //       });
+  //   }, []);
 
 
 
@@ -38,30 +38,30 @@ export default function Bookers() {
     <Container className='bookers__container'>
 
       {/* <Segment id='bookers__segment' inverted > */}
-       <Header className='bookers__header' inverted as='h1' size='huge' textAlign='left'>
+      <Header className='bookers__header' inverted as='h1' size='huge' textAlign='left'>
         Bonjour O'BG {pseudo} !
-       </Header>
-       <Message icon id='bookers__message__success' compact color='green' size='small'>
-        <Icon name='check circle' size='small'/>
+      </Header>
+      <Message icon id='bookers__message__success' compact color='green' size='small'>
+        <Icon name='check circle' size='small' />
         <MessageContent>
-            Félicitations, votre compte O'Book Groove a bien été créé !
+          Félicitations, votre compte O'Book Groove a bien été créé !
         </MessageContent>
-       </Message> 
-       <Message icon id='bookers__message__failed' compact color='red' size='small'>
-        <Icon name='warning circle' size='small'/>
+      </Message>
+      <Message icon id='bookers__message__failed' compact color='red' size='small'>
+        <Icon name='warning circle' size='small' />
         <MessageContent>
-            Un problème est survenu lors de la création de votre compte !
+          Un problème est survenu lors de la création de votre compte !
         </MessageContent>
-       </Message>
+      </Message>
       {/* </Segment> */}
 
       <Segment id='bookers__content' inverted>
-        <Header inverted  size='large' as='h2'>Associer votre compte Spotify</Header>
+        <Header inverted size='large' as='h2'>Associer votre compte Spotify à votre compte O'Book Groove</Header>
         <MediaQuery minWidth={768}>
           <Grid centered columns={2} divided verticalAlign='middle'>
             <GridRow stretched>
               <GridColumn width={6}>
-                <Header inverted  size='tiny' as='h4'>En associant vos comptes Spotify et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux 
+                <Header inverted size='tiny' as='h4'>En associant vos comptes Spotify et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux
                 </Header>
               </GridColumn>
               <GridColumn width={6}>
@@ -70,21 +70,21 @@ export default function Bookers() {
             </GridRow>
             <GridRow stretched>
               <GridColumn width={12}>
-                  <Button onClick={() => dispatch(spotifyAuthorization())} animated inverted size='large' fluid>
-                    <ButtonContent id='bookers__button' visible>Associer mes comptes</ButtonContent>
-                     <ButtonContent hidden>
+                <Button onClick={() => dispatch(spotifyAuthorization())} animated inverted size='large' fluid>
+                  <ButtonContent id='bookers__button' visible>Associer mes comptes</ButtonContent>
+                  <ButtonContent hidden>
                     <Icon name='sync' /> </ButtonContent>
-                  </Button>
+                </Button>
               </GridColumn>
             </GridRow>
-         </Grid>
+          </Grid>
         </MediaQuery>
 
         <MediaQuery maxWidth={767}>
           <Grid centered columns={1} divided verticalAlign='middle'>
             <GridRow stretched>
               <GridColumn width={16}>
-                <Header inverted  size='tiny' as='h4'>En associant vos comptes Spotify et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux 
+                <Header inverted size='tiny' as='h4'>En associant vos comptes Spotify et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux
                 </Header>
               </GridColumn>
             </GridRow>
@@ -95,41 +95,72 @@ export default function Bookers() {
             </GridRow>
             <GridRow stretched>
               <GridColumn width={16}>
-                  <Button onClick={() => dispatch(spotifyAuthorization())} animated inverted size='large' fluid>
-                    <ButtonContent id='bookers__button' visible>Associer mes comptes</ButtonContent>
-                     <ButtonContent hidden>
+                <Button onClick={() => dispatch(spotifyAuthorization())} animated inverted size='large' fluid>
+                  <ButtonContent id='bookers__button' visible>Associer mes comptes</ButtonContent>
+                  <ButtonContent hidden>
                     <Icon name='sync' /> </ButtonContent>
-                  </Button>
+                </Button>
               </GridColumn>
             </GridRow>
-         </Grid>
+          </Grid>
         </MediaQuery>
-         
       </Segment>
-        <CardBook />
-      <Segment>
 
-      </Segment>
-    </Container> 
+      <Grid>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+        <GridColumn mobile={16} tablet={7} computer={5}>
+          <Segment>
+            <CardBook />
+          </Segment>
+        </GridColumn>
+      </Grid>
 
-    
-   
-   
-  
-    
+    </Container>
 
-        // <h1>Bienvenue O'BG {pseudo} !</h1>
-        // <h3>Votre compte a bien été créé (suite à la notif e-mail qui renvoie vers la confirm signup qu'on redirige ici)</h3>
-        // {/*si c'est un signin on affiche que h1 si c'est un signup on affiche h2*/}
-        // <p>
-        //   {' '}
-        //   Pour obtenir une suggestion de livres, il faut connecter votre compte
-        //   Spotify.
-        // </p>
-        // <Button onClick={() => dispatch(spotifyAuthorization())}>Ici !</Button>
-      
 
-  ) 
-    
-  }
+
+
+
+
+
+
+
+    // <h1>Bienvenue O'BG {pseudo} !</h1>
+    // <h3>Votre compte a bien été créé (suite à la notif e-mail qui renvoie vers la confirm signup qu'on redirige ici)</h3>
+    // {/*si c'est un signin on affiche que h1 si c'est un signup on affiche h2*/}
+    // <p>
+    //   {' '}
+    //   Pour obtenir une suggestion de livres, il faut connecter votre compte
+    //   Spotify.
+    // </p>
+    // <Button onClick={() => dispatch(spotifyAuthorization())}>Ici !</Button>
+
+
+  )
+
+}
 
