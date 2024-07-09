@@ -8,6 +8,7 @@ import Spotifylogo from '../../../assets/logo/svg/Spotify_logo_with_text.svg';
 import Obglogo from '../../../assets/logo/svg/logo2_bleuvert.svg';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
 import MediaQuery from 'react-responsive';
+import CardBook from '../../elements/Card/Card';
 
 
 
@@ -43,7 +44,7 @@ export default function Bookers() {
        <Message icon id='bookers__message__success' compact color='green' size='small'>
         <Icon name='check circle' size='small'/>
         <MessageContent>
-            Votre compte O'Book Groove a bien été créé !
+            Félicitations, votre compte O'Book Groove a bien été créé !
         </MessageContent>
        </Message> 
        <Message icon id='bookers__message__failed' compact color='red' size='small'>
@@ -105,7 +106,12 @@ export default function Bookers() {
         </MediaQuery>
          
       </Segment>
+        <CardBook />
+      <Segment>
+
+      </Segment>
     </Container> 
+
     
    
    
