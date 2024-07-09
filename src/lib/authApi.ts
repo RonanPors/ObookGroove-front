@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Credentials, SigninResponse, SignupResponse } from '../@types/user';
 
 /* --------------------------------------
@@ -18,8 +18,12 @@ export async function signupApi(body: {
     );
     console.log(data); // { ok : true }
     return data;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      // console.log(err.response.data.error.message);
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
 

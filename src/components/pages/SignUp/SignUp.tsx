@@ -1,6 +1,6 @@
 import ReCAPTCHA from 'react-google-recaptcha';
-import { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import {
   FormField,
@@ -13,6 +13,7 @@ import {
   Icon,
   Input,
   Label,
+  Message,
 } from 'semantic-ui-react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
@@ -37,7 +38,11 @@ export default function SignUp() {
   );
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
+  const [cgu, setCGU] = useState(false);
+  const onChangeCGU = (event: React.FormEvent<HTMLDivElement>) => {
+    setCGU(!event.currentTarget.classList.contains('checked'));
+  };
 
   // met le focus sur le premier champ du form :
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,18 +51,44 @@ export default function SignUp() {
       inputRef.current.focus();
     }
   }, []);
+
+  const [hasError, setHasError] = useState(false);
+  const [notSamePassword, setNotSamePassword] = useState(false);
+
+  const emptyFieldInspector =
+    !cgu ||
+    pseudo === '' ||
+    email === '' ||
+    password === '' ||
+    confirmPassword === '';
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (loading) {
+    if (loading || emptyFieldInspector) {
+      setHasError(true);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setNotSamePassword(true);
       return;
     }
     recaptchaRef.current.execute();
     dispatch(signup());
-    // redirection vers la landing page
+
     // TODO message toaster : "Consulter vos mails pour valider votre inscription"
-    navigate('/');
   };
 
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const displayPassword = () => {
+    if (passwordInputRef.current !== null) {
+      if (passwordInputRef.current.type === 'password') {
+        passwordInputRef.current.type = 'text';
+      } else {
+        passwordInputRef.current.type = 'password';
+      }
+    }
+  };
   return (
     <Segment inverted className="signup">
       <Form
@@ -125,6 +156,7 @@ export default function SignUp() {
           <label htmlFor="password">Mot de passe</label>
           <Input icon>
             <input
+              ref={passwordInputRef}
               placeholder="· · · · · · · ·"
               id="password"
               type="password"
@@ -138,11 +170,13 @@ export default function SignUp() {
                 )
               }
             />
-            <Icon name="eye" />
+            <Button onClick={displayPassword}>
+              <Icon name="eye" />
+            </Button>
           </Input>
           <Label pointing>
-            Doit contenir au minimum : 1 minuscule, 1 majuscule, !*$%^@ et 8
-            caractères.
+            Doit contenir au minimum 8 caractères dont&nbsp;: 1 symbole parmi
+            !@#$%^&*, 1 chiffre, 1 minuscule et 1 majuscule.
           </Label>
         </FormField>
 
@@ -166,6 +200,7 @@ export default function SignUp() {
 
         <FormField className="signup__field">
           <Checkbox
+            onChange={onChangeCGU}
             label={
               <label>
                 J&apos;accepte{' '}
@@ -177,15 +212,27 @@ export default function SignUp() {
           />
         </FormField>
 
+        {hasError && (
+          <Message negative>
+            Vous devez compléter tous les champs et accepter les conditions
+            d&apos;utilisation
+          </Message>
+        )}
+
+        {notSamePassword && (
+          <Message negative>Les mots de passe ne sont pas identiques</Message>
+        )}
+
+        {error !== '' && <Message negative> {error}</Message>}
+
         <ReCAPTCHA
           sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
           ref={recaptchaRef}
           size="invisible"
         />
-        <Button primary fluid type="submit">
+        <Button primary fluid type="submit" disabled={emptyFieldInspector}>
           Je crée mon compte
         </Button>
-        {error !== '' && <p> {error}</p>}
       </Form>
     </Segment>
   );

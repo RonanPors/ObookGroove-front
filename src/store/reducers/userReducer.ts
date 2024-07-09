@@ -76,7 +76,14 @@ export const signup = createAppAsyncThunk(
     };
 
     // appel de l'API (voir fichier lib/authApi.ts)
-    return signupApi(body);
+    try {
+      return await signupApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -192,6 +199,7 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(signup.pending, (state) => {
       state.loading = true;
+      state.error = '';
     })
     .addCase(signup.fulfilled, (state) => {
       state.loading = false;
@@ -203,7 +211,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(signup.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -234,7 +242,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(signin.fulfilled, (state, action) => {
       // ? récupération du pseudo ?
-      state.userData.pseudo = action.payload.pseudo;
+      state.userData.pseudo = action.payload?.pseudo;
       state.loading = false;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
