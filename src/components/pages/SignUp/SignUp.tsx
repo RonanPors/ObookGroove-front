@@ -1,6 +1,7 @@
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 import {
   FormField,
   Button,
@@ -22,7 +23,6 @@ import {
 
 import './SignUp.scss';
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
-import MediaQuery from 'react-responsive';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
