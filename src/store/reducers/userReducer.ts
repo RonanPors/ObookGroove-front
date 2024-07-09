@@ -1,12 +1,15 @@
-import axios from 'axios';
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
+import { Credentials, UserData } from '../../@types/user';
 import {
-  Credentials,
-  SignupResponse,
-  SigninResponse,
-  UserData,
-} from '../../@types/user';
+  ConfirmSignupArgs,
+  NewPasswordArgs,
+  confirmSignUpApi,
+  newPasswordApi,
+  resetPasswordApi,
+  signinApi,
+  signupApi,
+} from '../../lib/authApi';
 
 type UserReducerState = {
   menuIsOpen: boolean;
@@ -68,12 +71,7 @@ export const signup = createAppAsyncThunk(
       confirmPassword: store.user.userData.confirmPassword,
       pseudo: store.user.userData.pseudo,
     };
-    const { data } = await axios.post<SignupResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signup`,
-      body
-    );
-    console.log(data);
-    return data;
+    return signupApi(body);
   }
 );
 
@@ -81,24 +79,10 @@ export const signup = createAppAsyncThunk(
 --------- CONFIRM SIGN UP --------------
 ----------------------------------------*/
 
-type ConfirmSignupArgs = {
-  userId: string;
-  confirmToken: string;
-};
-
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
   async ({ userId, confirmToken }: ConfirmSignupArgs) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
-      {
-        userId,
-        confirmToken,
-      }
-    );
-
-    console.log(data);
-    return data;
+    return confirmSignUpApi({ userId, confirmToken });
   }
 );
 
@@ -114,12 +98,7 @@ export const signin = createAppAsyncThunk(
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
     };
-    const { data } = await axios.post<SigninResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
-    );
-    console.log(data);
-    return data;
+    return signinApi(body);
   }
 );
 
@@ -134,23 +113,13 @@ export const resetPassword = createAppAsyncThunk(
     const body = {
       email: store.user.userData.credentials.email,
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/reset-password`,
-      body
-    );
-    console.log(data);
-    return data;
+    return resetPasswordApi(body);
   }
 );
 
 /* -------------------------------------
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
-
-type NewPasswordArgs = {
-  userId: string;
-  resetToken: string;
-};
 
 export const newPassword = createAppAsyncThunk(
   'USER/NEW_PASSWORD_ASYNC',
@@ -162,13 +131,7 @@ export const newPassword = createAppAsyncThunk(
       confirmPassword: store.user.userData.confirmPassword,
     };
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/reset-password/${userId}/${resetToken}`,
-      body
-    );
-
-    console.log(data);
-    return data;
+    return newPasswordApi(body, { userId, resetToken });
   }
 );
 

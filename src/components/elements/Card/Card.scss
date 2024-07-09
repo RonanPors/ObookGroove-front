@@ -1,11 +1,26 @@
 
 #card__container{
     background-color: #1b1c1d;
-    width: 273px;
+    width: 250px;
+    height: fit-content;
 
 }
 
 #card__image{
     display: flex;
     justify-content: center;
+}
+
+#card__author{
+    line-height: 0.5;
+}
+
+h3, .h3 {
+    line-height: 0.5;
+    color: beige;
+}
+
+h4, .h4 {
+    margin: none;
+    line-height: 0.5;
 }

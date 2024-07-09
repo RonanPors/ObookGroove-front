@@ -3,6 +3,7 @@ import './Card.scss'
 import {
   CardMeta,
   CardHeader,
+  Header,
   CardDescription,
   CardContent,
   Card,
@@ -16,6 +17,7 @@ import {
 } from 'semantic-ui-react'
 
 import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
+import BookShell from '../../../assets/logo/svg/bookshell 1.svg'
 
 export default function CardBook() {
     return (
@@ -26,12 +28,18 @@ export default function CardBook() {
               <ItemImage src={Dune} wrapped ui={false} size='small' centered />
             </Item>
         </Segment>
-        <Segment inverted>
+        <Icon >
+            
+        </Icon>
+        {/* <Segment inverted> */}
           <CardContent>
-             <CardHeader inverted as='h3'>Dune</CardHeader>
-             <CardHeader inverted as='h4'>Franck Herbert</CardHeader>     
+             <a>
+               <Image floated='right' size='mini' src={BookShell} />
+             </a>
+             <Header inverted color='grey' id='card_author' as='h1'>Dune</Header>
+             <Header inverted color='grey' as='h3'>Franck Herbert</Header>  
          </CardContent>
-        </Segment>
+        {/* </Segment> */}
     
         <CardContent extra>
             <LabelGroup color='blue'>
@@ -39,19 +47,15 @@ export default function CardBook() {
                 Science Fiction
               </Label>
               <Label>
-                Science Fiction
+                Aventure
               </Label>
               <Label>
-                Science Fiction
+                Drame
               </Label>
               <Label>
-                Science Fiction
-              </Label>
-              <Label>
-                Science Fiction
+                Fantasy
               </Label>
             </LabelGroup>
-      
         </CardContent>
     </Card>
 
