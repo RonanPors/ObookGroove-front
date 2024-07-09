@@ -15,6 +15,7 @@ type UserReducerState = {
   menuIsOpen: boolean;
   loading: boolean;
   authSuccess: boolean;
+  isSuccess: boolean;
   error: string;
   userData: UserData;
 };
@@ -23,6 +24,7 @@ const initialState: UserReducerState = {
   menuIsOpen: false,
   loading: false,
   authSuccess: false,
+  isSuccess: false,
   error: '',
   userData: {
     credentials: {
@@ -36,6 +38,9 @@ const initialState: UserReducerState = {
 
 // toggle du bouton burger => créer l'action :
 export const toggleMenu = createAction('USER/TOGGLE_MENU');
+
+// toggle de l'état "isSuccess" => créer l'action
+export const toggleIsSuccess = createAction('USER/TOGGLE_IS_SUCCESS');
 
 // typage des données d'inscription
 export type KeysOfCredentials = keyof Credentials;
@@ -61,13 +66,16 @@ export const signup = createAppAsyncThunk(
   'USER/SIGNUP_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
-    // on peut ici indiquer les données qui vont au back
+
+    // on indique les données qui vont au back
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
       confirmPassword: store.user.userData.confirmPassword,
       pseudo: store.user.userData.pseudo,
     };
+
+    // appel de l'API (voir fichier lib/authApi.ts)
     return signupApi(body);
   }
 );
@@ -79,6 +87,7 @@ export const signup = createAppAsyncThunk(
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
   async ({ userId, confirmToken }: ConfirmSignupArgs) => {
+    // appel de l'API (voir fichier lib/authApi.ts)
     return confirmSignUpApi({ userId, confirmToken });
   }
 );
@@ -91,10 +100,13 @@ export const signin = createAppAsyncThunk(
   'USER/SIGNIN_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
+
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
     };
+
+    // appel de l'API (voir fichier lib/authApi.ts)
     return signinApi(body);
   }
 );
@@ -107,9 +119,12 @@ export const resetPassword = createAppAsyncThunk(
   'USER/RESET_PASSWORD_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
+
     const body = {
       email: store.user.userData.credentials.email,
     };
+
+    // appel de l'API (voir fichier lib/authApi.ts)
     return resetPasswordApi(body);
   }
 );
@@ -121,20 +136,21 @@ export const resetPassword = createAppAsyncThunk(
 export const newPassword = createAppAsyncThunk(
   'USER/NEW_PASSWORD_ASYNC',
   async ({ userId, resetToken }: NewPasswordArgs, thunkAPI) => {
-    console.log(userId, resetToken);
     const store = thunkAPI.getState();
+
     const body = {
       password: store.user.userData.credentials.password,
       confirmPassword: store.user.userData.confirmPassword,
     };
 
+    // appel de l'API (voir fichier lib/authApi.ts)
     return newPasswordApi(body, { userId, resetToken });
   }
 );
 
 /* -----------------------------------
 ---- REDUCER With --------------------
------------------ toggle -------------
+----------------- toggles & fields ---
 ----------------- signup -------------
 ----------------- confirm signup -----
 ----------------- signin -------------
@@ -148,6 +164,12 @@ const userReducer = createReducer(initialState, (builder) => {
       // toggle du bouton burger => modifie l'état
       state.menuIsOpen = !state.menuIsOpen;
     })
+
+    .addCase(toggleIsSuccess, (state) => {
+      // toggle sur isSuccess => modifie l'état
+      state.isSuccess = !state.isSuccess;
+    })
+
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
@@ -157,6 +179,7 @@ const userReducer = createReducer(initialState, (builder) => {
       }
       state.userData[field] = action.payload.value;
     })
+
     .addCase(updateFieldCredentials, (state, action) => {
       // le payload récupère les données de l'action asynchrone
       const { field } = action.payload;
@@ -203,7 +226,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(signin.fulfilled, (state, action) => {
-      // payload renvoie la réponse demandée à la BDD (ici, le pseudo)
+      // payload renvoie la réponse demandée à la BDD
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
       state.authSuccess = true;
@@ -237,6 +260,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(newPassword.fulfilled, (state) => {
       state.loading = false;
+      state.isSuccess = true;
     })
     .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
