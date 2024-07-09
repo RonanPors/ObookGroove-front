@@ -8,7 +8,11 @@ import {
   Card,
   Icon,
   Image,
-  Segment
+  Segment,
+  Label, 
+  LabelGroup, 
+  Item, 
+  ItemImage
 } from 'semantic-ui-react'
 
 import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
@@ -16,28 +20,38 @@ import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
 export default function CardBook() {
     return (
    
-    <Card className='card__'>
-        <Segment inverted>
-           <Image src={Dune} wrapped ui={false} size='tiny' centered />
+    <Card id='card__container' fluid>
+        <Segment id='card__image' inverted>
+            <Item align='centered'>
+              <ItemImage src={Dune} wrapped ui={false} size='small' centered />
+            </Item>
         </Segment>
         <Segment inverted>
           <CardContent>
              <CardHeader inverted as='h3'>Dune</CardHeader>
-               <CardMeta>
-                 <span className='date'>Joined in 2015</span>
-               </CardMeta>
-             <CardDescription>
-                Matthew is a musician living in Nashville.
-             </CardDescription>
+             <CardHeader inverted as='h4'>Franck Herbert</CardHeader>     
          </CardContent>
-
         </Segment>
     
         <CardContent extra>
-          <a>
-            <Icon name='user' />
-               22 Friends
-          </a>
+            <LabelGroup color='blue'>
+              <Label>
+                Science Fiction
+              </Label>
+              <Label>
+                Science Fiction
+              </Label>
+              <Label>
+                Science Fiction
+              </Label>
+              <Label>
+                Science Fiction
+              </Label>
+              <Label>
+                Science Fiction
+              </Label>
+            </LabelGroup>
+      
         </CardContent>
     </Card>
 

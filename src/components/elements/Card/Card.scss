@@ -1,5 +1,11 @@
 
+#card__container{
+    background-color: #1b1c1d;
+    width: 273px;
 
-.ui.card{
-    background-color: black;
+}
+
+#card__image{
+    display: flex;
+    justify-content: center;
 }
