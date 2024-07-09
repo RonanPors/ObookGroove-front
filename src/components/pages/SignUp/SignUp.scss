@@ -1,10 +1,16 @@
 .signup {
   &.ui.inverted.segment {
+    padding-block: 3rem;
     display: flex;
     justify-content: center;
-    border-radius: none;
+    border-radius: 0;
+    background-color: black;
   }
   &__form {
-    width: 30rem;
+    width: 24rem;
   }
+}
+
+.ui.form .field.signup__field {
+  margin: 0 0 2rem;
 }

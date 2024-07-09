@@ -9,6 +9,9 @@ import {
   Image,
   Segment,
   Header,
+  Icon,
+  Input,
+  Label,
 } from 'semantic-ui-react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
@@ -19,6 +22,7 @@ import {
 
 import './SignUp.scss';
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
+import MediaQuery from 'react-responsive';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
@@ -56,69 +60,89 @@ export default function SignUp() {
         className="signup__form"
         onSubmit={handleSubmit}
       >
-        <Header inverted as="h1" className="h1 signup__header">
-          <Image src={logo} />
-          Créer un compte
+        <Header
+          inverted
+          as="h1"
+          className="h1 signup__header"
+          textAlign="center"
+        >
+          <MediaQuery minWidth={768}>
+            <Image src={logo} />
+          </MediaQuery>
+          Créer son compte
         </Header>
 
-        <FormField>
-          <label htmlFor="email">Email</label>
-          <input
-            placeholder="email@domain.com"
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) =>
-              dispatch(
-                updateFieldCredentials({
-                  value: e.target.value,
-                  field: 'email',
-                })
-              )
-            }
-          />
-        </FormField>
-
-        <FormField>
+        <FormField className="signup__field">
           <label htmlFor="pseudo">Pseudo</label>
-          <input
-            placeholder="Pseudo"
-            id="pseudo"
-            type="text"
-            value={pseudo}
-            onChange={(e) =>
-              dispatch(
-                updateFieldUserData({
-                  value: e.target.value,
-                  field: 'pseudo',
-                })
-              )
-            }
-          />
+          <Input iconPosition="left">
+            <Icon name="user" />
+            <input
+              placeholder="Pseudo"
+              id="pseudo"
+              type="text"
+              value={pseudo}
+              onChange={(e) =>
+                dispatch(
+                  updateFieldUserData({
+                    value: e.target.value,
+                    field: 'pseudo',
+                  })
+                )
+              }
+            />
+          </Input>
         </FormField>
 
-        <FormField>
+        <FormField className="signup__field">
+          <label htmlFor="email">Email</label>
+          <Input iconPosition="left">
+            <Icon name="at" />
+            <input
+              placeholder="email@domain.com"
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) =>
+                dispatch(
+                  updateFieldCredentials({
+                    value: e.target.value,
+                    field: 'email',
+                  })
+                )
+              }
+            />
+          </Input>
+        </FormField>
+
+        <FormField className="signup__field">
           <label htmlFor="password">Mot de passe</label>
-          <input
-            placeholder=" xxxxxxx"
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) =>
-              dispatch(
-                updateFieldCredentials({
-                  value: e.target.value,
-                  field: 'password',
-                })
-              )
-            }
-          />
+          <Input icon>
+            <input
+              placeholder="· · · · · · · ·"
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) =>
+                dispatch(
+                  updateFieldCredentials({
+                    value: e.target.value,
+                    field: 'password',
+                  })
+                )
+              }
+            />
+            <Icon name="eye" />
+          </Input>
+          <Label pointing>
+            Doit contenir au minimum : 1 minuscule, 1 majuscule, !*$%^@ et 8
+            caractères.
+          </Label>
         </FormField>
 
-        <FormField>
+        <FormField className="signup__field">
           <label htmlFor="confirm-password">Confirmer votre mot de passe</label>
           <input
-            placeholder="xxxxxxxx"
+            placeholder="· · · · · · · ·"
             id="confirm-password"
             type="password"
             value={confirmPassword}
@@ -133,7 +157,7 @@ export default function SignUp() {
           />
         </FormField>
 
-        <FormField>
+        <FormField className="signup__field">
           <Checkbox
             label={
               <label>
@@ -151,7 +175,9 @@ export default function SignUp() {
           ref={recaptchaRef}
           size="invisible"
         />
-        <Button type="submit">Créer un compte</Button>
+        <Button primary fluid type="submit">
+          Je crée mon compte
+        </Button>
         {error !== '' && <p> {error}</p>}
       </Form>
     </Segment>
