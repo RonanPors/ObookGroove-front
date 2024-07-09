@@ -1,6 +1,10 @@
 @use '../../../styles/variables' as v;
 
-.body {
+#root {
+  background-color: black;
+}
+
+body {
   background-color: black;
 }
 main {
@@ -43,14 +47,26 @@ p {
   width: fit-content;
 }
 
-#bookers__segment {
-  margin-top: 5%;
-}
+// #bookers__content {
+//   max-width: 600px;
+// }
 
-#bookers__content {
-margin-top: 5%;
+.bookers__container {
+  margin-top: 3rem;
+  
 }
-
-.bokkers__paragraph{
+.bookers__paragraph{
   font-size: 1.5rem;
+}
+
+.ui.container {
+  background-color: black;
+}
+
+#bookers__image {
+  margin: 3rem;
+}
+
+#bookers__button {
+  max-width: max-content;
 }

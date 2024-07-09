@@ -1,9 +1,13 @@
-import { Button, ButtonContent, Divider, Header, Segment, MessageHeader, Message, Icon, MessageContent, Container } from 'semantic-ui-react';
+import { Button, ButtonContent, Grid, Header, Segment, MessageHeader, Message, Icon, MessageContent, Container, Image } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 import './Bookers.scss';
 import { spotifyAuthorization } from '../../../store/reducers/booksReducer';
+import Spotifylogo from '../../../assets/logo/svg/Spotify_logo_with_text.svg';
+import Obglogo from '../../../assets/logo/svg/logo2_bleuvert.svg';
+import bidirectionalarrow from '../../../assets/logo/svg/double_arrow.svg';
+
 
 export default function Bookers() {
   const { pseudo } = useAppSelector((store) => store.user.userData);
@@ -28,8 +32,9 @@ export default function Bookers() {
 
 
   return (
-    <Container> 
-      <Segment id='bookers__segment' inverted >
+    <Container className='bookers__container'>
+
+      {/* <Segment id='bookers__segment' inverted > */}
        <Header className='bookers__header' inverted as='h1' textAlign='left'>
         Bonjour O'BG {pseudo} !
        </Header>
@@ -38,28 +43,32 @@ export default function Bookers() {
         <MessageContent>
             Votre compte a bien été créé !
         </MessageContent>
-       </Message>
-       
-      </Segment>
+       </Message> 
+      {/* </Segment> */}
+
       <Segment id='bookers__content' inverted>
         <Header inverted  size='medium' as='h3'>Rattachez votre compte Spotify</Header>
-        <Header inverted  size='tiny' as='h5'>En associant vos comptes Spotif et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux 
+        <Header inverted  size='tiny' as='h5'>En associant vos comptes Spotify et ObookGroove vous bénéficierez de suggestions de livres personnalisées et en accord avec vos goûts musicaux 
         </Header>
-      
-        <Button animated inverted>
-           <ButtonContent visible>Connect accounts</ButtonContent>
+        
+        <Grid columns={3}>
+          <Image id='bookers__image' src={Spotifylogo} size='small' />
+          <Image id='bookers__image' src={Obglogo} size='small' />
+        </Grid>
+        
+        <Button onClick={() => dispatch(spotifyAuthorization())} animated inverted size='large'>
+           <ButtonContent id='bookers__button' visible>Connect accounts</ButtonContent>
              <ButtonContent hidden>
              <Icon name='sync' />
            </ButtonContent>
         </Button>
       </Segment>
-    </Container>
+
+    </Container> 
     
    
    
-     
-      
-
+  
     
 
         // <h1>Bienvenue O'BG {pseudo} !</h1>
