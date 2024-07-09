@@ -148,15 +148,15 @@ export const newPassword = createAppAsyncThunk(
   }
 );
 
-/* -----------------------------------
----- REDUCER With --------------------
------------------ toggles & fields ---
------------------ signup -------------
------------------ confirm signup -----
------------------ signin -------------
------------------ reset password -----
------------------ new password -------
---------------------------------------*/
+/* ----------------------------------------------
+---- REDUCER With -------------------------------
+----------------- toggles & fields --------------
+----------------- signup ------------------------
+----------------- confirm signup ----------------
+----------------- signin ------------------------
+----------------- reset password ----------------
+----------------- new password ------------------
+-------------------------------------------------*/
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -195,6 +195,11 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(signup.fulfilled, (state) => {
       state.loading = false;
+      // vider les changer une fois que c'est validé
+      state.userData.pseudo = '';
+      state.userData.credentials.email = '';
+      state.userData.credentials.password = '';
+      state.userData.confirmPassword = '';
     })
     .addCase(signup.rejected, (state, action) => {
       state.loading = false;
@@ -209,8 +214,10 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(confirmSignUp.fulfilled, (state, action) => {
+      // ? récupération du pseudo ?
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
+      // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
     })
     .addCase(confirmSignUp.rejected, (state, action) => {
@@ -226,10 +233,14 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(signin.fulfilled, (state, action) => {
-      // payload renvoie la réponse demandée à la BDD
+      // ? récupération du pseudo ?
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
+      // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.email = '';
+      state.userData.credentials.password = '';
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
@@ -245,6 +256,8 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetPassword.fulfilled, (state) => {
       state.loading = false;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.email = '';
     })
     .addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
@@ -261,6 +274,9 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(newPassword.fulfilled, (state) => {
       state.loading = false;
       state.isSuccess = true;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.password = '';
+      state.userData.confirmPassword = '';
     })
     .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
