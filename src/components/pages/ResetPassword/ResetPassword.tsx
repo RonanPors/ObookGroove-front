@@ -1,4 +1,14 @@
-import { Grid, Header, Form, Button, Segment, Image } from 'semantic-ui-react';
+import {
+  Header,
+  Form,
+  Button,
+  Segment,
+  Image,
+  FormField,
+  Input,
+  Icon,
+} from 'semantic-ui-react';
+import MediaQuery from 'react-responsive';
 import './ResetPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
@@ -20,29 +30,30 @@ export default function ResetPassword() {
     dispatch(resetPassword());
   };
   return (
-    <Grid
-      className="signin"
-      textAlign="center"
-      style={{ height: '100vh' }}
-      verticalAlign="middle"
-    >
-      <Grid.Column style={{ maxWidth: 450 }}>
+    <Segment inverted className="reset-password">
+      <Form
+        inverted
+        size="large"
+        className="reset-password__form"
+        onSubmit={handleSubmit}
+      >
         <Header
-          color="black"
-          as="h2"
+          inverted
+          as="h1"
+          className="h1 reset-password__header"
           textAlign="center"
-          className="signin__header"
         >
-          <Image src={logo} /> Réinitialiser votre mot de passe
+          <MediaQuery minWidth={768}>
+            <Image src={logo} />
+          </MediaQuery>
+          Réinitialiser votre mot de passe
         </Header>
-
-        <Form className="signin__form" size="large" onSubmit={handleSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Entrez votre adresse mail"
+        <h4>Étape 1/2</h4>
+        <FormField className="reset-password__field">
+          <Input iconPosition="left">
+            <Icon name="at" />
+            <input
+              placeholder="Entrez votre adresse e-mail"
               type="email"
               value={email}
               onChange={(e) =>
@@ -54,14 +65,14 @@ export default function ResetPassword() {
                 )
               }
             />
+          </Input>
+        </FormField>
 
-            <Button color="teal" type="submit" fluid size="large">
-              Envoyer
-            </Button>
-            {error !== '' && <p> {error}</p>}
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+        <Button color="teal" type="submit" fluid size="large">
+          Envoyer votre e-mail
+        </Button>
+        {error !== '' && <p> {error}</p>}
+      </Form>
+    </Segment>
   );
 }
