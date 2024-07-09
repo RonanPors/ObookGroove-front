@@ -1,16 +1,19 @@
 import {
-  Grid,
   Header,
   Form,
   Button,
   Segment,
   Message,
   Image,
+  FormField,
+  Input,
+  Icon,
 } from 'semantic-ui-react';
 import './SignIn.scss';
 
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
@@ -46,28 +49,30 @@ export default function SignIn() {
   };
 
   return (
-    <Grid
-      className="signin"
-      textAlign="center"
-      style={{ height: '100vh' }}
-      verticalAlign="middle"
-    >
-      <Grid.Column style={{ maxWidth: 450 }}>
+    <Segment inverted className="signin">
+      <Form
+        inverted
+        size="large"
+        className="signin__form"
+        onSubmit={handleSubmit}
+      >
         <Header
-          color="black"
-          as="h2"
+          inverted
+          as="h1"
+          className="h1 signin__header"
           textAlign="center"
-          className="signin__header"
         >
-          <Image src={logo} /> Connectez-vous!
+          <MediaQuery minWidth={768}>
+            <Image src={logo} />
+          </MediaQuery>
+          Connectez-vous !
         </Header>
-        <Form className="signin__form" size="large" onSubmit={handleSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Entrez votre adresse mail"
+
+        <FormField className="signin__field">
+          <Input iconPosition="left">
+            <Icon name="at" />
+            <input
+              placeholder="Entrez votre adresse e-mail"
               type="email"
               value={email}
               onChange={(e) =>
@@ -79,12 +84,15 @@ export default function SignIn() {
                 )
               }
             />
+          </Input>
+        </FormField>
 
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
+        <FormField className="signin__field">
+          <Input icon iconPosition="left">
+            <Icon name="lock" />
+            <input
               placeholder="Entrez votre mot de passe"
+              id="password"
               type="password"
               value={password}
               onChange={(e) =>
@@ -96,13 +104,16 @@ export default function SignIn() {
                 )
               }
             />
-            <Button color="teal" type="submit" fluid size="large">
-              Se connecter
-            </Button>
-            {error !== '' && <p> {error}</p>}
-          </Segment>
-        </Form>
+          </Input>
+        </FormField>
 
+        <Button color="teal" type="submit" fluid size="large">
+          Je me connecte
+        </Button>
+        {error !== '' && <p> {error}</p>}
+      </Form>
+
+      <Segment textAlign="center" className="signin__messages">
         <Message>
           <Link to="/reset-password">Mot de passe oublié ? </Link>
         </Message>
@@ -110,7 +121,7 @@ export default function SignIn() {
         <Message>
           Pas encore de compte ? <Link to="/signup">Créer un compte </Link>
         </Message>
-      </Grid.Column>
-    </Grid>
+      </Segment>
+    </Segment>
   );
 }
