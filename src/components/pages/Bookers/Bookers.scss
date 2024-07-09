@@ -40,19 +40,20 @@ p {
   background-color: black;
 }
 
-#bookers__message {
+#bookers__message__sucess {
   background-color: #2a2b2a;
     color: #2ee6b2;
     box-shadow: 0 0 0 1px #2ee6b2 inset, 0 0 0 0 transparent;
   width: fit-content;
 }
 
-// #bookers__content {
-//   max-width: 600px;
-// }
+#bookers__content {
+  padding: 3rem;
+}
 
 .bookers__container {
   margin-top: 3rem;
+  padding: 3rem;
   
 }
 .bookers__paragraph{
@@ -64,9 +65,7 @@ p {
 }
 
 #bookers__image {
-  margin: 3rem;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
 }
 
-#bookers__button {
-  max-width: max-content;
-}
