@@ -31,7 +31,6 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
-    phoneNumber: '',
   },
 };
 

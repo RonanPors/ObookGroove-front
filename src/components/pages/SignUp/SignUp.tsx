@@ -27,7 +27,7 @@ export default function SignUp() {
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
-  const { pseudo, confirmPassword, phoneNumber } = useAppSelector(
+  const { pseudo, confirmPassword } = useAppSelector(
     (store) => store.user.userData
   );
 
@@ -91,24 +91,6 @@ export default function SignUp() {
                 updateFieldUserData({
                   value: e.target.value,
                   field: 'pseudo',
-                })
-              )
-            }
-          />
-        </FormField>
-
-        <FormField>
-          <label htmlFor="phone-mobile">Numéro de téléphone mobile</label>
-          <input
-            placeholder="06 00 00 00 00"
-            id="phone-mobile"
-            type="text"
-            value={phoneNumber}
-            onChange={(e) =>
-              dispatch(
-                updateFieldUserData({
-                  value: e.target.value,
-                  field: 'phoneNumber',
                 })
               )
             }
