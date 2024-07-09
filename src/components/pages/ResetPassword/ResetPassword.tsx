@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import {
   Header,
   Form,
@@ -18,9 +19,18 @@ import {
 import logo from '../../../assets/logo/svg/logo2_bleuvert.svg';
 
 export default function ResetPassword() {
-  const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((store) => store.user);
   const { email } = useAppSelector((store) => store.user.userData.credentials);
+
+  const dispatch = useAppDispatch();
+
+  // met le focus sur le champ du form :
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -53,6 +63,7 @@ export default function ResetPassword() {
           <Input iconPosition="left">
             <Icon name="at" />
             <input
+              ref={inputRef}
               placeholder="Entrez votre adresse e-mail"
               type="email"
               value={email}

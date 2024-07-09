@@ -11,7 +11,7 @@ import {
 } from 'semantic-ui-react';
 import './SignIn.scss';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -24,12 +24,20 @@ import {
 } from '../../../store/reducers/userReducer';
 
 export default function SignIn() {
-  const dispatch = useAppDispatch();
-
   const { loading, error } = useAppSelector((store) => store.user);
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
+
+  const dispatch = useAppDispatch();
+
+  // met le focus sur le premier champ du form :
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   // pour redirect vers la page de books
   const { authSuccess } = useAppSelector((store) => store.user);
@@ -72,6 +80,7 @@ export default function SignIn() {
           <Input iconPosition="left">
             <Icon name="at" />
             <input
+              ref={inputRef}
               placeholder="Entrez votre adresse e-mail"
               type="email"
               value={email}

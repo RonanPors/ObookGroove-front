@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Header,
@@ -24,12 +24,21 @@ import {
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
 
 export default function NewPassword() {
-  const dispatch = useAppDispatch();
   const { loading, error, isSuccess } = useAppSelector((store) => store.user);
   const { password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
   const { confirmPassword } = useAppSelector((store) => store.user.userData);
+
+  const dispatch = useAppDispatch();
+
+  // met le focus sur le premier champ du form :
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   // pour redirect vers la page de connexion en cas de succès
   const navigate = useNavigate();
@@ -76,6 +85,7 @@ export default function NewPassword() {
           <Input iconPosition="left">
             <Icon name="lock" />
             <input
+              ref={inputRef}
               placeholder="Entrez votre nouveau mot de passe"
               type="password"
               value={password}

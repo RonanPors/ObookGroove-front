@@ -1,5 +1,5 @@
 import ReCAPTCHA from 'react-google-recaptcha';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import {
@@ -25,9 +25,10 @@ import './SignUp.scss';
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
 
 export default function SignUp() {
-  const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((store) => store.user);
+  // utilisation de captcha
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
+  const { loading, error } = useAppSelector((store) => store.user);
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
@@ -35,11 +36,16 @@ export default function SignUp() {
     (store) => store.user.userData
   );
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // utilisation de captcha
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
-
+  // met le focus sur le premier champ du form :
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (loading) {
@@ -77,6 +83,7 @@ export default function SignUp() {
           <Input iconPosition="left">
             <Icon name="user" />
             <input
+              ref={inputRef}
               placeholder="Pseudo"
               id="pseudo"
               type="text"
