@@ -19,7 +19,6 @@ h3 {
   color: white;
 }
 
-
 p {
   color: white;
 }
@@ -41,8 +40,10 @@ p {
 
 #bookers__message__sucess {
   background-color: #2a2b2a;
-    color: #2ee6b2;
-    box-shadow: 0 0 0 1px #2ee6b2 inset, 0 0 0 0 transparent;
+  color: #2ee6b2;
+  box-shadow:
+    0 0 0 1px #2ee6b2 inset,
+    0 0 0 0 transparent;
   width: fit-content;
 }
 
@@ -53,9 +54,8 @@ p {
 .bookers__container {
   margin-top: 3rem;
   padding: 3rem;
-  
 }
-.bookers__paragraph{
+.bookers__paragraph {
   font-size: 1.5rem;
 }
 

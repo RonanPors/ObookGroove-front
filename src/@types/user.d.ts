@@ -3,9 +3,6 @@ export type UserData = {
   credentials: Credentials;
   pseudo: string;
   confirmPassword: string;
-  phoneNumber?: string;
-  accessToken : string;
-  refreshToken: string;
 };
 
 export type Credentials = {

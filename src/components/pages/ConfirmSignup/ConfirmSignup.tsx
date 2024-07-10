@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { confirmSignUp } from '../../../store/reducers/userReducer';
 
 export default function ConfirmSignup() {
-  const { userId, confirmToken } = useParams();
   const dispatch = useAppDispatch();
 
   // pour redirect vers la page de books en cas de succès
@@ -21,6 +20,8 @@ export default function ConfirmSignup() {
     }
   }, [authSuccess, error, navigate]);
 
+  // action pour la fonction asynchrone confirmSignUp
+  const { userId, confirmToken } = useParams();
   dispatch(
     confirmSignUp({
       userId: userId ?? '',
@@ -28,5 +29,5 @@ export default function ConfirmSignup() {
     })
   );
 
-  return <h1>Confirmation en cours</h1>;
+  return <h1 color="white">Confirmation en cours</h1>;
 }

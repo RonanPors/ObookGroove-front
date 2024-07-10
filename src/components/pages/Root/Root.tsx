@@ -30,18 +30,16 @@ export default function Root() {
 
   // this file is a layout for the application. We put the elements statics (header and footer) and the "outlet" display the dynamic part for each page.
   return (
-    <>
-      <div className='container' ref={contextRef}>
-        <Sticky context={contextRef}>
-          <Header />
-        </Sticky>
+    <div className="container" ref={contextRef}>
+      <Sticky context={contextRef}>
+        <Header />
+      </Sticky>
 
-        <main className="main">
-          <Outlet />
-        </main>
-      </div>
+      <main className="main">
+        <Outlet />
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
