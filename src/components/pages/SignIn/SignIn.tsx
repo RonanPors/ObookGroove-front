@@ -19,6 +19,7 @@ import {
   signin,
   updateFieldCredentials,
 } from '../../../store/reducers/userReducer';
+import Cookies from "js-cookie";
 
 export default function SignIn() {
   const dispatch = useAppDispatch();
@@ -27,6 +28,16 @@ export default function SignIn() {
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
+
+  const { accessToken, refreshToken } = useAppSelector(
+    (store) => store.user.userData
+  );
+
+  useEffect(() => {
+    Cookies.set('accessToken', accessToken, { expires: 7, secure: false });
+    Cookies.set('refreshToken', refreshToken, { expires: 7, secure: false });
+  }, [accessToken, refreshToken]);
+  
 
   // pour redirect vers la page de books
   const { authSuccess } = useAppSelector((store) => store.user);

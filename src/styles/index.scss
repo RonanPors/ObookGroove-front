@@ -3,6 +3,23 @@
 @use 'font' as f;
 @use 'typography' as t;
 
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main {
+    flex: 1;
+    background-color: black;
+  }
+
 // penser à l'enlever quand chaque page aura du contenu
 // main {
 //   height: 75vh;

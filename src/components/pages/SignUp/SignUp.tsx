@@ -1,5 +1,5 @@
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+// import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FormField,
@@ -34,14 +34,14 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   // utilisation de captcha
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  // const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (loading) {
       return;
     }
-    recaptchaRef.current.execute();
+    // recaptchaRef.current.execute();
     dispatch(signup());
     // redirection vers la landing page
     // TODO message toaster : "Consulter vos mails pour valider votre inscription"
@@ -164,11 +164,11 @@ export default function SignUp() {
           />
         </FormField>
 
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
           ref={recaptchaRef}
           size="invisible"
-        />
+        /> */}
         <Button type="submit">Créer un compte</Button>
         {error !== '' && <p> {error}</p>}
       </Form>

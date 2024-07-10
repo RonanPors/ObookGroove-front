@@ -4,6 +4,8 @@ export type UserData = {
   pseudo: string;
   confirmPassword: string;
   phoneNumber?: string;
+  accessToken : string;
+  refreshToken: string;
 };
 
 export type Credentials = {
