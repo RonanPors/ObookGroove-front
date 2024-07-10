@@ -18,7 +18,7 @@ export default function Landing (){
         <MediaQuery minWidth={768}>
           <Grid id='landing__grid' centered columns={2} divided verticalAlign='middle'>
 
-              <GridColumn id='landing__textblock' width={6} stretched padded>
+              <GridColumn id='landing__textblock__desktop' width={6} stretched padded>
                 <GridRow id='landing__header' streteched>
                    <Image id='landing__title' src={logoFulltext} size='big' />
                 </GridRow>
@@ -41,8 +41,31 @@ export default function Landing (){
         </MediaQuery>
 
         <MediaQuery maxWidth={767}>
-          <Grid centered columns={1} divided verticalAlign='middle'>
-            <GridRow stretched>
+          <Grid id ='landing__grid' centered columns={1} divided verticalAlign='middle'>
+            
+              <GridColumn id='landing__textblock__mobile' width={16} stretched padded>
+                <GridRow id='landing__header' streteched>
+                   <Image id='landing__title' src={logoFulltext} size='medium' />
+                </GridRow>
+                <GridRow id='landing__headerh1' stretched>
+                  <Header inverted as='h1'>Connectez vos univers musicaux et littéraires</Header>
+                </GridRow>
+                <GridRow>
+                <Input fluid type='text' placeholder='Entez votre email' action>
+                    <input />
+                    <Button color='blue' type='submit'>S'inscrire</Button>
+                </Input>
+                </GridRow>
+              </GridColumn>
+              
+              <GridColumn width={16} centered>
+                <Image src={illustration} size='medium' />
+              </GridColumn>
+
+
+
+
+            {/* <GridRow stretched>
               <GridColumn width={16}>
               <Image id='landing__totle' src={logoFulltext} size='medium' />
               </GridColumn>
@@ -55,7 +78,8 @@ export default function Landing (){
             <GridRow stretched>
               <GridColumn width={16}>
               </GridColumn>
-            </GridRow>
+            </GridRow> */}
+
           </Grid>
         </MediaQuery>
       

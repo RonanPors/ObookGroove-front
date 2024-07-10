@@ -16,9 +16,14 @@ main {
     margin-top: 5rem;
 }
 
-#landing__textblock {
+#landing__textblock__desktop {
    padding-right: 10rem;
 }
+
+#landing__textblock__mobile {
+    padding-right: 2rem;
+    padding-left: 2rem;
+ }
 
 #landing__header{
     padding-bottom: 2rem;
@@ -34,5 +39,9 @@ main {
 
 .ui.fluid.input {
     margin-top: 2rem;
+}
+
+.image {
+    margin: 1rem;
 }
 
