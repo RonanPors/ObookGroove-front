@@ -16,20 +16,20 @@ export default function Landing (){
     <>
       
         <MediaQuery minWidth={768}>
-          <Grid centered columns={2} divided verticalAlign='middle'>
+          <Grid id='landing__grid' centered columns={2} divided verticalAlign='middle'>
 
-              <GridColumn width={6} stretched>
-                <GridRow streteched>
+              <GridColumn id='landing__textblock' width={6} stretched padded>
+                <GridRow id='landing__header' streteched>
                    <Image id='landing__title' src={logoFulltext} size='big' />
                 </GridRow>
-                <GridRow stretched>
+                <GridRow id='landing__headerh1' stretched>
                   <Header inverted as='h1'>Connectez vos univers musicaux et littéraires</Header>
                 </GridRow>
-                <GridRow stretched>
-                  <Header inverted as='h3'>Dum haec in oriente aguntur, Arelate hiemem agens Constantius post theatralis ludos atque circenses ambitioso editos apparatu diem sextum idus Octobres, qui imperii eius </Header>
-                </GridRow> 
                 <GridRow>
-                 <Input fluid action={{ icon: 'search' }} placeholder='Search...' />
+                <Input fluid type='text' placeholder='Entez votre email' action>
+                    <input />
+                    <Button color='blue' type='submit'>S'inscrire</Button>
+                </Input>
                 </GridRow>
               </GridColumn>
               

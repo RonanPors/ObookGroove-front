@@ -1,0 +1,38 @@
+main {
+    background: rgb(46,230,178);
+    background: linear-gradient(159deg, rgba(46,230,178,0.4) 0%, rgba(33,101,248,0.4) 20%, rgba(31,72,158,0.4) 33%, rgba(30,55,106,0.3) 44%, rgba(30,53,99,0.3) 62%, rgba(29,31,32,1) 86%, rgba(29,34,41,1) 100%);
+}
+
+.h1.ui.header {
+    font-size: 3rem;
+    padding-bottom: 2rem;
+}
+
+#landing__illustration{
+    opacity: 60%;
+}
+
+#landing__grid {
+    margin-top: 5rem;
+}
+
+#landing__textblock {
+   padding-right: 10rem;
+}
+
+#landing__header{
+    padding-bottom: 2rem;
+}
+
+#landing__header1{
+    padding-bottom: 2rem;
+}
+
+#landing__header2{
+    padding-bottom: 2rem;
+}
+
+.ui.fluid.input {
+    margin-top: 2rem;
+}
+
