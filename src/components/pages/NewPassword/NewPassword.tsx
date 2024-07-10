@@ -9,6 +9,7 @@ import {
   FormField,
   Input,
   Icon,
+  Message,
 } from 'semantic-ui-react';
 import MediaQuery from 'react-responsive';
 import './NewPassword.scss';
@@ -49,10 +50,21 @@ export default function NewPassword() {
     }
   }, [isSuccess, dispatch, navigate]);
 
+  // vérifie si un champ est vide :
+  const emptyFieldInspector = password === '' || confirmPassword === '';
+  // création de 2 états :
+  const [hasError, setHasError] = useState(false);
+  const [notSamePassword, setNotSamePassword] = useState(false);
+
   const { userId, resetToken } = useParams();
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (loading) {
+    if (loading || emptyFieldInspector) {
+      setHasError(true);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setNotSamePassword(true);
       return;
     }
     dispatch(
@@ -120,10 +132,24 @@ export default function NewPassword() {
           </Input>
         </FormField>
 
-        <Button color="teal" type="submit" fluid size="large">
+        {hasError && (
+          <Message negative>Vous devez compléter les 2 champs</Message>
+        )}
+
+        {notSamePassword && (
+          <Message negative>Les mots de passe ne sont pas identiques</Message>
+        )}
+
+        <Button
+          color="teal"
+          type="submit"
+          fluid
+          size="large"
+          disabled={emptyFieldInspector}
+        >
           Réinitialiser
         </Button>
-        {error !== '' && <p> {error}</p>}
+        {error !== '' && <Message negative> {error}</Message>}
       </Form>
     </Segment>
   );

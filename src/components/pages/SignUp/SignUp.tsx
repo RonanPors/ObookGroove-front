@@ -29,6 +29,7 @@ export default function SignUp() {
   // utilisation de captcha
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
+  // récupère les états stockés dans le store (redux) :
   const { loading, error } = useAppSelector((store) => store.user);
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
@@ -37,8 +38,10 @@ export default function SignUp() {
     (store) => store.user.userData
   );
 
+  // permet de faire une action gérée dans le store (redux) :
   const dispatch = useAppDispatch();
 
+  // vérifier si la case des CGU est cochée (en direct, sans redux) :
   const [cgu, setCGU] = useState(false);
   const onChangeCGU = (event: React.FormEvent<HTMLDivElement>) => {
     setCGU(!event.currentTarget.classList.contains('checked'));
@@ -52,15 +55,17 @@ export default function SignUp() {
     }
   }, []);
 
-  const [hasError, setHasError] = useState(false);
-  const [notSamePassword, setNotSamePassword] = useState(false);
-
+  // vérifie si un champ est vide :
   const emptyFieldInspector =
     !cgu ||
     pseudo === '' ||
     email === '' ||
     password === '' ||
     confirmPassword === '';
+
+  // création de 2 états utilisés juste après (sans redux) :
+  const [hasError, setHasError] = useState(false);
+  const [notSamePassword, setNotSamePassword] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -78,8 +83,8 @@ export default function SignUp() {
     // TODO message toaster : "Consulter vos mails pour valider votre inscription"
   };
 
+  // toggle avec icon "eye" pour le mdp
   const passwordInputRef = useRef<HTMLInputElement>(null);
-
   const displayPassword = () => {
     if (passwordInputRef.current !== null) {
       if (passwordInputRef.current.type === 'password') {
@@ -89,6 +94,7 @@ export default function SignUp() {
       }
     }
   };
+
   return (
     <Segment inverted className="signup">
       <Form
@@ -154,7 +160,8 @@ export default function SignUp() {
 
         <FormField className="signup__field">
           <label htmlFor="password">Mot de passe</label>
-          <Input icon>
+          <Input iconPosition="left">
+            <Icon name="lock" />
             <input
               ref={passwordInputRef}
               placeholder="· · · · · · · ·"
@@ -170,10 +177,11 @@ export default function SignUp() {
                 )
               }
             />
-            <Button onClick={displayPassword}>
+            <Button className="signup__field-eye" onClick={displayPassword}>
               <Icon name="eye" />
             </Button>
           </Input>
+
           <Label pointing>
             Doit contenir au minimum 8 caractères dont&nbsp;: 1 symbole parmi
             !@#$%^&*, 1 chiffre, 1 minuscule et 1 majuscule.
@@ -182,20 +190,23 @@ export default function SignUp() {
 
         <FormField className="signup__field">
           <label htmlFor="confirm-password">Confirmer votre mot de passe</label>
-          <input
-            placeholder="· · · · · · · ·"
-            id="confirm-password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) =>
-              dispatch(
-                updateFieldUserData({
-                  value: e.target.value,
-                  field: 'confirmPassword',
-                })
-              )
-            }
-          />
+          <Input iconPosition="left">
+            <Icon name="lock" />
+            <input
+              placeholder="· · · · · · · ·"
+              id="confirm-password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) =>
+                dispatch(
+                  updateFieldUserData({
+                    value: e.target.value,
+                    field: 'confirmPassword',
+                  })
+                )
+              }
+            />
+          </Input>
         </FormField>
 
         <FormField className="signup__field">

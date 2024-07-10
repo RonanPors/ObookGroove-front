@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { Credentials, SigninResponse, SignupResponse } from '../@types/user';
 
 /* --------------------------------------
----------------- SIGNUP --------------
+---------------- SIGN UP --------------
 ----------------------------------------*/
 export async function signupApi(body: {
   email: string;
@@ -20,7 +20,6 @@ export async function signupApi(body: {
     return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
-      // console.log(err.response.data.error.message);
       throw new Error(err.response?.data.error.message);
     }
     throw new Error('Unknown Error');
@@ -42,8 +41,11 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
 
     console.log(data);
     return data;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
 
@@ -59,8 +61,11 @@ export async function signinApi(body: Credentials) {
     );
     console.log(data);
     return data;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
 
@@ -76,8 +81,11 @@ export async function resetPasswordApi(body: { email: string }) {
     );
     console.log(data);
     return data;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
 
@@ -102,11 +110,13 @@ export async function newPasswordApi(
 
     console.log(data);
     return data;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
-
 /* --------------------------------------
 ----------- GENERATE TOKEN --------------
 ----------------------------------------*/
@@ -119,8 +129,11 @@ export async function generateTokensObg() {
     if (response.status !== 200) throw new Error(response.statusText);
 
     return response;
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }
 
@@ -144,7 +157,10 @@ export async function getUser() {
     const { accessTokenObg, pseudo } = await response.data;
 
     return { ...getUserFromToken(accessTokenObg), pseudo };
-  } catch (err) {
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
   }
 }

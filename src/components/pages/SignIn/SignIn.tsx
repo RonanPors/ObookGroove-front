@@ -8,10 +8,11 @@ import {
   FormField,
   Input,
   Icon,
+  Label,
 } from 'semantic-ui-react';
 import './SignIn.scss';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -39,7 +40,7 @@ export default function SignIn() {
     }
   }, []);
 
-  // pour redirect vers la page de books
+  // pour redirect vers la page de books en cas de succès :
   const { authSuccess } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   useEffect(() => {
@@ -48,9 +49,14 @@ export default function SignIn() {
     }
   }, [authSuccess, navigate]);
 
+  // vérifie si un champ est vide :
+  const emptyFieldInspector = email === '' || password === '';
+  // création d'un état :
+  const [hasError, setHasError] = useState(false);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (loading) {
+    if (loading || emptyFieldInspector) {
+      setHasError(true);
       return;
     }
     dispatch(signin());
@@ -114,12 +120,28 @@ export default function SignIn() {
               }
             />
           </Input>
+
+          <Label pointing basic color="teal">
+            Rappel : il doit contenir au minimum 8 caractères dont
+            1&nbsp;symbole parmi !@#$%^&*, 1&nbsp;chiffre de 0 à 9,
+            1&nbsp;minuscule et 1&nbsp;majuscule.
+          </Label>
         </FormField>
 
-        <Button color="teal" type="submit" fluid size="large">
+        {hasError && (
+          <Message negative>Vous devez compléter les 2 champs</Message>
+        )}
+
+        <Button
+          color="teal"
+          type="submit"
+          fluid
+          size="large"
+          disabled={emptyFieldInspector}
+        >
           Je me connecte
         </Button>
-        {error !== '' && <p> {error}</p>}
+        {error !== '' && <Message negative> {error}</Message>}
       </Form>
 
       <Segment textAlign="center" className="signin__messages">

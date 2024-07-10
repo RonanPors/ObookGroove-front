@@ -93,9 +93,16 @@ export const signup = createAppAsyncThunk(
 
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
-  async ({ userId, confirmToken }: ConfirmSignupArgs) => {
+  async ({ userId, confirmToken }: ConfirmSignupArgs, thunkAPI) => {
     // appel de l'API (voir fichier lib/authApi.ts)
-    return confirmSignUpApi({ userId, confirmToken });
+    try {
+      return await confirmSignUpApi({ userId, confirmToken });
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -114,7 +121,14 @@ export const signin = createAppAsyncThunk(
     };
 
     // appel de l'API (voir fichier lib/authApi.ts)
-    return signinApi(body);
+    try {
+      return await signinApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -132,7 +146,14 @@ export const resetPassword = createAppAsyncThunk(
     };
 
     // appel de l'API (voir fichier lib/authApi.ts)
-    return resetPasswordApi(body);
+    try {
+      return await resetPasswordApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -151,7 +172,14 @@ export const newPassword = createAppAsyncThunk(
     };
 
     // appel de l'API (voir fichier lib/authApi.ts)
-    return newPasswordApi(body, { userId, resetToken });
+    try {
+      return await newPasswordApi(body, { userId, resetToken });
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -230,7 +258,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(confirmSignUp.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* ------------------------------
@@ -252,7 +280,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -269,7 +297,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -288,7 +316,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     });
 });
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Header,
   Form,
@@ -8,6 +8,7 @@ import {
   FormField,
   Input,
   Icon,
+  Message,
 } from 'semantic-ui-react';
 import MediaQuery from 'react-responsive';
 import './ResetPassword.scss';
@@ -32,9 +33,15 @@ export default function ResetPassword() {
     }
   }, []);
 
+  // vérifie si un champ est vide :
+  const emptyFieldInspector = email === '';
+  // création d'un état :
+  const [hasError, setHasError] = useState(false);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (loading) {
+    if (loading || emptyFieldInspector) {
+      setHasError(true);
       return;
     }
     dispatch(resetPassword());
@@ -79,10 +86,20 @@ export default function ResetPassword() {
           </Input>
         </FormField>
 
-        <Button color="teal" type="submit" fluid size="large">
+        {hasError && (
+          <Message negative>Vous devez compléter les 2 champs</Message>
+        )}
+
+        <Button
+          color="teal"
+          type="submit"
+          fluid
+          size="large"
+          disabled={emptyFieldInspector}
+        >
           Envoyer votre e-mail
         </Button>
-        {error !== '' && <p> {error}</p>}
+        {error !== '' && <Message negative> {error}</Message>}
       </Form>
     </Segment>
   );
