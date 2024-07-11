@@ -38,6 +38,9 @@ const userDetailsFragment = gql`
   fragment UserDetails on User {
     id
     pseudo
+    books {
+      title
+    }
   }
 `;
 // la requête
