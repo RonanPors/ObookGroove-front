@@ -2,10 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// lié à GraphQL :
+import { ApolloProvider } from '@apollo/client';
+
 // lié au routeur :
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import router from './router';
+
+// le client de GraphQL :
+import { apolloClient } from './lib/gql/queries';
 
 // lié au store :
 import store from './store/store';
@@ -21,8 +27,10 @@ const root = ReactDOM.createRoot(
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <ApolloProvider client={apolloClient}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>
 );

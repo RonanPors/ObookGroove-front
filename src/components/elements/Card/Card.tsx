@@ -1,66 +1,65 @@
-import React from 'react'
-import './Card.scss'
+import React from 'react';
+import './Card.scss';
 import {
-  CardMeta,
-  CardHeader,
   Header,
-  CardDescription,
   CardContent,
   Card,
-  Icon,
   Image,
   Segment,
-  Label, 
-  LabelGroup, 
-  Item, 
-  ItemImage
-} from 'semantic-ui-react'
+  Label,
+  LabelGroup,
+  Item,
+  ItemImage,
+} from 'semantic-ui-react';
 
 import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
-import BookShell from '../../../assets/logo/svg/bookshell 1.svg'
+import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
+import { Book } from '../../../@types/book';
 
-export default function CardBook() {
-    return (
-   
-    <Card id='card__container' fluid>
-        <Segment id='card__image' inverted>
-            <Item align='centered'>
-              <ItemImage src={Dune} wrapped ui={false} size='small' centered />
-            </Item>
+type CardBookProps = {
+  book: Book;
+};
+
+export default function CardBook({ book }: CardBookProps) {
+  // const { user } = useUserByIdQuery(2);
+  console.log(book);
+
+  return (
+    <div>
+      <Card id="card__container" fluid>
+        <Segment id="card__image" inverted>
+          <Item align="centered">
+            <ItemImage
+              src={book.cover}
+              wrapped
+              ui={false}
+              size="small"
+              centered
+            />
+          </Item>
         </Segment>
-        <Icon >
-            
-        </Icon>
-        {/* <Segment inverted> */}
-          <CardContent>
-             <a>
-               <Image floated='right' size='mini' src={BookShell} />
-             </a>
-             <Header inverted color='grey' id='card_author' as='h1'>Dune</Header>
-             <Header inverted color='grey' as='h3'>Franck Herbert</Header>  
-         </CardContent>
-        {/* </Segment> */}
-    
-        <CardContent extra>
-            <LabelGroup color='blue'>
-              <Label>
-                Science Fiction
-              </Label>
-              <Label>
-                Aventure
-              </Label>
-              <Label>
-                Drame
-              </Label>
-              <Label>
-                Fantasy
-              </Label>
-            </LabelGroup>
+
+        <CardContent>
+          <div>
+            <Image floated="right" size="mini" src={book.cover} />
+          </div>
+          <Header inverted color="grey" id="card_author" as="h1">
+            {book.title}
+          </Header>
+          <Header inverted color="grey" as="h3">
+            {book.author}
+          </Header>
         </CardContent>
-    </Card>
 
- )
+        <CardContent extra>
+          <LabelGroup color="blue">
+            <Label>{book.genre}</Label>
+            {/* <Label>Aventure</Label>
+            <Label>Drame</Label>
+            <Label>Fantasy</Label> */}
+          </LabelGroup>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
-  
-
-

@@ -1,5 +1,5 @@
 export type Book = {
-  isbn: number;
+  isbn: number | string;
   title: string;
   authors: string[];
   publishedDate: string;
@@ -7,7 +7,7 @@ export type Book = {
   categories: string[];
   description: string;
   pageCount: number;
-  artistName: string; //! à retirer plus tart=d
+  artistName: string; //! à retirer plus tart
   images: {
     smallThumbnail: string;
     thumbnail: string;
@@ -15,4 +15,13 @@ export type Book = {
     medium: string;
     large: string;
   };
+
+  // de la BDD
+  author: string;
+  cover: string;
+  genre: string;
+  id: number;
+  numberOfPages: number;
+  resume: string;
+  year: number;
 };
