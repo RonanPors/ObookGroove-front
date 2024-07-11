@@ -13,11 +13,7 @@ import './Landing.scss';
 import illustration from '../../../assets/illustrations/jacket-livre/illustration-landing-page 1.svg';
 import logoFulltext from '../../../assets/logo/svg/Obookgroove_logo_fulltext-gradient.svg';
 
-import { useUserByIdQuery } from '../../../hooks/graphql';
-
 export default function Landing() {
-  const { user, loading, error } = useUserByIdQuery(1);
-
   return (
     <>
       <MediaQuery minWidth={768}>
@@ -114,11 +110,6 @@ export default function Landing() {
             </GridRow> */}
         </Grid>
       </MediaQuery>
-      {error && <p> Une erreur utilisateur</p>}
-      <div>
-        {loading && !error && <p>Chargement...</p>}
-        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
-      </div>
     </>
   );
 }
