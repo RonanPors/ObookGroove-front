@@ -40,6 +40,9 @@ const userDetailsFragment = gql`
     pseudo
     books {
       title
+      genre
+      cover
+      author
     }
   }
 `;
