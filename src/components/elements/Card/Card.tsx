@@ -21,6 +21,7 @@ export default function CardBook() {
   const { user } = useUserByIdQuery(2);
   return (
     <Card id="card__container" fluid>
+      {/* {user?.books.map((book, i) => )} */}
       <Segment id="card__image" inverted>
         <Item align="centered">
           <ItemImage src={Dune} wrapped ui={false} size="small" centered />
