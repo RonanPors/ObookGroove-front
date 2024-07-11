@@ -19,7 +19,7 @@ export type Book = {
   // de la BDD
   author: string;
   cover: string;
-  genre: string;
+  genre: string[];
   id: number;
   numberOfPages: number;
   resume: string;

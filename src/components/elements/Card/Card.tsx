@@ -24,7 +24,7 @@ type CardBookProps = {
 
 export default function CardBook({ book }: CardBookProps) {
   // const { user } = useUserByIdQuery(2);
-  console.log(book);
+  // console.log(book.genre);
 
   return (
     <div>
@@ -55,10 +55,7 @@ export default function CardBook({ book }: CardBookProps) {
 
         <CardContent extra>
           <LabelGroup color="blue">
-            <Label>{book.genre}</Label>
-            {/* <Label>Aventure</Label>
-            <Label>Drame</Label>
-            <Label>Fantasy</Label> */}
+          {book.genre.map((item:String) => <Label>{item}</Label>)}
           </LabelGroup>
         </CardContent>
       </Card>
