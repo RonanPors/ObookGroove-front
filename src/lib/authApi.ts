@@ -29,6 +29,7 @@ export async function signupApi(body: {
 /* --------------------------------------
 --------- CONFIRM SIGN UP --------------
 ----------------------------------------*/
+
 export type ConfirmSignupArgs = {
   userId: string;
   confirmToken: string;
