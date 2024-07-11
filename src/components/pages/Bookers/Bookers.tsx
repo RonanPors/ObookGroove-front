@@ -24,10 +24,12 @@ import {
 } from '../../../store/reducers/booksReducer';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
 import CardBook from '../../elements/Card/Card';
+// essai graphql:
+import { useUserByIdQuery } from '../../../hooks/graphql';
 
 export default function Bookers() {
   const { pseudo } = useAppSelector((store) => store.user.userData);
-  const { books, error } = useAppSelector((store) => store.books);
+  const { books } = useAppSelector((store) => store.books);
 
   // function dispatch(arg0: unknown): void {
   //   throw new Error('Function not implemented.');
@@ -66,10 +68,25 @@ export default function Bookers() {
     count.current += 1;
   }, [code, state, dispatch, navigate]);
 
-  console.log(books);
+  // console.log(books);
+
+  // essai graphql pour afficher les infos de l'utilisateur :
+  const { user, loading, error } = useUserByIdQuery(2);
 
   return (
     <Container className="bookers__container">
+      {error && <p> Une erreur utilisateur</p>}
+      <div>
+        {loading && !error && <p>Chargement...</p>}
+        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
+        <p>{user?.books[2].title}</p>
+        {user?.books.map((book, i) => <p key={i}>{book.title}</p>)}
+      </div>
+
+      {books &&
+        books.length > 0 &&
+        books.map((book, i) => <p key={i}>{book.artistName}</p>)}
+
       <Header
         className="bookers__header"
         inverted
@@ -80,7 +97,7 @@ export default function Bookers() {
         Bonjour O&apos;BG {pseudo} !
       </Header>
 
-      {error !== '' && <Message negative> {error}</Message>}
+      {/*error !== '' && <Message negative> {error}</Message>*/}
 
       <Message
         icon
@@ -185,17 +202,13 @@ export default function Bookers() {
         </MediaQuery>
       </Segment>
 
-      {books &&
-        books.length > 0 &&
-        books.map((book, i) => <p key={i}>{book.artistName}</p>)}
-
       <Grid>
         <GridColumn mobile={16} tablet={7} computer={5}>
           <Segment>
             <CardBook />
           </Segment>
         </GridColumn>
-        <GridColumn mobile={16} tablet={7} computer={5}>
+        {/* <GridColumn mobile={16} tablet={7} computer={5}>
           <Segment>
             <CardBook />
           </Segment>
@@ -219,7 +232,7 @@ export default function Bookers() {
           <Segment>
             <CardBook />
           </Segment>
-        </GridColumn>
+        </GridColumn> */}
       </Grid>
     </Container>
 
