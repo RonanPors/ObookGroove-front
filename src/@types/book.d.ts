@@ -7,6 +7,7 @@ export type Book = {
   categories: string[];
   description: string;
   pageCount: number;
+  artistName: string; //! à retirer plus tart=d
   images: {
     smallThumbnail: string;
     thumbnail: string;
