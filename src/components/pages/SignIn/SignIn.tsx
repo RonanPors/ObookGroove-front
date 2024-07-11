@@ -23,7 +23,7 @@ import {
   signin,
   updateFieldCredentials,
 } from '../../../store/reducers/userReducer';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 export default function SignIn() {
   const { loading, error } = useAppSelector((store) => store.user);
