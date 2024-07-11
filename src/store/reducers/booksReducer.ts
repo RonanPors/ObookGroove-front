@@ -25,8 +25,21 @@ export const spotifyAuthorization = createAppAsyncThunk(
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/spotify/connect-user`
     );
-    //? on reçoit quoi dans DATA en retour ?
-    console.log(data);
+    console.log(data.uri);
+    return data.uri;
+  }
+);
+
+/* --------------------------------------
+------------ SPOTIFY CALLBACK -----------
+----------------------------------------*/
+
+export const getSpotifyToken = createAppAsyncThunk(
+  'BOOKS/GET_SPOTIFY_TOKEN',
+  async ({ code, state }: { code: string; state: string }) => {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/spotify/callback?code=${code}&state=${state}`
+    );
     return data;
   }
 );
@@ -40,6 +53,7 @@ export const spotifyAuthorization = createAppAsyncThunk(
 /* -----------------------------------
 ---- REDUCER With --------------------
 ----------------- spotify ------------
+----------------- spotify callback ---
 ----------------- get Books ----------
 --------------------------------------*/
 
@@ -51,19 +65,31 @@ const booksReducer = createReducer(initialState, (builder) => {
     .addCase(spotifyAuthorization.pending, (state) => {
       state.loading = true;
     })
-    .addCase(spotifyAuthorization.fulfilled, (state) => {
+    .addCase(spotifyAuthorization.fulfilled, (state, action) => {
       state.loading = false;
-      // on récupère les livres et on set books ici.
-      // state.books = action.payload;
+      window.location.href = action.payload;
     })
     .addCase(spotifyAuthorization.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
+    })
+    /* --------------------------------------
+    ----------- SPOTIFY CALLBACK ------------
+    ----------------------------------------*/
+    .addCase(getSpotifyToken.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(getSpotifyToken.fulfilled, (state, action) => {
+      state.loading = false;
+      state.books = action.payload;
+    })
+    .addCase(getSpotifyToken.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
     });
   /* --------------------------------------
-    -------------- GET BOOKS ------------------
+    ---------------- GET BOOKS --------------
     ----------------------------------------*/
-
   // .addCase(getBooks.pending, (state) => {
   //   state.loading = true;
   // })

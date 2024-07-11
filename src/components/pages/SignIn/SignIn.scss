@@ -1,9 +1,21 @@
 @use '../../../styles/variables' as v;
 
-.Login__header{
-  color: #2165F8;
+.signin {
+  &.ui.inverted.segment {
+    padding: 5rem 0 6rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 0;
+    background-color: black;
+  }
+  &__form,
+  &__messages {
+    width: 24rem;
+    margin-bottom: 1rem;
+  }
 }
 
-.ui.teal.header {
-  color: none;
+.ui.form .field.signin__field {
+  margin: 0 0 2rem;
 }

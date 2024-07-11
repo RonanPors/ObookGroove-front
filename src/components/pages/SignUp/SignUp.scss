@@ -1,10 +1,26 @@
 .signup {
   &.ui.inverted.segment {
+    padding: 3rem 0 6rem 0;
     display: flex;
     justify-content: center;
-    border-radius: none;
+    border-radius: 0;
+    background-color: black;
   }
   &__form {
-    width: 30rem;
+    width: 24rem;
   }
+}
+
+.ui.form .field.signup__field {
+  margin: 0 0 2rem;
+}
+
+.ui.button.signup__field-eye {
+  margin: 0;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 0 0.28571429rem 0.28571429rem 0;
+}
+
+#password {
+  border-radius: 0.28571429rem 0 0 0.28571429rem;
 }

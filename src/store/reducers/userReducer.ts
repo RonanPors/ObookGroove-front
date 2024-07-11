@@ -1,17 +1,21 @@
-import axios from 'axios';
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
+import { Credentials, UserData } from '../../@types/user';
 import {
-  Credentials,
-  SignupResponse,
-  SigninResponse,
-  UserData,
-} from '../../@types/user';
+  ConfirmSignupArgs,
+  NewPasswordArgs,
+  confirmSignUpApi,
+  newPasswordApi,
+  resetPasswordApi,
+  signinApi,
+  signupApi,
+} from '../../lib/authApi';
 
 type UserReducerState = {
   menuIsOpen: boolean;
   loading: boolean;
   authSuccess: boolean;
+  isSuccess: boolean;
   error: string;
   userData: UserData;
 };
@@ -20,6 +24,7 @@ const initialState: UserReducerState = {
   menuIsOpen: false,
   loading: false,
   authSuccess: false,
+  isSuccess: false,
   error: '',
   userData: {
     credentials: {
@@ -28,12 +33,14 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
-    phoneNumber: '',
   },
 };
 
 // toggle du bouton burger => créer l'action :
 export const toggleMenu = createAction('USER/TOGGLE_MENU');
+
+// toggle de l'état "isSuccess" => créer l'action
+export const toggleIsSuccess = createAction('USER/TOGGLE_IS_SUCCESS');
 
 // typage des données d'inscription
 export type KeysOfCredentials = keyof Credentials;
@@ -59,19 +66,24 @@ export const signup = createAppAsyncThunk(
   'USER/SIGNUP_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
-    // on peut ici indiquer les données qui vont au back
+
+    // on indique les données qui vont au back
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
       confirmPassword: store.user.userData.confirmPassword,
       pseudo: store.user.userData.pseudo,
     };
-    const { data } = await axios.post<SignupResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signup`,
-      body
-    );
-    console.log(data);
-    return data;
+
+    // appel de l'API (voir fichier lib/authApi.ts)
+    try {
+      return await signupApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -79,24 +91,18 @@ export const signup = createAppAsyncThunk(
 --------- CONFIRM SIGN UP --------------
 ----------------------------------------*/
 
-type ConfirmSignupArgs = {
-  userId: string;
-  confirmToken: string;
-};
-
 export const confirmSignUp = createAppAsyncThunk(
   'USER/CONFIRM_SIGNUP_ASYNC',
-  async ({ userId, confirmToken }: ConfirmSignupArgs) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/confirm-signup`,
-      {
-        userId,
-        confirmToken,
+  async ({ userId, confirmToken }: ConfirmSignupArgs, thunkAPI) => {
+    // appel de l'API (voir fichier lib/authApi.ts)
+    try {
+      return await confirmSignUpApi({ userId, confirmToken });
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
       }
-    );
-
-    console.log(data);
-    return data;
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -108,16 +114,21 @@ export const signin = createAppAsyncThunk(
   'USER/SIGNIN_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
+
     const body = {
       email: store.user.userData.credentials.email,
       password: store.user.userData.credentials.password,
     };
-    const { data } = await axios.post<SigninResponse>(
-      `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
-    );
-    console.log(data);
-    return data;
+
+    // appel de l'API (voir fichier lib/authApi.ts)
+    try {
+      return await signinApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -129,15 +140,20 @@ export const resetPassword = createAppAsyncThunk(
   'USER/RESET_PASSWORD_ASYNC',
   async (_, thunkAPI) => {
     const store = thunkAPI.getState();
+
     const body = {
       email: store.user.userData.credentials.email,
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/reset-password`,
-      body
-    );
-    console.log(data);
-    return data;
+
+    // appel de l'API (voir fichier lib/authApi.ts)
+    try {
+      return await resetPasswordApi(body);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -145,40 +161,37 @@ export const resetPassword = createAppAsyncThunk(
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
 
-type NewPasswordArgs = {
-  userId: string;
-  resetToken: string;
-};
-
 export const newPassword = createAppAsyncThunk(
   'USER/NEW_PASSWORD_ASYNC',
   async ({ userId, resetToken }: NewPasswordArgs, thunkAPI) => {
-    console.log(userId, resetToken);
     const store = thunkAPI.getState();
+
     const body = {
       password: store.user.userData.credentials.password,
       confirmPassword: store.user.userData.confirmPassword,
     };
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/reset-password/${userId}/${resetToken}`,
-      body
-    );
-
-    console.log(data);
-    return data;
+    // appel de l'API (voir fichier lib/authApi.ts)
+    try {
+      return await newPasswordApi(body, { userId, resetToken });
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
-/* -----------------------------------
----- REDUCER With --------------------
------------------ toggle -------------
------------------ signup -------------
------------------ confirm signup -----
------------------ signin -------------
------------------ reset password -----
------------------ new password -------
---------------------------------------*/
+/* ----------------------------------------------
+---- REDUCER With -------------------------------
+----------------- toggles & fields --------------
+----------------- signup ------------------------
+----------------- confirm signup ----------------
+----------------- signin ------------------------
+----------------- reset password ----------------
+----------------- new password ------------------
+-------------------------------------------------*/
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -186,6 +199,12 @@ const userReducer = createReducer(initialState, (builder) => {
       // toggle du bouton burger => modifie l'état
       state.menuIsOpen = !state.menuIsOpen;
     })
+
+    .addCase(toggleIsSuccess, (state) => {
+      // toggle sur isSuccess => modifie l'état
+      state.isSuccess = !state.isSuccess;
+    })
+
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
@@ -195,6 +214,7 @@ const userReducer = createReducer(initialState, (builder) => {
       }
       state.userData[field] = action.payload.value;
     })
+
     .addCase(updateFieldCredentials, (state, action) => {
       // le payload récupère les données de l'action asynchrone
       const { field } = action.payload;
@@ -207,13 +227,19 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(signup.pending, (state) => {
       state.loading = true;
+      state.error = '';
     })
     .addCase(signup.fulfilled, (state) => {
       state.loading = false;
+      // vider les changer une fois que c'est validé
+      state.userData.pseudo = '';
+      state.userData.credentials.email = '';
+      state.userData.credentials.password = '';
+      state.userData.confirmPassword = '';
     })
     .addCase(signup.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -224,13 +250,15 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(confirmSignUp.fulfilled, (state, action) => {
+      // ? récupération du pseudo ?
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
+      // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
     })
     .addCase(confirmSignUp.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* ------------------------------
@@ -241,14 +269,18 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(signin.fulfilled, (state, action) => {
-      // payload renvoie la réponse demandée à la BDD (ici, le pseudo)
-      state.userData.pseudo = action.payload.pseudo;
+      // ? récupération du pseudo ?
+      state.userData.pseudo = action.payload?.pseudo;
       state.loading = false;
+      // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.email = '';
+      state.userData.credentials.password = '';
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -260,10 +292,12 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetPassword.fulfilled, (state) => {
       state.loading = false;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.email = '';
     })
     .addCase(resetPassword.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     })
 
     /* -------------------------------
@@ -275,10 +309,14 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(newPassword.fulfilled, (state) => {
       state.loading = false;
+      state.isSuccess = true;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.password = '';
+      state.userData.confirmPassword = '';
     })
     .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Error';
+      state.error = (action.payload as string) || 'Error';
     });
 });
 
