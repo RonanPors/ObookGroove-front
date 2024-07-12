@@ -78,16 +78,7 @@ export default function Bookers() {
     <Container className="bookers__container">
       {/* {console.log('bookers page', books)} */}
       {error && <p> Une erreur utilisateur</p>}
-      <div>
-        {loading && !error && <p>Chargement...</p>}
-        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
-        <p>{user?.books[2].title}</p>
-        {user?.books.map((book, i) => (
-          <p key={i}>
-            {book.title} {book.genre} {book.author}
-          </p>
-        ))}
-      </div>
+    
 
       {books &&
         books.length > 0 &&
@@ -100,7 +91,7 @@ export default function Bookers() {
         size="huge"
         textAlign="left"
       >
-        Bonjour O&apos;BG {pseudo} !
+        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
@@ -219,42 +210,7 @@ export default function Bookers() {
           </GridColumn>
         ))}
 
-        {/* <GridColumn mobile={16} tablet={7} computer={5}>
-          <Segment>
-            <CardBook />
-          </Segment>
-        </GridColumn>
-        <GridColumn mobile={16} tablet={7} computer={5}>
-          <Segment>
-            <CardBook />
-          </Segment>
-        </GridColumn>
-        <GridColumn mobile={16} tablet={7} computer={5}>
-          <Segment>
-            <CardBook />
-          </Segment>
-        </GridColumn>
-        <GridColumn mobile={16} tablet={7} computer={5}>
-          <Segment>
-            <CardBook />
-          </Segment>
-        </GridColumn>
-        <GridColumn mobile={16} tablet={7} computer={5}>
-          <Segment>
-            <CardBook />
-          </Segment>
-        </GridColumn> */}
       </Grid>
     </Container>
-
-    // <h1>Bienvenue O'BG {pseudo} !</h1>
-    // <h3>Votre compte a bien été créé (suite à la notif e-mail qui renvoie vers la confirm signup qu'on redirige ici)</h3>
-    // {/*si c'est un signin on affiche que h1 si c'est un signup on affiche h2*/}
-    // <p>
-    //   {' '}
-    //   Pour obtenir une suggestion de livres, il faut connecter votre compte
-    //   Spotify.
-    // </p>
-    // <Button onClick={() => dispatch(spotifyAuthorization())}>Ici !</Button>
   );
 }
