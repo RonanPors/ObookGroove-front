@@ -14,52 +14,54 @@ function Header() {
 
   return (
     <Segment inverted className="header">
-      <NavLink className="header__logo" to="/member/books">
-        <img className="header__img" src={logo} alt="logo" />
-      </NavLink>
+      <Segment inverted className="header__container">
+        <NavLink className="header__logo" to="/member/books">
+          <img className="header__img" src={logo} alt="logo" />
+        </NavLink>
 
-      <MediaQuery minWidth={768}>
-        <Menu inverted pointing secondary stackable className="header__menu">
-          <MenuItem
-            className="header__item text-chapo"
-            name="Accueil"
-            as={NavLink}
-            to="/member/books"
-          >
-            Accueil
-          </MenuItem>
-
-          <MenuItem
-            className="header__item text-chapo"
-            name="Profil"
-            as={NavLink}
-            to="/member/profile"
-          >
-            Profil
-          </MenuItem>
-
-          <MenuItem
-            className="header__item text-chapo"
-            name="Bibliothèque"
-            as={NavLink}
-            to="/member/library"
-          >
-            Bibliothèque
-          </MenuItem>
-
-          <MenuItem as={NavLink} to="/signin">
-            <Button
-              primary
-              className="header__button button__primary text-chapo"
-              onClick={handleClick}
+        <MediaQuery minWidth={768}>
+          <Menu inverted pointing secondary stackable className="header__menu">
+            <MenuItem
+              className="header__item text-chapo"
+              name="Accueil"
+              as={NavLink}
+              to="/member/books"
             >
-              Se connecter
-            </Button>
-          </MenuItem>
-        </Menu>
-      </MediaQuery>
+              Accueil
+            </MenuItem>
 
-      <Burger />
+            <MenuItem
+              className="header__item text-chapo"
+              name="Profil"
+              as={NavLink}
+              to="/member/profile"
+            >
+              Profil
+            </MenuItem>
+
+            <MenuItem
+              className="header__item text-chapo"
+              name="Bibliothèque"
+              as={NavLink}
+              to="/member/library"
+            >
+              Bibliothèque
+            </MenuItem>
+
+            <MenuItem as={NavLink} to="/signin">
+              <Button
+                primary
+                className="header__button button__primary text-chapo"
+                onClick={handleClick}
+              >
+                Se connecter
+              </Button>
+            </MenuItem>
+          </Menu>
+        </MediaQuery>
+
+        <Burger />
+      </Segment>
     </Segment>
   );
 }

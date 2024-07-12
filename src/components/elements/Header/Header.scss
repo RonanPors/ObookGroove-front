@@ -2,11 +2,16 @@
 
 .ui.segment.inverted.header {
   border-radius: 0;
+  box-shadow: 0 0 10px rgba(v.$c-light, 0.4);
+}
+
+.ui.segment.inverted.header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  box-shadow: 0 0 10px rgba(v.$c-light, 0.4);
+  max-width: 1200px;
+  margin: auto;
 }
 .ui.menu {
   justify-content: space-between;

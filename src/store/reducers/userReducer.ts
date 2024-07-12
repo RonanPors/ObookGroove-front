@@ -18,6 +18,7 @@ type UserReducerState = {
   isSuccess: boolean;
   error: string;
   userData: UserData;
+  isLogged: boolean;
 };
 
 const initialState: UserReducerState = {
@@ -34,6 +35,7 @@ const initialState: UserReducerState = {
     pseudo: '',
     confirmPassword: '',
   },
+  isLogged: false,
 };
 
 // toggle du bouton burger => créer l'action :
@@ -41,6 +43,9 @@ export const toggleMenu = createAction('USER/TOGGLE_MENU');
 
 // toggle de l'état "isSuccess" => créer l'action
 export const toggleIsSuccess = createAction('USER/TOGGLE_IS_SUCCESS');
+
+// toggle de l'état "isSuccess" => créer l'action
+export const isLogged = createAction('USER/IS_LOGGED');
 
 // typage des données d'inscription
 export type KeysOfCredentials = keyof Credentials;
@@ -205,6 +210,11 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isSuccess = !state.isSuccess;
     })
 
+    .addCase(isLogged, (state) => {
+      // toggle sur isSuccess => modifie l'état
+      state.isLogged = !state.isLogged;
+    })
+
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
@@ -253,6 +263,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // ? récupération du pseudo ?
       state.userData.pseudo = action.payload.pseudo;
       state.loading = false;
+      state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
     })
@@ -272,6 +283,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // ? récupération du pseudo ?
       state.userData.pseudo = action.payload?.pseudo;
       state.loading = false;
+      state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
       // vider les changer une fois que c'est validé
