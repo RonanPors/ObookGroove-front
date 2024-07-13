@@ -145,7 +145,7 @@ export async function generateTokensObg() {
 }
 
 /* --------------------------------------
----------------- GET TOKEN --------------
+------ GET USER BY ID FROM TOKE---------
 ----------------------------------------*/
 function getUserFromToken(token: string) {
   const { sub } = jwtDecode(token);
@@ -156,16 +156,18 @@ function getUserFromToken(token: string) {
 export async function getUser() {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/auth/tokens`
+      `${import.meta.env.VITE_API_URL}/auth/tokens`,
+      {
+        withCredentials: true,
+      }
     );
-    console.log('aupif');
 
     if (!(response.status === 200)) throw new Error('Erreur.');
-    console.log('pareil');
 
-    const { accessTokenObg, pseudo } = await response.data;
+    const { accessTokenObg } = await response.data;
+    console.log(getUserFromToken(accessTokenObg));
 
-    return { ...getUserFromToken(accessTokenObg), pseudo };
+    return { ...getUserFromToken(accessTokenObg) };
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
       throw new Error(err.response?.data.error.message);
