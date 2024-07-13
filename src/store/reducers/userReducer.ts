@@ -18,7 +18,9 @@ type UserReducerState = {
   isSuccess: boolean;
   error: string;
   userData: UserData;
+  cgu: boolean;
   isLogged: boolean;
+  emailSent: string;
 };
 
 const initialState: UserReducerState = {
@@ -35,7 +37,9 @@ const initialState: UserReducerState = {
     pseudo: '',
     confirmPassword: '',
   },
+  cgu: false,
   isLogged: false,
+  emailSent: '',
 };
 
 // toggle du bouton burger => créer l'action :
@@ -46,6 +50,8 @@ export const toggleIsSuccess = createAction('USER/TOGGLE_IS_SUCCESS');
 
 // toggle de l'état "isSuccess" => créer l'action
 export const isLogged = createAction('USER/IS_LOGGED');
+
+export const resetEmailSent = createAction('USER/RESET_EMAIL_SENT');
 
 // typage des données d'inscription
 export type KeysOfCredentials = keyof Credentials;
@@ -61,6 +67,9 @@ export const updateFieldCredentials = createAction<{
   field: KeysOfCredentials;
   value: string;
 }>('USER/UPDATE_FIELD_CREDENTIALS');
+
+// action pour réinitialiser la case CGU :
+export const toggleCgu = createAction<{ cgu: boolean }>('USER/RESET_CGU');
 
 /* --------------------------------------
 ---------------- SIGN UP -----------------
@@ -215,6 +224,10 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = !state.isLogged;
     })
 
+    .addCase(resetEmailSent, (state) => {
+      state.emailSent = '';
+    })
+
     .addCase(updateFieldUserData, (state, action) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
@@ -231,6 +244,10 @@ const userReducer = createReducer(initialState, (builder) => {
       state.userData.credentials[field] = action.payload.value;
     })
 
+    .addCase(toggleCgu, (state, action) => {
+      state.cgu = action.payload.cgu;
+    })
+
     /* ------------------------------
     ---------- SIGN UP --------------
     ---------------------------------*/
@@ -238,14 +255,18 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(signup.pending, (state) => {
       state.loading = true;
       state.error = '';
+      state.emailSent = '';
     })
     .addCase(signup.fulfilled, (state) => {
       state.loading = false;
+      // pour personnaliser le message d'envoi concernant la confirmation par email
+      state.emailSent = state.userData.credentials.email;
       // vider les changer une fois que c'est validé
       state.userData.pseudo = '';
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
       state.userData.confirmPassword = '';
+      state.cgu = false;
     })
     .addCase(signup.rejected, (state, action) => {
       state.loading = false;
@@ -259,9 +280,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(confirmSignUp.pending, (state) => {
       state.loading = true;
     })
-    .addCase(confirmSignUp.fulfilled, (state, action) => {
-      // ? récupération du pseudo ?
-      state.userData.pseudo = action.payload.pseudo;
+    .addCase(confirmSignUp.fulfilled, (state) => {
       state.loading = false;
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
