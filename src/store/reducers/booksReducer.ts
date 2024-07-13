@@ -23,7 +23,10 @@ export const spotifyAuthorization = createAppAsyncThunk(
   'BOOKS/SPOTIFY_AUTHORIZATION',
   async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/spotify/connect-user`
+      `${import.meta.env.VITE_API_URL}/spotify/connect-user`,
+      {
+        withCredentials: true,
+      }
     );
     console.log(data.uri);
     return data.uri;
@@ -38,7 +41,10 @@ export const getSpotifyToken = createAppAsyncThunk(
   'BOOKS/GET_SPOTIFY_TOKEN',
   async ({ code, state }: { code: string; state: string }) => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/spotify/callback?code=${code}&state=${state}`
+      `${import.meta.env.VITE_API_URL}/spotify/callback?code=${code}&state=${state}`,
+      {
+        withCredentials: true,
+      }
     );
     return data;
   }

@@ -37,7 +37,10 @@ export type ConfirmSignupArgs = {
 export async function confirmSignUpApi(args: ConfirmSignupArgs) {
   try {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/auth/confirm-signup/${args.userId}/${args.confirmToken}`
+      `${import.meta.env.VITE_API_URL}/auth/confirm-signup/${args.userId}/${args.confirmToken}`,
+      {
+        withCredentials: true,
+      }
     );
 
     console.log(data);
@@ -58,7 +61,10 @@ export async function signinApi(body: Credentials) {
   try {
     const { data } = await axios.post<SigninResponse>(
       `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
+      body,
+      {
+        withCredentials: true,
+      }
     );
     console.log(data);
     return data;
@@ -152,8 +158,10 @@ export async function getUser() {
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/auth/tokens`
     );
+    console.log('aupif');
 
     if (!(response.status === 200)) throw new Error('Erreur.');
+    console.log('pareil');
 
     const { accessTokenObg, pseudo } = await response.data;
 
