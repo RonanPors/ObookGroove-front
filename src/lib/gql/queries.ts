@@ -13,11 +13,7 @@ const httpLink = createHttpLink({
 });
 
 // instance de classe qui va effectuer une action avant la requête
-const authLink = new ApolloLink((operation, forward) => {
-  console.log('[customLink] operation', operation);
-
-  return forward(operation);
-});
+const authLink = new ApolloLink((operation, forward) => forward(operation));
 
 // le client qui va effectuer ces actions avant chaque requête
 export const apolloClient = new ApolloClient({

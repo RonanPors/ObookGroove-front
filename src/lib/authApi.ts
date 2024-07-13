@@ -56,6 +56,11 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
 /* --------------------------------------
 ---------------- SIGN IN -----------------
 ----------------------------------------*/
+// function getUserFromToken(token: string) {
+//   const { sub } = jwtDecode(token);
+
+//   return { id: sub };
+// }
 
 export async function signinApi(body: Credentials) {
   try {
@@ -66,7 +71,8 @@ export async function signinApi(body: Credentials) {
         withCredentials: true,
       }
     );
-    console.log(data);
+    // console.log(data);
+    // return { ...data, ...getUserFromToken(data.accessToken) };
     return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
@@ -145,33 +151,27 @@ export async function generateTokensObg() {
 }
 
 /* --------------------------------------
------- GET USER BY ID FROM TOKE---------
+------ GET USER BY ID FROM TOKEN---------
 ----------------------------------------*/
-function getUserFromToken(token: string) {
-  const { sub } = jwtDecode(token);
 
-  return { id: sub };
-}
+// export async function getUser() {
+//   try {
+//     const response = await axios.get(
+//       `${import.meta.env.VITE_API_URL}/auth/tokens`,
+//       {
+//         withCredentials: true,
+//       }
+//     );
 
-export async function getUser() {
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/auth/tokens`,
-      {
-        withCredentials: true,
-      }
-    );
+//     if (!(response.status === 200)) throw new Error('Erreur.');
 
-    if (!(response.status === 200)) throw new Error('Erreur.');
+//     const { accessTokenObg } = await response.data;
 
-    const { accessTokenObg } = await response.data;
-    console.log(getUserFromToken(accessTokenObg));
-
-    return { ...getUserFromToken(accessTokenObg) };
-  } catch (err: unknown) {
-    if (err instanceof AxiosError) {
-      throw new Error(err.response?.data.error.message);
-    }
-    throw new Error('Unknown Error');
-  }
-}
+//     return { ...getUserFromToken(accessTokenObg) };
+//   } catch (err: unknown) {
+//     if (err instanceof AxiosError) {
+//       throw new Error(err.response?.data.error.message);
+//     }
+//     throw new Error('Unknown Error');
+//   }
+// }

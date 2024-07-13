@@ -5,6 +5,7 @@ import {
   ConfirmSignupArgs,
   NewPasswordArgs,
   confirmSignUpApi,
+  getUser,
   newPasswordApi,
   resetPasswordApi,
   signinApi,
@@ -36,6 +37,7 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
+    id: null,
   },
   cgu: false,
   isLogged: false,
@@ -232,7 +234,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // le payload correspond aux données de l'action asynchrone
       const { field } = action.payload;
       // pour pouvoir avoir la mise à jour des champs credentials
-      if (field === 'credentials') {
+      if (field === 'credentials' || field === 'id') {
         return;
       }
       state.userData[field] = action.payload.value;
@@ -280,11 +282,12 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(confirmSignUp.pending, (state) => {
       state.loading = true;
     })
-    .addCase(confirmSignUp.fulfilled, (state) => {
+    .addCase(confirmSignUp.fulfilled, (state, action) => {
       state.loading = false;
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      state.userData.id = action.payload.id;
     })
     .addCase(confirmSignUp.rejected, (state, action) => {
       state.loading = false;
@@ -299,8 +302,6 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(signin.fulfilled, (state, action) => {
-      // ? récupération du pseudo ?
-      state.userData.pseudo = action.payload?.pseudo;
       state.loading = false;
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
@@ -308,6 +309,13 @@ const userReducer = createReducer(initialState, (builder) => {
       // vider les changer une fois que c'est validé
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
+      state.userData.id = action.payload.id;
+
+      // if (action.payload.id) {
+      //   console.log(action.payload.id);
+
+      //   state.userData.id = parseInt(action.payload.id, 10);
+      // }
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
