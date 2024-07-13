@@ -21,15 +21,15 @@ import './Bookers.scss';
 import {
   getSpotifyToken,
   spotifyAuthorization,
-} from '../../../store/reducers/booksReducer';
+} from '../../../store/reducers/spotifyReducer';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
 import CardBook from '../../elements/Card/Card';
 // essai graphql:
 import { useUserByIdQuery } from '../../../hooks/graphql';
 
 export default function Bookers() {
-  const { pseudo } = useAppSelector((store) => store.user.userData);
   const { books } = useAppSelector((store) => store.books);
+  const { id: userId } = useAppSelector((store) => store.user.userData);
 
   // function dispatch(arg0: unknown): void {
   //   throw new Error('Function not implemented.');
@@ -71,14 +71,12 @@ export default function Bookers() {
   // console.log(books);
 
   // essai graphql pour afficher les infos de l'utilisateur :
-  const { user, loading, error } = useUserByIdQuery(2);
-  console.log(useUserByIdQuery(2));
+  const { user, loading, error } = useUserByIdQuery(userId);
 
   return (
     <Container className="bookers__container">
       {/* {console.log('bookers page', books)} */}
       {error && <p> Une erreur utilisateur</p>}
-    
 
       {books &&
         books.length > 0 &&
@@ -209,7 +207,6 @@ export default function Bookers() {
             </Segment>
           </GridColumn>
         ))}
-
       </Grid>
     </Container>
   );
