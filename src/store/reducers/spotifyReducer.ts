@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
 import { Book } from '../../@types/book';
@@ -87,6 +86,7 @@ const spotifyReducer = createReducer(initialState, (builder) => {
     .addCase(getSpotifyToken.fulfilled, (state, action) => {
       state.loading = false;
       state.books = action.payload;
+      console.log(action.payload);
     })
     .addCase(getSpotifyToken.rejected, (state, action) => {
       state.loading = false;
