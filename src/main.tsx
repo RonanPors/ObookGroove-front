@@ -2,6 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// lié au persist :
+import { PersistGate } from 'redux-persist/integration/react';
+
 // lié à GraphQL :
 import { ApolloProvider } from '@apollo/client';
 
@@ -14,7 +17,7 @@ import router from './router';
 import { apolloClient } from './lib/gql/queries';
 
 // lié au store :
-import store from './store/store';
+import store, { persistor } from './store/store';
 
 // lié au CSS :
 import 'semantic-ui-css/semantic.min.css';
@@ -29,7 +32,9 @@ root.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <PersistGate loading={null} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
     </ApolloProvider>
   </React.StrictMode>
