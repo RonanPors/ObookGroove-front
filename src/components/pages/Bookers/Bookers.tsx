@@ -64,6 +64,7 @@ export default function Bookers() {
   useEffect(() => {
     if (count.current === 0 && code && state) {
       dispatch(getSpotifyToken({ code, state }));
+      
       navigate('/member/books');
     }
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
@@ -202,7 +203,7 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
-        {user?.books.map((book: Book, i: Key ) => (
+        {books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />
