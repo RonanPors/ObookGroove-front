@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ConfirmSignup.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -22,12 +22,18 @@ export default function ConfirmSignup() {
 
   // action pour la fonction asynchrone confirmSignUp
   const { userId, confirmToken } = useParams();
-  dispatch(
-    confirmSignUp({
-      userId: userId ?? '',
-      confirmToken: confirmToken ?? '',
-    })
-  );
+  const count = useRef(0);
+  useEffect(() => {
+    if (count.current === 0) {
+      count.current += 1;
+      dispatch(
+        confirmSignUp({
+          userId: userId ?? '',
+          confirmToken: confirmToken ?? '',
+        })
+      );
+    }
+  }, [userId, confirmToken, dispatch]);
 
   return <h1 color="white">Confirmation en cours</h1>;
 }

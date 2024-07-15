@@ -86,9 +86,7 @@ export default function ResetPassword() {
           </Input>
         </FormField>
 
-        {hasError && (
-          <Message negative>Vous devez compléter les 2 champs</Message>
-        )}
+        {hasError && <Message negative>Vous devez compléter le champ</Message>}
 
         <Button
           color="teal"
