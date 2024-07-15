@@ -34,7 +34,7 @@ const userDetailsFragment = gql`
   fragment UserDetails on User {
     id
     pseudo
-    books {
+    currentbooks {
       title
       genre
       cover
@@ -52,3 +52,22 @@ export const userByIdQuery = gql`
   # la requête attend des arguments :
   ${userDetailsFragment}
 `;
+
+const userCurrentBooksQuery = gql`
+fragment 
+query User($userId: Int!, $limit: Int) {
+  user(id: $userId) {
+    
+    currentBooks(limit: $limit) {
+      author
+      cover
+      genre
+      title
+      isbn
+      numberOfPages
+      resume
+      year
+      id
+    }
+  }
+}
