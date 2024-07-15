@@ -5,7 +5,7 @@ import {
   ConfirmSignupArgs,
   NewPasswordArgs,
   confirmSignUpApi,
-  getUser,
+  // getUser,
   newPasswordApi,
   resetPasswordApi,
   signinApi,
@@ -37,6 +37,8 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
+    // accessToken: '',
+    // refreshToken: '',
     id: null,
   },
   cgu: false,
@@ -309,7 +311,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // vider les changer une fois que c'est validé
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
-      state.userData.id = action.payload.id;
+      // state.userData.id = action.payload.id;
 
       // if (action.payload.id) {
       //   console.log(action.payload.id);
