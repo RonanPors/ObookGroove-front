@@ -63,7 +63,8 @@ export default function SignIn() {
 
   // vérifie si un champ est vide :
   const emptyFieldInspector = email === '' || password === '';
-  // création d'un état :
+
+  // création d'un état (sans redux):
   const [hasError, setHasError] = useState(false);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -162,7 +163,7 @@ export default function SignIn() {
         </Message>
 
         <Message>
-          Pas encore de compte ? <Link to="/signup">Créer un compte </Link>
+          Pas encore de compte&nbsp;? <Link to="/signup">Créer un compte </Link>
         </Message>
       </Segment>
     </Segment>

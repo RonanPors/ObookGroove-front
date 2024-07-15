@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Header,
@@ -52,6 +52,7 @@ export default function NewPassword() {
 
   // vérifie si un champ est vide :
   const emptyFieldInspector = password === '' || confirmPassword === '';
+
   // création de 2 états :
   const [hasError, setHasError] = useState(false);
   const [notSamePassword, setNotSamePassword] = useState(false);

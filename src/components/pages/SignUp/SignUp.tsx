@@ -18,19 +18,21 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   signup,
+  toggleCgu,
   updateFieldCredentials,
   updateFieldUserData,
 } from '../../../store/reducers/userReducer';
 
 import './SignUp.scss';
 import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
+import ConfirmEmailSentModal from '../../elements/Modals/ConfirmEmailSentModal/ConfirmEmailSentModal';
 
 export default function SignUp() {
   // utilisation de captcha
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   // récupère les états stockés dans le store (redux) :
-  const { loading, error } = useAppSelector((store) => store.user);
+  const { loading, error, cgu } = useAppSelector((store) => store.user);
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
@@ -42,9 +44,13 @@ export default function SignUp() {
   const dispatch = useAppDispatch();
 
   // vérifier si la case des CGU est cochée (en direct, sans redux) :
-  const [cgu, setCGU] = useState(false);
+
   const onChangeCGU = (event: React.FormEvent<HTMLDivElement>) => {
-    setCGU(!event.currentTarget.classList.contains('checked'));
+    dispatch(
+      toggleCgu({
+        cgu: !event.currentTarget.classList.contains('checked'),
+      })
+    );
   };
 
   // met le focus sur le premier champ du form :
@@ -110,7 +116,7 @@ export default function SignUp() {
           textAlign="center"
         >
           <MediaQuery minWidth={768}>
-            <Image src={logo} />
+            <Image src={logo} className="signup__logo" />
           </MediaQuery>
           Créer son compte
         </Header>
@@ -164,7 +170,7 @@ export default function SignUp() {
             <Icon name="lock" />
             <input
               ref={passwordInputRef}
-              placeholder="· · · · · · · ·"
+              placeholder="Choisissez un mot de passe"
               id="password"
               type="password"
               value={password}
@@ -193,7 +199,7 @@ export default function SignUp() {
           <Input iconPosition="left">
             <Icon name="lock" />
             <input
-              placeholder="· · · · · · · ·"
+              placeholder="Confirmer votre mot de passe"
               id="confirm-password"
               type="password"
               value={confirmPassword}
@@ -241,10 +247,18 @@ export default function SignUp() {
           ref={recaptchaRef}
           size="invisible"
         />
-        <Button primary fluid type="submit" disabled={emptyFieldInspector}>
+        <Button
+          primary
+          fluid
+          type="submit"
+          disabled={emptyFieldInspector}
+          className="signup__button"
+        >
           Je crée mon compte
         </Button>
       </Form>
+
+      <ConfirmEmailSentModal />
     </Segment>
   );
 }

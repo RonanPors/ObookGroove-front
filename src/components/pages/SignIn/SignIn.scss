@@ -2,20 +2,31 @@
 
 .signin {
   &.ui.inverted.segment {
-    padding: 5rem 0 6rem 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 0;
+    margin: 2rem;
+    padding-inline: 3rem;
     background-color: black;
-  }
-  &__form,
-  &__messages {
-    width: 24rem;
-    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    max-width: 30rem;
   }
 }
 
+.ui.center.aligned.header.signin__header {
+  display: flex;
+  padding: 1rem;
+}
+
 .ui.form .field.signin__field {
-  margin: 0 0 2rem;
+  margin: 0 0 3rem 0;
+
+  & #password {
+    border-radius: 0.28571429rem;
+  }
+}
+
+.ui.segment.signin__messages {
+  border: 0;
+  background-color: v.$c-darkest;
+  & .message {
+    background-color: v.$c-lightest;
+  }
 }
