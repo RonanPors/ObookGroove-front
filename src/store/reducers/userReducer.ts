@@ -34,6 +34,8 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
+    // accessToken: '',
+    // refreshToken: '',
   },
   isLogged: false,
 };

@@ -3,6 +3,8 @@ export type UserData = {
   credentials: Credentials;
   pseudo: string;
   confirmPassword: string;
+  // accessToken: string;
+  // refreshToken: string;
 };
 
 export type Credentials = {

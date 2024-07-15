@@ -32,7 +32,7 @@ import { Book } from '../../../@types/book';
 export default function Bookers() {
   const { pseudo } = useAppSelector((store) => store.user.userData);
   const { books } = useAppSelector((store) => store.books);
-
+  console.log(document.cookie);
   // function dispatch(arg0: unknown): void {
   //   throw new Error('Function not implemented.');
   // }
@@ -74,7 +74,7 @@ export default function Bookers() {
 
   // essai graphql pour afficher les infos de l'utilisateur :
   const { user, loading, error } = useUserByIdQuery(2);
-  console.log(useUserByIdQuery(2));
+  // console.log(useUserByIdQuery(2));
 
   return (
     <Container className="bookers__container">
