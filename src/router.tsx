@@ -17,6 +17,7 @@ import ResetPassword from './components/pages/ResetPassword/ResetPassword';
 import ConfirmSignup from './components/pages/ConfirmSignup/ConfirmSignup';
 import SignIn from './components/pages/SignIn/SignIn';
 import SignUp from './components/pages/SignUp/SignUp';
+import ProtectedRoute from './components/elements/ProtectedRoute/ProtectedRoute';
 
 // fichier racine indiquant les parties "fixes" d'une page (header et footer)
 import Root from './components/pages/Root/Root';
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'member',
+        element: <ProtectedRoute />,
         children: [
           {
             index: true,

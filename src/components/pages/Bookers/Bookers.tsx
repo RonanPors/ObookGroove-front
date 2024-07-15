@@ -40,9 +40,6 @@ export default function Bookers() {
   // const { user, loading, error } = useUserByIdQuery(userId);
   const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
 
-  // verifier dans le store si isLogged = true
-  const { isLogged } = useAppSelector((store) => store.user);
-
   // const [response, setResponse] = useState();
   //   useEffect(() => {
   //     fetch('http://localhost:4000/auth/tokens')
@@ -68,8 +65,6 @@ export default function Bookers() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogged) return navigate('/signin');
-
     if (count.current === 0 && code && state) {
       count.current += 1;
       dispatch(getSpotifyToken({ code, state }));
