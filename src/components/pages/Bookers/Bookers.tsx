@@ -12,7 +12,7 @@ import {
   GridRow,
   GridColumn,
 } from 'semantic-ui-react';
-import { useEffect, useRef } from 'react';
+import { Key, useEffect, useRef } from 'react';
 import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -24,8 +24,10 @@ import {
 } from '../../../store/reducers/booksReducer';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
 import CardBook from '../../elements/Card/Card';
+
 // essai graphql:
 import { useUserByIdQuery } from '../../../hooks/graphql';
+import { Book } from '../../../@types/book';
 
 export default function Bookers() {
   const { pseudo } = useAppSelector((store) => store.user.userData);
@@ -202,7 +204,7 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
-        {user?.books.map((book, i) => (
+        {user?.books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />
