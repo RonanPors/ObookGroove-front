@@ -32,6 +32,7 @@ import SignIn from '../SignIn/SignIn';
 
 export default function Bookers() {
   const { books } = useAppSelector((store) => store.books);
+  console.log(document.cookie);
   const { id: userId } = useAppSelector((store) => store.user.userData);
   
   // essai graphql pour afficher les infos de l'utilisateur :
@@ -74,11 +75,14 @@ export default function Bookers() {
       return navigate('/signin');
 
     if (count.current === 0 && code && state) {
+      console.log('toto2')
+      count.current += 1;
       dispatch(getSpotifyToken({ code, state }));
       navigate('/member/books');
     }
+
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
-    count.current += 1;
+    // count.current += 1;
   }, [code, state, dispatch, navigate]);
 
 
@@ -102,35 +106,13 @@ export default function Bookers() {
         textAlign="left"
       >
         {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
+        {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
 
-      <Message
-        icon
-        id="bookers__message__success"
-        compact
-        color="green"
-        size="small"
-      >
-        <Icon name="check circle" size="small" />
-        <MessageContent>
-          Félicitations, votre compte O'Book Groove a bien été créé !
-        </MessageContent>
-      </Message>
 
-      <Message
-        icon
-        id="bookers__message__failed"
-        compact
-        color="red"
-        size="small"
-      >
-        <Icon name="warning circle" size="small" />
-        <MessageContent>
-          Un problème est survenu lors de la création de votre compte !
-        </MessageContent>
-      </Message>
+     
 
       <Segment id="bookers__content" inverted>
         <Header inverted size="large" as="h2">
@@ -212,6 +194,7 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
+        {books.map((book: Book, i: Key ) => (
         {books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
