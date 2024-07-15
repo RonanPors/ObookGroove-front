@@ -126,6 +126,45 @@ export default function Profile() {
               </Input>
             </FormField>
 
+            <Button primary fluid type="submit" className="signup__button">
+              Je modifie mon profil
+            </Button>
+          </Form>
+        </AccordionContent>
+
+        <AccordionTitle
+          active={activeIndex === 1}
+          index={1}
+          onClick={handleClick}
+          as="h1"
+          className="profile__title"
+          id="h3"
+        >
+          <Icon name="dropdown" />
+          Modifier mon mot de passe
+        </AccordionTitle>
+        <AccordionContent active={activeIndex === 1}>
+          <Form inverted size="large" className="signup__form">
+            <FormField className="signup__field">
+              <label htmlFor="actual-password">Votre mot de passe actuel</label>
+              <Input iconPosition="left">
+                <Icon name="lock" />
+                <input
+                  placeholder="Votre mot de passe actuel"
+                  id="actual-password"
+                  type="password"
+                  value={confirmPassword} // à changer en actualPassword
+                  onChange={(e) =>
+                    dispatch(
+                      updateFieldUserData({
+                        value: e.target.value,
+                        field: 'confirmPassword', // à changer en actualPassword
+                      })
+                    )
+                  }
+                />
+              </Input>
+            </FormField>
             <FormField className="signup__field">
               <label htmlFor="password">Entrer un nouveau mot de passe</label>
               <Input iconPosition="left">
@@ -164,7 +203,7 @@ export default function Profile() {
               <Input iconPosition="left">
                 <Icon name="lock" />
                 <input
-                  placeholder="Confirmer votre mot de passe"
+                  placeholder="Confirmer votre nouveau mot de passe"
                   id="confirm-password"
                   type="password"
                   value={confirmPassword}
@@ -181,22 +220,23 @@ export default function Profile() {
             </FormField>
 
             <Button primary fluid type="submit" className="signup__button">
-              Je modifie mon profil
+              Je modifie mon mot de passe
             </Button>
           </Form>
         </AccordionContent>
 
         <AccordionTitle
-          active={activeIndex === 1}
-          index={1}
+          active={activeIndex === 2}
+          index={2}
           onClick={handleClick}
           as="h2"
-          className="h3 profile__title"
+          className="profile__title"
+          id="h3"
         >
           <Icon name="dropdown" />
           Mes données musicales
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 1}>
+        <AccordionContent active={activeIndex === 2}>
           <p>
             There are many breeds of dogs. Each breed varies in size and
             temperament. Owners often select a breed of dog that they find to be
@@ -205,16 +245,17 @@ export default function Profile() {
         </AccordionContent>
 
         <AccordionTitle
-          active={activeIndex === 2}
-          index={2}
+          active={activeIndex === 3}
+          index={3}
           onClick={handleClick}
           as="h2"
-          className="h3 profile__title"
+          className="profile__title"
+          id="h3"
         >
           <Icon name="dropdown" />
           Supprimer mon compte
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 2}>
+        <AccordionContent active={activeIndex === 3}>
           <p>
             Three common ways for a prospective owner to acquire a dog is from
             pet shops, private owners, or shelters.
