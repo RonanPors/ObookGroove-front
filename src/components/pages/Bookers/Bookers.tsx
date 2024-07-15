@@ -82,7 +82,7 @@ export default function Bookers() {
 
       {books &&
         books.length > 0 &&
-        books.map((book, i) => <p key={i}>{book.artistName}</p>)}
+        books.map((book, i) => <p key={i}>{book.author}</p>)}
 
       <Header
         className="bookers__header"
