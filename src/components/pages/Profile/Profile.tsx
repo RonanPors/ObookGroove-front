@@ -10,6 +10,7 @@ import {
   Icon,
   Input,
   Label,
+  Radio,
   Segment,
 } from 'semantic-ui-react';
 import './Profile.scss';
@@ -75,15 +76,18 @@ export default function Profile() {
           index={0}
           onClick={handleClick}
           as="h1"
-          className="profile__title"
-          id="h3"
+          className="profile__title profile__info--title"
+          id="h4"
         >
           <Icon name="dropdown" />
           Mon profil
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 0}>
-          <Form inverted size="large" className="signup__form">
-            <FormField className="signup__field">
+        <AccordionContent
+          active={activeIndex === 0}
+          className="profile__content profile__info--content"
+        >
+          <Form inverted size="large" className="profile__info--form">
+            <FormField className="profile__field profile__field--pseudo">
               <label htmlFor="pseudo">Pseudo</label>
               <Input iconPosition="left">
                 <Icon name="user" />
@@ -105,7 +109,7 @@ export default function Profile() {
               </Input>
             </FormField>
 
-            <FormField className="signup__field">
+            <FormField className="profile__field profile__field--email">
               <label htmlFor="email">Email</label>
               <Input iconPosition="left">
                 <Icon name="at" />
@@ -126,8 +130,22 @@ export default function Profile() {
               </Input>
             </FormField>
 
-            <Button primary fluid type="submit" className="signup__button">
+            <Button
+              primary
+              fluid
+              type="submit"
+              className="profile__button profile__button--update"
+            >
               Je modifie mon profil
+            </Button>
+
+            <Button
+              primary
+              fluid
+              type="submit"
+              className="profile__button profile__button-save"
+            >
+              Je sauvegarde mes informations
             </Button>
           </Form>
         </AccordionContent>
@@ -137,15 +155,18 @@ export default function Profile() {
           index={1}
           onClick={handleClick}
           as="h1"
-          className="profile__title"
-          id="h3"
+          className="profile__title profile__password--title"
+          id="h4"
         >
           <Icon name="dropdown" />
           Modifier mon mot de passe
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 1}>
-          <Form inverted size="large" className="signup__form">
-            <FormField className="signup__field">
+        <AccordionContent
+          active={activeIndex === 1}
+          className="profile__content profile__password--content"
+        >
+          <Form inverted size="large" className="profile__password--form">
+            <FormField className="profile__field profile__field--actual-password">
               <label htmlFor="actual-password">Votre mot de passe actuel</label>
               <Input iconPosition="left">
                 <Icon name="lock" />
@@ -165,7 +186,8 @@ export default function Profile() {
                 />
               </Input>
             </FormField>
-            <FormField className="signup__field">
+
+            <FormField className="profile__field profile__field--new-password">
               <label htmlFor="password">Entrer un nouveau mot de passe</label>
               <Input iconPosition="left">
                 <Icon name="lock" />
@@ -196,7 +218,7 @@ export default function Profile() {
               </Label>
             </FormField>
 
-            <FormField className="signup__field">
+            <FormField className="profile__field profile__field--confirm-password">
               <label htmlFor="confirm-password">
                 Confirmer votre nouveau mot de passe
               </label>
@@ -219,7 +241,12 @@ export default function Profile() {
               </Input>
             </FormField>
 
-            <Button primary fluid type="submit" className="signup__button">
+            <Button
+              primary
+              fluid
+              type="submit"
+              className="profile__button profile__button--post"
+            >
               Je modifie mon mot de passe
             </Button>
           </Form>
@@ -230,18 +257,17 @@ export default function Profile() {
           index={2}
           onClick={handleClick}
           as="h2"
-          className="profile__title"
-          id="h3"
+          className="profile__title profile__musical--title"
+          id="h4"
         >
           <Icon name="dropdown" />
           Mes données musicales
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 2}>
-          <p>
-            There are many breeds of dogs. Each breed varies in size and
-            temperament. Owners often select a breed of dog that they find to be
-            compatible with their own lifestyle and desires from a companion.
-          </p>
+        <AccordionContent
+          active={activeIndex === 2}
+          className="profile__content profile__musical--content"
+        >
+          <p className="text-chapo">Compte Spotify</p> <Radio toggle />
         </AccordionContent>
 
         <AccordionTitle
@@ -249,24 +275,35 @@ export default function Profile() {
           index={3}
           onClick={handleClick}
           as="h2"
-          className="profile__title"
-          id="h3"
+          className="profile__title profile__delete-account--title"
+          id="h4"
         >
           <Icon name="dropdown" />
           Supprimer mon compte
         </AccordionTitle>
-        <AccordionContent active={activeIndex === 3}>
-          <p>
-            Three common ways for a prospective owner to acquire a dog is from
-            pet shops, private owners, or shelters.
+        <AccordionContent
+          active={activeIndex === 3}
+          className="profile__contente profile__delete-account-content"
+        >
+          <p className="text-chapo">
+            La suppression de votre compte est définitive.
           </p>
           <p>
-            A pet shop may be the most convenient way to buy a dog. Buying a dog
-            from a private owner allows you to assess the pedigree and
-            upbringing of your dog before choosing to take it home. Lastly,
-            finding your dog from a shelter, helps give a good home to a dog who
-            may not find one so readily.
+            {' '}
+            Si vous supprimez votre compte O&apos;Book Groove, vos informations
+            personnelles et l&apos;association à votre application musicale
+            seront supprimées de notre base de données. Il vous faudra créer un
+            nouveau compte si vous souhaitez utiliser O&apos;Book Groove de
+            nouveau.
           </p>
+          <Button
+            negative
+            fluid
+            type="button"
+            className="profile__delete-account--button"
+          >
+            Je supprime définitivement mon compte
+          </Button>
         </AccordionContent>
       </Accordion>
     </Segment>
