@@ -26,24 +26,23 @@ import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.
 import CardBook from '../../elements/Card/Card';
 
 // essai graphql:
-import { useUserByIdQuery } from '../../../hooks/graphql';
+// import { useUserByIdQuery } from '../../../hooks/graphql';
+
 import { Book } from '../../../@types/book';
-import SignIn from '../SignIn/SignIn';
+
 
 export default function Bookers() {
   const { books } = useAppSelector((store) => store.books);
-  console.log(document.cookie);
+ 
   const { id: userId } = useAppSelector((store) => store.user.userData);
   
   // essai graphql pour afficher les infos de l'utilisateur :
-  const { user, loading, error } = useUserByIdQuery(userId);
+  // const { user, loading, error } = useUserByIdQuery(userId);
   
   // verifier dans le store si isLogged = true
   const { isLogged } = useAppSelector((store)=> store.user);
   
-  // function dispatch(arg0: unknown): void {
-  //   throw new Error('Function not implemented.');
-  // }
+
 
   // const [response, setResponse] = useState();
   //   useEffect(() => {
@@ -75,14 +74,13 @@ export default function Bookers() {
       return navigate('/signin');
 
     if (count.current === 0 && code && state) {
-      console.log('toto2')
       count.current += 1;
       dispatch(getSpotifyToken({ code, state }));
       navigate('/member/books');
     }
 
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
-    // count.current += 1;
+    count.current += 1;
   }, [code, state, dispatch, navigate]);
 
 
@@ -106,13 +104,10 @@ export default function Bookers() {
         textAlign="left"
       >
         {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
-        {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
 
-
-     
 
       <Segment id="bookers__content" inverted>
         <Header inverted size="large" as="h2">
@@ -194,7 +189,6 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
-        {books.map((book: Book, i: Key ) => (
         {books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
