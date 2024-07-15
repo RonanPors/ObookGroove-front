@@ -28,11 +28,18 @@ import CardBook from '../../elements/Card/Card';
 // essai graphql:
 import { useUserByIdQuery } from '../../../hooks/graphql';
 import { Book } from '../../../@types/book';
+import SignIn from '../SignIn/SignIn';
 
 export default function Bookers() {
   const { books } = useAppSelector((store) => store.books);
   const { id: userId } = useAppSelector((store) => store.user.userData);
-
+  
+  // essai graphql pour afficher les infos de l'utilisateur :
+  const { user, loading, error } = useUserByIdQuery(userId);
+  
+  // verifier dans le store si isLogged = true
+  const { isLogged } = useAppSelector((store)=> store.user);
+  
   // function dispatch(arg0: unknown): void {
   //   throw new Error('Function not implemented.');
   // }
@@ -61,7 +68,11 @@ export default function Bookers() {
   const count = useRef(0);
   const navigate = useNavigate();
 
+
   useEffect(() => {
+    if (!isLogged)
+      return navigate('/signin');
+
     if (count.current === 0 && code && state) {
       dispatch(getSpotifyToken({ code, state }));
       navigate('/member/books');
@@ -70,15 +81,14 @@ export default function Bookers() {
     count.current += 1;
   }, [code, state, dispatch, navigate]);
 
-  // console.log(books);
 
-  // essai graphql pour afficher les infos de l'utilisateur :
-  const { user, loading, error } = useUserByIdQuery(userId);
+
 
   return (
     <Container className="bookers__container">
       {/* {console.log('bookers page', books)} */}
-      {error && <p> Une erreur utilisateur</p>}
+      {/* {!isLogged && <SignIn />} */}
+      {/* {error && <p> Une erreur utilisateur</p>} */}
 
       {books &&
         books.length > 0 &&
@@ -91,7 +101,7 @@ export default function Bookers() {
         size="huge"
         textAlign="left"
       >
-        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
+        {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
@@ -202,7 +212,7 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
-        {user?.books.map((book: Book, i: Key ) => (
+        {books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />

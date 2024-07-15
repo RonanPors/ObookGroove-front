@@ -56,11 +56,6 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
 /* --------------------------------------
 ---------------- SIGN IN -----------------
 ----------------------------------------*/
-// function getUserFromToken(token: string) {
-//   const { sub } = jwtDecode(token);
-
-//   return { id: sub };
-// }
 
 export async function signinApi(body: Credentials) {
   try {
@@ -153,25 +148,31 @@ export async function generateTokensObg() {
 /* --------------------------------------
 ------ GET USER BY ID FROM TOKEN---------
 ----------------------------------------*/
+function getUserFromToken(token: string) {
+  const { sub } = jwtDecode(token);
 
-// export async function getUser() {
-//   try {
-//     const response = await axios.get(
-//       `${import.meta.env.VITE_API_URL}/auth/tokens`,
-//       {
-//         withCredentials: true,
-//       }
-//     );
+  return { id: sub };
+}
 
-//     if (!(response.status === 200)) throw new Error('Erreur.');
 
-//     const { accessTokenObg } = await response.data;
+export async function getUser() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/auth/tokens`,
+      {
+        withCredentials: true,
+      }
+    );
 
-//     return { ...getUserFromToken(accessTokenObg) };
-//   } catch (err: unknown) {
-//     if (err instanceof AxiosError) {
-//       throw new Error(err.response?.data.error.message);
-//     }
-//     throw new Error('Unknown Error');
-//   }
-// }
+    if (!(response.status === 200)) throw new Error('Erreur.');
+
+    const { accessTokenObg } = await response.data;
+
+    return { ...getUserFromToken(accessTokenObg) };
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}

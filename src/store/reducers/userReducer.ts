@@ -309,7 +309,7 @@ const userReducer = createReducer(initialState, (builder) => {
       // vider les changer une fois que c'est validé
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
-      state.userData.id = action.payload.id;
+      // state.userData.id = action.payload.id;
 
       // if (action.payload.id) {
       //   console.log(action.payload.id);
