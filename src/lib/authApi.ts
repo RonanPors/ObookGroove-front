@@ -37,7 +37,10 @@ export type ConfirmSignupArgs = {
 export async function confirmSignUpApi(args: ConfirmSignupArgs) {
   try {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/auth/confirm-signup/${args.userId}/${args.confirmToken}`
+      `${import.meta.env.VITE_API_URL}/auth/confirm-signup/${args.userId}/${args.confirmToken}`,
+      {
+        withCredentials: true,
+      }
     );
 
     console.log(data);
@@ -53,14 +56,23 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
 /* --------------------------------------
 ---------------- SIGN IN -----------------
 ----------------------------------------*/
+// function getUserFromToken(token: string) {
+//   const { sub } = jwtDecode(token);
+
+//   return { id: sub };
+// }
 
 export async function signinApi(body: Credentials) {
   try {
     const { data } = await axios.post<SigninResponse>(
       `${import.meta.env.VITE_API_URL}/auth/signin`,
-      body
+      body,
+      {
+        withCredentials: true,
+      }
     );
-    console.log(data);
+    // console.log(data);
+    // return { ...data, ...getUserFromToken(data.accessToken) };
     return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
@@ -139,29 +151,27 @@ export async function generateTokensObg() {
 }
 
 /* --------------------------------------
----------------- GET TOKEN --------------
+------ GET USER BY ID FROM TOKEN---------
 ----------------------------------------*/
-function getUserFromToken(token: string) {
-  const { sub } = jwtDecode(token);
 
-  return { id: sub };
-}
+// export async function getUser() {
+//   try {
+//     const response = await axios.get(
+//       `${import.meta.env.VITE_API_URL}/auth/tokens`,
+//       {
+//         withCredentials: true,
+//       }
+//     );
 
-export async function getUser() {
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/auth/tokens`
-    );
+//     if (!(response.status === 200)) throw new Error('Erreur.');
 
-    if (!(response.status === 200)) throw new Error('Erreur.');
+//     const { accessTokenObg } = await response.data;
 
-    const { accessTokenObg, pseudo } = await response.data;
-
-    return { ...getUserFromToken(accessTokenObg), pseudo };
-  } catch (err: unknown) {
-    if (err instanceof AxiosError) {
-      throw new Error(err.response?.data.error.message);
-    }
-    throw new Error('Unknown Error');
-  }
-}
+//     return { ...getUserFromToken(accessTokenObg) };
+//   } catch (err: unknown) {
+//     if (err instanceof AxiosError) {
+//       throw new Error(err.response?.data.error.message);
+//     }
+//     throw new Error('Unknown Error');
+//   }
+// }

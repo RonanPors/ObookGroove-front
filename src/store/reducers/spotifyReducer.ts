@@ -1,15 +1,18 @@
-import axios from 'axios';
 import { createReducer } from '@reduxjs/toolkit';
 import { createAppAsyncThunk } from '../../hooks/redux';
 import { Book } from '../../@types/book';
+import {
+  getSpotifyTokenApi,
+  spotifyAuthorizationApi,
+} from '../../lib/spotifyApi';
 
-type BooksReducerState = {
+type SpotifyReducerState = {
   loading: boolean;
   error: string;
   books: Book[];
 };
 
-const initialState: BooksReducerState = {
+const initialState: SpotifyReducerState = {
   loading: false,
   error: '',
   books: [],
@@ -20,13 +23,17 @@ const initialState: BooksReducerState = {
 ----------------------------------------*/
 
 export const spotifyAuthorization = createAppAsyncThunk(
-  'BOOKS/SPOTIFY_AUTHORIZATION',
-  async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/spotify/connect-user`
-    );
-    console.log(data.uri);
-    return data.uri;
+  'SPOTIFY/SPOTIFY_AUTHORIZATION',
+  async (_, thunkAPI) => {
+    // appel de l'API (voir fichier lib/bookApi.ts)
+    try {
+      return await spotifyAuthorizationApi();
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
 
@@ -35,29 +42,26 @@ export const spotifyAuthorization = createAppAsyncThunk(
 ----------------------------------------*/
 
 export const getSpotifyToken = createAppAsyncThunk(
-  'BOOKS/GET_SPOTIFY_TOKEN',
-  async ({ code, state }: { code: string; state: string }) => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/spotify/callback?code=${code}&state=${state}`
-    );
-    return data;
+  'SPOTIFY/GET_SPOTIFY_TOKEN',
+  async ({ code, state }: { code: string; state: string }, thunkAPI) => {
+    try {
+      return await getSpotifyTokenApi(code, state);
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
   }
 );
-
-/* --------------------------------------
----- GET CURRENT BOOKS with GRAPHQL -----
-----------------------------------------*/
-
-// TODO faire avec graphQL
 
 /* -----------------------------------
 ---- REDUCER With --------------------
 ----------------- spotify ------------
 ----------------- spotify callback ---
------------------ get Books ----------
 --------------------------------------*/
 
-const booksReducer = createReducer(initialState, (builder) => {
+const spotifyReducer = createReducer(initialState, (builder) => {
   builder
     /* --------------------------------------
     -------------- SPOTIFY ------------------
@@ -82,24 +86,11 @@ const booksReducer = createReducer(initialState, (builder) => {
     .addCase(getSpotifyToken.fulfilled, (state, action) => {
       state.loading = false;
       state.books = action.payload;
+      console.log(action.payload);
     })
     .addCase(getSpotifyToken.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     });
-  /* --------------------------------------
-    ---------------- GET BOOKS --------------
-    ----------------------------------------*/
-  // .addCase(getBooks.pending, (state) => {
-  //   state.loading = true;
-  // })
-  // .addCase(getBooks.fulfilled, (state, action) => {
-  //   state.loading = false;
-  //   state.books = action.payload;
-  // })
-  // .addCase(getBooks.rejected, (state, action) => {
-  //   state.loading = false;
-  //   state.error = action.error.message || 'Error';
-  // });
 });
-export default booksReducer;
+export default spotifyReducer;
