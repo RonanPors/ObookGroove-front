@@ -29,17 +29,11 @@ export const apolloClient = new ApolloClient({
   },
 });
 
-// fragment pour une partie de la requête
+// fragment pour une partie de la requête INFO USER
 const userDetailsFragment = gql`
   fragment UserDetails on User {
     id
     pseudo
-    currentbooks {
-      title
-      genre
-      cover
-      author
-    }
   }
 `;
 // la requête
@@ -53,11 +47,9 @@ export const userByIdQuery = gql`
   ${userDetailsFragment}
 `;
 
-const userCurrentBooksQuery = gql`
-fragment 
-query User($userId: Int!, $limit: Int) {
-  user(id: $userId) {
-    
+// fragment pour une partie de la requête CURRENT BOOK
+const userCurrentBooksFragment = gql`
+  fragment UserCurrentBooks on User {
     currentBooks(limit: $limit) {
       author
       cover
@@ -70,4 +62,15 @@ query User($userId: Int!, $limit: Int) {
       id
     }
   }
-}
+`;
+
+// la requête
+export const userCurrentBooksQuery = gql`
+  query User($id: Int!, $limit: Int) {
+    user(id: $id) {
+      ...UserCurrentBooks(limit: $limit)
+    }
+  }
+  # la requête attend des arguments :
+  ${userCurrentBooksFragment}
+`;
