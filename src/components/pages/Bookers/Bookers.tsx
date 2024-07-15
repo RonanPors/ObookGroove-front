@@ -98,31 +98,8 @@ export default function Bookers() {
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
 
-      <Message
-        icon
-        id="bookers__message__success"
-        compact
-        color="green"
-        size="small"
-      >
-        <Icon name="check circle" size="small" />
-        <MessageContent>
-          Félicitations, votre compte O'Book Groove a bien été créé !
-        </MessageContent>
-      </Message>
 
-      <Message
-        icon
-        id="bookers__message__failed"
-        compact
-        color="red"
-        size="small"
-      >
-        <Icon name="warning circle" size="small" />
-        <MessageContent>
-          Un problème est survenu lors de la création de votre compte !
-        </MessageContent>
-      </Message>
+     
 
       <Segment id="bookers__content" inverted>
         <Header inverted size="large" as="h2">
