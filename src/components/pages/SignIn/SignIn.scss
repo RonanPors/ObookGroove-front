@@ -3,10 +3,11 @@
 .signin {
   &.ui.inverted.segment {
     margin: 2rem;
-    padding-inline: 3rem;
+    padding: 3rem;
     background-color: black;
     border-radius: 0.5rem;
     max-width: 30rem;
+   
   }
 }
 
@@ -29,4 +30,5 @@
   & .message {
     background-color: v.$c-lightest;
   }
+  align-items: center;
 }
