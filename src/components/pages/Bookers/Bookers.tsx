@@ -27,22 +27,21 @@ import CardBook from '../../elements/Card/Card';
 
 // essai graphql:
 // import { useUserByIdQuery } from '../../../hooks/graphql';
+import { useUserCurrentBooksQuery } from '../../../hooks/graphql';
 
 import { Book } from '../../../@types/book';
 
-
 export default function Bookers() {
   const { books } = useAppSelector((store) => store.books);
- 
+
   const { id: userId } = useAppSelector((store) => store.user.userData);
-  
+
   // essai graphql pour afficher les infos de l'utilisateur :
   // const { user, loading, error } = useUserByIdQuery(userId);
-  
-  // verifier dans le store si isLogged = true
-  const { isLogged } = useAppSelector((store)=> store.user);
-  
+  const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
 
+  // verifier dans le store si isLogged = true
+  const { isLogged } = useAppSelector((store) => store.user);
 
   // const [response, setResponse] = useState();
   //   useEffect(() => {
@@ -68,10 +67,8 @@ export default function Bookers() {
   const count = useRef(0);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    if (!isLogged)
-      return navigate('/signin');
+    if (!isLogged) return navigate('/signin');
 
     if (count.current === 0 && code && state) {
       count.current += 1;
@@ -83,14 +80,10 @@ export default function Bookers() {
     count.current += 1;
   }, [code, state, dispatch, navigate]);
 
-
-
-
   return (
     <Container className="bookers__container">
       {/* {console.log('bookers page', books)} */}
       {/* {!isLogged && <SignIn />} */}
-      {/* {error && <p> Une erreur utilisateur</p>} */}
 
       {books &&
         books.length > 0 &&
@@ -107,89 +100,89 @@ export default function Bookers() {
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
+      {error && (
+        <Segment id="bookers__content" inverted>
+          <Header inverted size="large" as="h2">
+            Associer votre compte Spotify à votre compte O&apos;Book Groove
+          </Header>
+          <MediaQuery minWidth={768}>
+            <Grid centered columns={2} divided verticalAlign="middle">
+              <GridRow stretched>
+                <GridColumn width={6}>
+                  <Header inverted size="tiny" as="h4">
+                    En associant vos comptes Spotify et O&apos;bookGroove vous
+                    bénéficierez de suggestions de livres personnalisées et en
+                    accord avec vos goûts musicaux
+                  </Header>
+                </GridColumn>
+                <GridColumn width={6}>
+                  <Image id="bookers__image" src={illustration} size="medium" />
+                </GridColumn>
+              </GridRow>
+              <GridRow stretched>
+                <GridColumn width={12}>
+                  <Button
+                    onClick={handleClick}
+                    animated
+                    inverted
+                    size="large"
+                    fluid
+                  >
+                    <ButtonContent id="bookers__button" visible>
+                      Associer mes comptes
+                    </ButtonContent>
+                    <ButtonContent hidden>
+                      <Icon name="sync" />{' '}
+                    </ButtonContent>
+                  </Button>
+                </GridColumn>
+              </GridRow>
+            </Grid>
+          </MediaQuery>
 
+          <MediaQuery maxWidth={767}>
+            <Grid centered columns={1} divided verticalAlign="middle">
+              <GridRow stretched>
+                <GridColumn width={16}>
+                  <Header inverted size="tiny" as="h4">
+                    En associant vos comptes Spotify et ObookGroove vous
+                    bénéficierez de suggestions de livres personnalisées et en
+                    accord avec vos goûts musicaux
+                  </Header>
+                </GridColumn>
+              </GridRow>
 
-      <Segment id="bookers__content" inverted>
-        <Header inverted size="large" as="h2">
-          Associer votre compte Spotify à votre compte O&apos;Book Groove
-        </Header>
-        <MediaQuery minWidth={768}>
-          <Grid centered columns={2} divided verticalAlign="middle">
-            <GridRow stretched>
-              <GridColumn width={6}>
-                <Header inverted size="tiny" as="h4">
-                  En associant vos comptes Spotify et O&apos;bookGroove vous
-                  bénéficierez de suggestions de livres personnalisées et en
-                  accord avec vos goûts musicaux
-                </Header>
-              </GridColumn>
-              <GridColumn width={6}>
-                <Image id="bookers__image" src={illustration} size="medium" />
-              </GridColumn>
-            </GridRow>
-            <GridRow stretched>
-              <GridColumn width={12}>
-                <Button
-                  onClick={handleClick}
-                  animated
-                  inverted
-                  size="large"
-                  fluid
-                >
-                  <ButtonContent id="bookers__button" visible>
-                    Associer mes comptes
-                  </ButtonContent>
-                  <ButtonContent hidden>
-                    <Icon name="sync" />{' '}
-                  </ButtonContent>
-                </Button>
-              </GridColumn>
-            </GridRow>
-          </Grid>
-        </MediaQuery>
+              <GridRow>
+                <GridColumn width={16}>
+                  <Image id="bookers__image" src={illustration} size="medium" />
+                </GridColumn>
+              </GridRow>
 
-        <MediaQuery maxWidth={767}>
-          <Grid centered columns={1} divided verticalAlign="middle">
-            <GridRow stretched>
-              <GridColumn width={16}>
-                <Header inverted size="tiny" as="h4">
-                  En associant vos comptes Spotify et ObookGroove vous
-                  bénéficierez de suggestions de livres personnalisées et en
-                  accord avec vos goûts musicaux
-                </Header>
-              </GridColumn>
-            </GridRow>
-
-            <GridRow>
-              <GridColumn width={16}>
-                <Image id="bookers__image" src={illustration} size="medium" />
-              </GridColumn>
-            </GridRow>
-
-            <GridRow stretched>
-              <GridColumn width={16}>
-                <Button
-                  onClick={() => dispatch(spotifyAuthorization())}
-                  animated
-                  inverted
-                  size="large"
-                  fluid
-                >
-                  <ButtonContent id="bookers__button" visible>
-                    Associer mes comptes
-                  </ButtonContent>
-                  <ButtonContent hidden>
-                    <Icon name="sync" />{' '}
-                  </ButtonContent>
-                </Button>
-              </GridColumn>
-            </GridRow>
-          </Grid>
-        </MediaQuery>
-      </Segment>
+              <GridRow stretched>
+                <GridColumn width={16}>
+                  <Button
+                    onClick={() => dispatch(spotifyAuthorization())}
+                    animated
+                    inverted
+                    size="large"
+                    fluid
+                  >
+                    <ButtonContent id="bookers__button" visible>
+                      Associer mes comptes
+                    </ButtonContent>
+                    <ButtonContent hidden>
+                      <Icon name="sync" />{' '}
+                    </ButtonContent>
+                  </Button>
+                </GridColumn>
+              </GridRow>
+            </Grid>
+          </MediaQuery>
+        </Segment>
+      )}
 
       <Grid>
-        {books.map((book: Book, i: Key ) => (
+        {books.map((book: Book, i: Key) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />
