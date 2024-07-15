@@ -4,9 +4,7 @@ import {
   Grid,
   Header,
   Segment,
-  Message,
   Icon,
-  MessageContent,
   Container,
   Image,
   GridRow,
@@ -68,7 +66,7 @@ export default function Bookers() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogged) return navigate('/signin');
+    if (!isLogged) navigate('/signin');
 
     if (count.current === 0 && code && state) {
       count.current += 1;
@@ -78,7 +76,7 @@ export default function Bookers() {
 
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
     count.current += 1;
-  }, [code, state, dispatch, navigate]);
+  }, [code, state, isLogged, dispatch, navigate]);
 
   return (
     <Container className="bookers__container">
@@ -99,7 +97,6 @@ export default function Bookers() {
         {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
       </Header>
 
-      {/*error !== '' && <Message negative> {error}</Message>*/}
       {error && (
         <Segment id="bookers__content" inverted>
           <Header inverted size="large" as="h2">
