@@ -63,23 +63,27 @@ export default function Bookers() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('toto1')
     if (count.current === 0 && code && state) {
+      console.log('toto2')
+      count.current += 1;
       dispatch(getSpotifyToken({ code, state }));
       navigate('/member/books');
     }
+
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
-    count.current += 1;
+    // count.current += 1;
   }, [code, state, dispatch, navigate]);
 
   // console.log(books);
 
   // essai graphql pour afficher les infos de l'utilisateur :
-  const { user, loading, error } = useUserByIdQuery(userId);
+  // const { user, loading, error } = useUserByIdQuery(userId);
 
   return (
     <Container className="bookers__container">
       {/* {console.log('bookers page', books)} */}
-      {error && <p> Une erreur utilisateur</p>}
+      {/* {error && <p> Une erreur utilisateur</p>} */}
 
       {books &&
         books.length > 0 &&
@@ -92,7 +96,7 @@ export default function Bookers() {
         size="huge"
         textAlign="left"
       >
-        {!loading && !error && <p>Bienvenue {user?.pseudo}</p>}
+        {/* {!loading && !error && <p>Bienvenue {user?.pseudo}</p>} */}
       </Header>
 
       {/*error !== '' && <Message negative> {error}</Message>*/}
@@ -180,7 +184,7 @@ export default function Bookers() {
       </Segment>
 
       <Grid>
-        {user?.books.map((book: Book, i: Key ) => (
+        {books.map((book: Book, i: Key ) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />
