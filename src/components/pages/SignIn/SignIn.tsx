@@ -23,7 +23,7 @@ import {
   signin,
   updateFieldCredentials,
 } from '../../../store/reducers/userReducer';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 export default function SignIn() {
   const { loading, error } = useAppSelector((store) => store.user);
@@ -85,8 +85,8 @@ export default function SignIn() {
       >
         <Header
           inverted
-          as="h1"
-          className="h1 signin__header"
+          as="h3"
+          className="h3 signin__header"
           textAlign="center"
         >
           <MediaQuery minWidth={768}>
