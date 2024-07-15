@@ -10,6 +10,7 @@ import {
 // création de la base url pour les requêtes graphql
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_URL}/graphql`,
+  credentials: 'include',
 });
 
 // instance de classe qui va effectuer une action avant la requête
@@ -64,13 +65,12 @@ const userCurrentBooksFragment = gql`
   }
 `;
 
-// la requête
+// la requête CURRENT BOOK
 export const userCurrentBooksQuery = gql`
-  query User($id: Int!, $limit: Int) {
+  query UserCurrentBooks($id: Int!, $limit: Int) {
     user(id: $id) {
-      ...UserCurrentBooks(limit: $limit)
+      ...UserCurrentBooks
     }
   }
-  # la requête attend des arguments :
   ${userCurrentBooksFragment}
 `;
