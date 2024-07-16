@@ -10,12 +10,14 @@ type SpotifyReducerState = {
   loading: boolean;
   error: string;
   books: Book[];
+  pseudo: string;
 };
 
 const initialState: SpotifyReducerState = {
   loading: false,
   error: '',
   books: [],
+  pseudo: '',
 };
 
 /* --------------------------------------
@@ -55,11 +57,13 @@ export const getSpotifyToken = createAppAsyncThunk(
   }
 );
 
-/* -----------------------------------
----- REDUCER With --------------------
------------------ spotify ------------
------------------ spotify callback ---
---------------------------------------*/
+/* -------------------------------------
+---- REDUCER With ----------------------
+----------------- spotify --------------
+----------------- spotify callback -----
+----------------- current books --------
+----------------- suggest books --------
+--------------------------------------- */
 
 const spotifyReducer = createReducer(initialState, (builder) => {
   builder
