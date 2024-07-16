@@ -6,6 +6,7 @@ import {
   NewPasswordArgs,
   confirmSignUpApi,
   logoutApi,
+  logoutSpotifyApi,
   // getUser,
   newPasswordApi,
   resetPasswordApi,
@@ -40,8 +41,6 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
-    // accessToken: '',
-    // refreshToken: '',
     id: null,
   },
   cgu: false,
@@ -196,6 +195,47 @@ export const logout = createAppAsyncThunk(
   }
 );
 
+/* --------------------------------------
+------------ LOGOUT SPOTIFY -------------
+----------------------------------------*/
+
+export const logoutSpotify = createAppAsyncThunk(
+  'USER/LOGOUT_SPOTIFY_ASYNC',
+  async (_, thunkAPI) => {
+    try {
+      return await logoutSpotifyApi();
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
+  }
+);
+
+/* --------------------------------------
+------------- LOGOUT TOTAL --------------
+----------------------------------------*/
+
+export const logoutTotal = createAppAsyncThunk(
+  'USER/LOGOUT_TOTAL_ASYNC',
+  async (_, thunkAPI) => {
+    try {
+
+      return await Promise.all([
+        thunkAPI.dispatch(logout()).unwrap(),
+        thunkAPI.dispatch(logoutSpotify()).unwrap(),
+      ]);
+
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
+  }
+);
+
 /* -------------------------------------
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
@@ -245,7 +285,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
 
     .addCase(isLogged, (state) => {
-      // toggle sur isSuccess => modifie l'état
+      // toggle sur isLogged => modifie l'état
       state.isLogged = !state.isLogged;
     })
 
@@ -374,6 +414,36 @@ const userReducer = createReducer(initialState, (builder) => {
       state.logoutStatus = true;
     })
     .addCase(logout.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+
+    /* -------------------------------
+    --------- LOGOUT SPOTIFY ---------
+    ---------------------------------*/
+
+    .addCase(logoutSpotify.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(logoutSpotify.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(logoutSpotify.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+
+    /* -------------------------------
+    ---------- LOGOUT TOTAL ----------
+    ---------------------------------*/
+
+    .addCase(logoutTotal.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(logoutTotal.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(logoutTotal.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     })

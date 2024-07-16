@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useEffect } from 'react';
-import { logout } from '../../../store/reducers/userReducer';
+import { logoutTotal } from '../../../store/reducers/userReducer';
 
 export default function Logout() {
 
@@ -10,7 +10,7 @@ export default function Logout() {
 
   useEffect(() => {
 
-    dispatch(logout());
+    dispatch(logoutTotal());
 
   }, [dispatch]);
 

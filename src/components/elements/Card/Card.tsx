@@ -10,8 +10,7 @@ import {
   LabelGroup,
   Item,
   ItemImage,
-  Container
-
+  Container,
 } from 'semantic-ui-react';
 
 import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
@@ -24,7 +23,7 @@ type CardBookProps = {
 
 const cardStyle = {
   margin: 0,
-  borderRadius: '1rem'
+  borderRadius: '1rem',
 };
 
 export default function CardBook({ book }: CardBookProps) {
@@ -36,8 +35,10 @@ export default function CardBook({ book }: CardBookProps) {
       <Card id="card__container" fluid>
         <Segment id="card__image" inverted>
           <Item align="centered">
-            <Image class='class__image' fluid
-            style={cardStyle}
+            <Image
+              class="class__image"
+              fluid
+              style={cardStyle}
               src={book.cover}
               wrapped
               ui={false}
@@ -49,7 +50,7 @@ export default function CardBook({ book }: CardBookProps) {
 
         <CardContent fluid>
           <Image floated="right" src={BookShell} />
-          <Header inverted color="grey" id="card_author" as="h2" >
+          <Header inverted color="grey" id="card_author" as="h2">
             {book.title}
           </Header>
           <Header inverted color="grey" as="h3">
@@ -59,7 +60,11 @@ export default function CardBook({ book }: CardBookProps) {
 
         <CardContent extra>
           <LabelGroup color="blue">
-            {book.genre.map((item: String) => <Label>{item}</Label>)}
+            {book.genre &&
+              book.genre.length > 0 &&
+              book.genre.map((item: string) => (
+                <Label key={item}>{item}</Label>
+              ))}
           </LabelGroup>
         </CardContent>
       </Card>

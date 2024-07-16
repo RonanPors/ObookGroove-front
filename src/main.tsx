@@ -29,13 +29,11 @@ const root = ReactDOM.createRoot(
 
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
- 
-    <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </ApolloProvider>
-  
+  <ApolloProvider client={apolloClient}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </ApolloProvider>
 );

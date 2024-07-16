@@ -134,6 +134,28 @@ export async function logoutApi() {
   }
 }
 
+/* --------------------------------------
+------------ LOGOUT SPOTIFY -------------
+----------------------------------------*/
+
+export async function logoutSpotifyApi() {
+  try {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/spotify/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    return data;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}
+
 /* -------------------------------------
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
