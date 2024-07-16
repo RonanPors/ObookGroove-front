@@ -5,7 +5,6 @@ import {
   ConfirmSignupArgs,
   NewPasswordArgs,
   confirmSignUpApi,
-  // getUser,
   newPasswordApi,
   resetPasswordApi,
   signinApi,
@@ -37,8 +36,6 @@ const initialState: UserReducerState = {
     },
     pseudo: '',
     confirmPassword: '',
-    // accessToken: '',
-    // refreshToken: '',
     id: null,
   },
   cgu: false,
@@ -224,7 +221,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
 
     .addCase(isLogged, (state) => {
-      // toggle sur isSuccess => modifie l'état
+      // toggle sur isLogged => modifie l'état
       state.isLogged = !state.isLogged;
     })
 

@@ -30,6 +30,10 @@ export const apolloClient = new ApolloClient({
   },
 });
 
+/* --------------------------------------
+---------------- INFO USER --------------
+----------------------------------------*/
+
 // fragment pour une partie de la requête INFO USER
 const userDetailsFragment = gql`
   fragment UserDetails on User {
@@ -48,7 +52,11 @@ export const userByIdQuery = gql`
   ${userDetailsFragment}
 `;
 
-// fragment pour une partie de la requête CURRENT BOOK
+/* --------------------------------------
+------------- CURRENT BOOKS --------------
+----------------------------------------*/
+
+// fragment pour une partie de la requête CURRENT BOOKS
 const userCurrentBooksFragment = gql`
   fragment UserCurrentBooks on User {
     id
@@ -67,7 +75,7 @@ const userCurrentBooksFragment = gql`
   }
 `;
 
-// la requête CURRENT BOOK
+// la requête CURRENT BOOKS
 export const userCurrentBooksQuery = gql`
   query UserCurrentBooks($id: Int!, $limit: Int) {
     user(id: $id) {
@@ -75,4 +83,37 @@ export const userCurrentBooksQuery = gql`
     }
   }
   ${userCurrentBooksFragment}
+`;
+
+/* --------------------------------------
+------------ SUGGEST BOOKS --------------
+----------------------------------------*/
+
+// fragment pour une partie de la requête SUGGEST BOOKS
+const userSuggestBooksFragment = gql`
+  fragment UserSuggestBooks on User {
+    id
+    pseudo
+    suggestBooks {
+      id
+      isbn
+      numberOfPages
+      resume
+      title
+      year
+      genre
+      cover
+      author
+    }
+  }
+`;
+
+// la requête SUGGEST BOOKS
+export const userSuggestBooksQuery = gql`
+  query UserSuggestBooks($id: Int!) {
+    user(id: $id) {
+      ...UserSuggestBooks
+    }
+  }
+  ${userSuggestBooksFragment}
 `;
