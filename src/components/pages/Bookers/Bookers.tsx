@@ -186,7 +186,7 @@ export default function Bookers() {
         </>
       )}
 
-      {!loading && !error && booksGraphql.length > 0 && (
+      {!loading && !error && booksGraphql.length > 0 && books.length === 0 && (
         <>
           <Header
             className="bookers__header"
@@ -211,7 +211,7 @@ export default function Bookers() {
         </>
       )}
 
-      {/* !loading2 && !error2 && books.length > 0 && (
+      {!loading2 && !error2 && books.length > 0 && (
         <>
           <Header
             className="bookers__header"
@@ -234,7 +234,7 @@ export default function Bookers() {
 
           <Button className="bookers__refresh" circular icon="refresh" />
         </>
-      )*/}
+      )}
 
       {/* books &&
         books.length > 0 &&
