@@ -9,7 +9,12 @@ body {
 }
 main {
   background-color: black;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  padding-bottom: 10rem;
+
 }
+
 
 h1 {
   color: white;
@@ -61,6 +66,7 @@ p {
 
 .ui.container {
   background-color: black;
+  width: none;
 }
 
 #bookers__image {

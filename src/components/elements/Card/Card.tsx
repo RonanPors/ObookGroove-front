@@ -33,17 +33,18 @@ export default function CardBook({ book }: CardBookProps) {
 
   return (
     <div>
-      <Card id="card__container" fluid>
+      <Card id="card__container">
         <Segment id="card__image" inverted>
           <Item align="centered">
-            <Image class='class__image' fluid
+            
+            <ItemImage id="card__image" fluid
             style={cardStyle}
               src={book.cover}
-              wrapped
-              ui={false}
-              size="small"
+              wrapped ui={false}
+              size="tiny"
               centered
             />
+            
           </Item>
         </Segment>
 

@@ -75,7 +75,7 @@ export default function Bookers() {
   }, [code, state, dispatch, navigate]);
 
   return (
-    <Container className="bookers__container">
+    <div>
       {/* {console.log('bookers page', books)} */}
       {/* {!isLogged && <SignIn />} */}
 
@@ -174,15 +174,17 @@ export default function Bookers() {
         </Segment>
       )}
 
-      <Grid>
+      <Grid columns='five' relaxed>
         {user?.currentBooks.map((book: Book, i: Key) => (
-          <GridColumn key={i} mobile={16} tablet={7} computer={5}>
-            <Segment>
-              <CardBook book={book} />
-            </Segment>
+          <GridColumn key={i}>
+            
+           
+               <CardBook book={book} />
+            
+              
           </GridColumn>
         ))}
       </Grid>
-    </Container>
+    </div>
   );
 }
