@@ -267,7 +267,8 @@ export default function Profile() {
           active={activeIndex === 2}
           className="profile__content profile__musical--content"
         >
-          <p className="text-chapo">Compte Spotify</p> <Radio toggle />
+          <p className="text-chapo">Compte Spotify</p>
+          <Radio toggle />
         </AccordionContent>
 
         <AccordionTitle

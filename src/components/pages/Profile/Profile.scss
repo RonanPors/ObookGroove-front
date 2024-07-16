@@ -1,11 +1,45 @@
 .ui.inverted.segment.profile {
-  max-width: 500px;
+  width: 500px;
   height: fit-content;
   margin: 2rem;
   border-radius: 0.5rem;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .profile__accordion.accordion.ui.fluid.inverted.styled {
   background-color: black;
+  padding-inline: 1rem;
   border-radius: 0.5rem;
+}
+
+.ui.form .profile__field.field {
+  margin-bottom: 2rem;
+}
+
+.profile__content.profile__info--content .profile__field--email .input #email {
+  border-radius: 0.28571429rem;
+}
+
+.profile__content.profile__password--content
+  .profile__field--new-password
+  .input
+  #password {
+  border-radius: 0.28571429rem 0 0 0.28571429rem;
+}
+
+.ui.accordion .active.content.profile__content.profile__musical--content {
+  display: flex;
+  gap: 2rem;
+
+  & p {
+    margin: 0 0 0 2rem;
+  }
+}
+
+.profile__musical--content .ui.toggle.checkbox label:before,
+.profile__musical--content .ui.toggle.checkbox input:focus ~ label:before {
+  background: rgba(60, 120, 120, 0.25);
 }
