@@ -175,7 +175,7 @@ export default function Bookers() {
       )}
 
       <Grid>
-        {books.map((book: Book, i: Key) => (
+        {user?.currentBooks.map((book: Book, i: Key) => (
           <GridColumn key={i} mobile={16} tablet={7} computer={5}>
             <Segment>
               <CardBook book={book} />
