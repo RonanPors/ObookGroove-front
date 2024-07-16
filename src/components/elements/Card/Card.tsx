@@ -56,7 +56,7 @@ export default function CardBook({ book }: CardBookProps) {
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
           </Header>
-          <Header inverted color="grey" as="h4">
+          <Header inverted color="grey" >
             {book.author}
           </Header>
         </CardContent>

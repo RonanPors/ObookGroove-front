@@ -174,7 +174,7 @@ export default function Bookers() {
         </Segment>
       )}
 
-      <MediaQuery minWidth={1752}>
+      <MediaQuery minWidth={1224}>
        <Grid columns='five' padded>
         {user?.currentBooks.map((book: Book, i: Key) => (
           <GridColumn key={i}>
@@ -188,7 +188,7 @@ export default function Bookers() {
        </Grid>
       </MediaQuery>
 
-      <MediaQuery maxWidth={1751} minWidth={1545}>
+      <MediaQuery maxWidth={1223} minWidth={1024}>
        <Grid columns='four' padded>
         {user?.currentBooks.map((book: Book, i: Key) => (
           <GridColumn key={i}>
@@ -202,8 +202,36 @@ export default function Bookers() {
        </Grid>
       </MediaQuery>
 
-      <MediaQuery maxWidth={1544} minWidth={1280}>
+      <MediaQuery maxWidth={1023} minWidth={768}>
        <Grid columns='three' padded>
+        {user?.currentBooks.map((book: Book, i: Key) => (
+          <GridColumn key={i}>
+            
+           
+               <CardBook book={book} />
+            
+              
+          </GridColumn>
+        ))}
+       </Grid>
+      </MediaQuery>
+
+      <MediaQuery maxWidth={767} minWidth={520}>
+       <Grid columns='two' padded>
+        {user?.currentBooks.map((book: Book, i: Key) => (
+          <GridColumn key={i}>
+            
+           
+               <CardBook book={book} />
+            
+              
+          </GridColumn>
+        ))}
+       </Grid>
+      </MediaQuery>
+
+      <MediaQuery maxWidth={519} >
+       <Grid columns='one' padded>
         {user?.currentBooks.map((book: Book, i: Key) => (
           <GridColumn key={i}>
             
