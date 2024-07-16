@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 
 import userReducer from './reducers/userReducer';
 import spotifyReducer from './reducers/spotifyReducer';
+import booksReducer from './reducers/booksReducer';
 
 const persistUserConfig = {
   key: 'user',
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     user: persistedUserReducer,
     books: spotifyReducer,
+    booksGraphql: booksReducer,
   },
 });
 

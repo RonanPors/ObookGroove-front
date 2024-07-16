@@ -31,20 +31,31 @@ import {
 } from '../../../hooks/graphql';
 
 import { Book } from '../../../@types/book';
+import { currentBooks } from '../../../store/reducers/booksReducer';
 
 export default function Bookers() {
-  // const { books } = useAppSelector((store) => store.books);
+  const {
+    books,
+    error: error2,
+    loading: loading2,
+  } = useAppSelector((store) => store.books);
+  const {
+    books: booksGraphql,
+    error,
+    loading,
+    pseudo,
+  } = useAppSelector((store) => store.booksGraphql);
 
   const { id: userId } = useAppSelector((store) => store.user.userData);
 
   // Graphql pour afficher les infos de l'utilisateur :
   // const { user, loading, error } = useUserByIdQuery(userId);
-  const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
-  const {
-    user: userSuggest,
-    loading: loadingSuggest,
-    error: errorSuggest,
-  } = useUserSuggestBooksQuery(userId);
+  // const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
+  // const {
+  //   user: userSuggest,
+  //   loading: loadingSuggest,
+  //   error: errorSuggest,
+  // } = useUserSuggestBooksQuery(userId);
 
   const dispatch = useAppDispatch();
 
@@ -52,9 +63,9 @@ export default function Bookers() {
     dispatch(spotifyAuthorization());
   };
 
-  const handleClickRefresh = () => {
-    useUserSuggestBooksQuery(userId);
-  };
+  // const handleClickRefresh = () => {
+  //   useUserSuggestBooksQuery(userId);
+  // };
   // pour récupérer les params de l'URI afin de faire une redirection
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
@@ -68,13 +79,14 @@ export default function Bookers() {
       dispatch(getSpotifyToken({ code, state }));
       navigate('/member/books');
     }
+    dispatch(currentBooks({ id: userId, limit: 10 }));
     // obligé de passer par un compteur pour n'envoyer qu'une seule fois le dispatch du getSpotifyToken
     count.current += 1;
-  }, [code, state, dispatch, navigate]);
+  }, [code, state, dispatch, navigate, userId]);
 
   return (
     <Container className="bookers__container">
-      {error && (
+      {!loading && !error && booksGraphql.length === 0 && (
         <>
           <Header
             className="bookers__header"
@@ -82,7 +94,7 @@ export default function Bookers() {
             as="h1"
             textAlign="center"
           >
-            Bienvenue {user?.pseudo}
+            Bienvenue {pseudo}
           </Header>
 
           <Segment id="bookers__content" inverted>
@@ -174,7 +186,7 @@ export default function Bookers() {
         </>
       )}
 
-      {!loading && !error && (
+      {!loading && !error && booksGraphql.length > 0 && (
         <>
           <Header
             className="bookers__header"
@@ -182,11 +194,11 @@ export default function Bookers() {
             as="h1"
             textAlign="center"
           >
-            Bienvenue {user?.pseudo}
+            Bienvenue {pseudo}
           </Header>
 
           <Grid>
-            {user?.currentBooks.map((book: Book) => (
+            {booksGraphql.map((book: Book) => (
               <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
                 <Segment>
                   <CardBook book={book} />
@@ -195,19 +207,23 @@ export default function Bookers() {
             ))}
           </Grid>
 
-          <Button
-            onClick={handleClickRefresh}
-            className="bookers__refresh"
-            circular
-            icon="refresh"
-          />
+          <Button className="bookers__refresh" circular icon="refresh" />
         </>
       )}
 
-      {!loadingSuggest && !errorSuggest && (
+      {/* !loading2 && !error2 && books.length > 0 && (
         <>
+          <Header
+            className="bookers__header"
+            inverted
+            as="h1"
+            textAlign="center"
+          >
+            Bienvenue {pseudo}
+          </Header>
+
           <Grid>
-            {user?.suggestBooks.map((book: Book) => (
+            {books.map((book: Book) => (
               <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
                 <Segment>
                   <CardBook book={book} />
@@ -216,14 +232,9 @@ export default function Bookers() {
             ))}
           </Grid>
 
-          <Button
-            onClick={handleClickRefresh}
-            className="bookers__refresh"
-            circular
-            icon="refresh"
-          />
+          <Button className="bookers__refresh" circular icon="refresh" />
         </>
-      )}
+      )*/}
 
       {/* books &&
         books.length > 0 &&
