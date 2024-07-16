@@ -56,14 +56,14 @@ export default function CardBook({ book }: CardBookProps) {
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
           </Header>
-          <Header inverted color="grey" as="h3">
+          <Header inverted color="grey" as="h4">
             {book.author}
           </Header>
         </CardContent>
 
         <CardContent extra>
-          <LabelGroup color="blue">
-            {book.genre.map((item: String) => <Label>{item}</Label>)}
+          <LabelGroup >
+            {book.genre.map((item: String) => <Label id="card__label">{item}</Label>)}
           </LabelGroup>
         </CardContent>
       </Card>

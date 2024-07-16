@@ -1,7 +1,9 @@
 
 #card__container{
     background-color: #1b1c1d;
-    width: 250px;
+    width: 230px;
+    min-width: 230px;
+    
 
 
 }
@@ -34,12 +36,8 @@
     line-height: 0.5;
 }
 
-h3, .h3 {
-    line-height: 0.5;
-    color: beige;
-}
 
-.h3.ui.header {
+.h3.ui.grey.inverted.header {
     font-size: 1rem;
     font-weight: 300;
 }
@@ -55,9 +53,16 @@ h4, .h4 {
 
 .ui.card>.content>.header {
     font-size: 1.6rem;
-    width: 220px;
+    width: 200px;
     height: 32px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+#card__label{
+    background-color: #82A4F0;
+    border-color:  #82A4F0;
+    border-radius: 8px;
+    color: #2B2D2E;
 }
