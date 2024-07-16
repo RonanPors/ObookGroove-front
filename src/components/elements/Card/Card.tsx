@@ -10,11 +10,11 @@ import {
   LabelGroup,
   Item,
   ItemImage,
+  Popup,
   Container
 
 } from 'semantic-ui-react';
 
-import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
 import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
 import { Book } from '../../../@types/book';
 
@@ -38,7 +38,7 @@ export default function CardBook({ book }: CardBookProps) {
           <Item align="centered">
             
             <ItemImage id="card__image" fluid
-            style={cardStyle}
+             style={cardStyle}
               src={book.cover}
               wrapped ui={false}
               size="tiny"
@@ -50,8 +50,9 @@ export default function CardBook({ book }: CardBookProps) {
 
         <CardContent fluid>
           <a>
-          <Image floated="right" src={BookShell} />
+            <Popup content='Ajouter à ma bibliothèque' trigger={ <Image floated="right" src={BookShell} />} />
           </a>
+          
           
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
