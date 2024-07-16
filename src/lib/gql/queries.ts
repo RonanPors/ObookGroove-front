@@ -51,16 +51,18 @@ export const userByIdQuery = gql`
 // fragment pour une partie de la requête CURRENT BOOK
 const userCurrentBooksFragment = gql`
   fragment UserCurrentBooks on User {
+    id
+    pseudo
     currentBooks(limit: $limit) {
-      author
-      cover
-      genre
-      title
+      id
       isbn
       numberOfPages
       resume
+      title
       year
-      id
+      genre
+      cover
+      author
     }
   }
 `;

@@ -53,13 +53,13 @@ export default function SignIn() {
   }, []);
 
   // pour redirect vers la page de books en cas de succès :
-  const { authSuccess } = useAppSelector((store) => store.user);
+  const { isLogged } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   useEffect(() => {
-    if (authSuccess) {
+    if (isLogged) {
       navigate('/member/books');
     }
-  }, [authSuccess, navigate]);
+  }, [isLogged, navigate]);
 
   // vérifie si un champ est vide :
   const emptyFieldInspector = email === '' || password === '';
