@@ -39,6 +39,11 @@ h3, .h3 {
     color: beige;
 }
 
+.h3.ui.header {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
 h4, .h4 {
     margin: none;
     line-height: 0.5;
@@ -46,4 +51,13 @@ h4, .h4 {
 
 .small.centered.fluid.image.class__image {
     margin: 0;
+}
+
+.ui.card>.content>.header {
+    font-size: 1.6rem;
+    width: 220px;
+    height: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

@@ -49,7 +49,10 @@ export default function CardBook({ book }: CardBookProps) {
         </Segment>
 
         <CardContent fluid>
+          <a>
           <Image floated="right" src={BookShell} />
+          </a>
+          
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
           </Header>
