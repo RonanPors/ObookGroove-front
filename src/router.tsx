@@ -17,6 +17,7 @@ import ResetPassword from './components/pages/ResetPassword/ResetPassword';
 import ConfirmSignup from './components/pages/ConfirmSignup/ConfirmSignup';
 import SignIn from './components/pages/SignIn/SignIn';
 import SignUp from './components/pages/SignUp/SignUp';
+import Logout from './components/pages/Logout/Logout';
 import ProtectedRoute from './components/elements/ProtectedRoute/ProtectedRoute';
 
 // fichier racine indiquant les parties "fixes" d'une page (header et footer)
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
       {
         path: 'signup',
         element: <SignUp />,
+      },
+      {
+        path: 'logout',
+        element: <Logout />,
       },
       // Catch les routes introuvables et rediriger vers la landing page
       // A choisir entre la landing ou un composant NotFound

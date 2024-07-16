@@ -5,6 +5,7 @@ import {
   ConfirmSignupArgs,
   NewPasswordArgs,
   confirmSignUpApi,
+  logoutApi,
   // getUser,
   newPasswordApi,
   resetPasswordApi,
@@ -17,6 +18,7 @@ type UserReducerState = {
   loading: boolean;
   authSuccess: boolean;
   isSuccess: boolean;
+  logoutStatus: boolean;
   error: string;
   userData: UserData;
   cgu: boolean;
@@ -29,6 +31,7 @@ const initialState: UserReducerState = {
   loading: false,
   authSuccess: false,
   isSuccess: false,
+  logoutStatus: false,
   error: '',
   userData: {
     credentials: {
@@ -175,6 +178,24 @@ export const resetPassword = createAppAsyncThunk(
   }
 );
 
+/* --------------------------------------
+---------------- LOGOUT -----------------
+----------------------------------------*/
+
+export const logout = createAppAsyncThunk(
+  'USER/LOGOUT_ASYNC',
+  async (_, thunkAPI) => {
+    try {
+      return await logoutApi();
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return thunkAPI.rejectWithValue('Unknown Error');
+    }
+  }
+);
+
 /* -------------------------------------
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
@@ -289,6 +310,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      state.logoutStatus = false;
       // on récupère l'id via le token :
       state.userData.id = action.payload.id;
     })
@@ -309,6 +331,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      state.logoutStatus = false;
       // vider les changer une fois que c'est validé
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
@@ -333,6 +356,24 @@ const userReducer = createReducer(initialState, (builder) => {
       state.userData.credentials.email = '';
     })
     .addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+
+    /* -------------------------------
+    ------------- LOGOUT -------------
+    ---------------------------------*/
+
+    .addCase(logout.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(logout.fulfilled, (state) => {
+      state.loading = false;
+      state.isLogged = false;
+      state.authSuccess = false;
+      state.logoutStatus = true;
+    })
+    .addCase(logout.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     })

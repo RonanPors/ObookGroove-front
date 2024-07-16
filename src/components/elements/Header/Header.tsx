@@ -50,6 +50,8 @@ function Header() {
       <Button
         primary
         className="header__button button__primary text-chapo"
+        as={NavLink}
+        to="/logout"
       >
         Se déconnecter
       </Button>
