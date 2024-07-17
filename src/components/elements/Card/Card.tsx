@@ -10,11 +10,11 @@ import {
   LabelGroup,
   Item,
   ItemImage,
+  Popup,
   Container
 
 } from 'semantic-ui-react';
 
-import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
 import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
 import { Book } from '../../../@types/book';
 
@@ -33,33 +33,38 @@ export default function CardBook({ book }: CardBookProps) {
 
   return (
     <div>
-      <Card id="card__container" fluid>
+      <Card id="card__container">
         <Segment id="card__image" inverted>
           <Item align="centered">
-            <Image class='class__image' fluid
-            style={cardStyle}
+            
+            <ItemImage id="card__image" fluid
+             style={cardStyle}
               src={book.cover}
-              wrapped
-              ui={false}
-              size="small"
+              wrapped ui={false}
+              size="tiny"
               centered
             />
+            
           </Item>
         </Segment>
 
         <CardContent fluid>
-          <Image floated="right" src={BookShell} />
+          <a>
+            <Popup content='Ajouter à ma bibliothèque' trigger={ <Image floated="right" src={BookShell} />} />
+          </a>
+          
+          
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
           </Header>
-          <Header inverted color="grey" as="h3">
+          <Header inverted color="grey" >
             {book.author}
           </Header>
         </CardContent>
 
         <CardContent extra>
-          <LabelGroup color="blue">
-            {book.genre.map((item: String) => <Label>{item}</Label>)}
+          <LabelGroup >
+            {book.genre.map((item: String) => <Label id="card__label">{item}</Label>)}
           </LabelGroup>
         </CardContent>
       </Card>

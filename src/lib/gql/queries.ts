@@ -10,6 +10,7 @@ import {
 // création de la base url pour les requêtes graphql
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_URL}/graphql`,
+  credentials: 'include',
 });
 
 // instance de classe qui va effectuer une action avant la requête
@@ -29,17 +30,11 @@ export const apolloClient = new ApolloClient({
   },
 });
 
-// fragment pour une partie de la requête
+// fragment pour une partie de la requête INFO USER
 const userDetailsFragment = gql`
   fragment UserDetails on User {
     id
     pseudo
-    books {
-      title
-      genre
-      cover
-      author
-    }
   }
 `;
 // la requête
@@ -51,4 +46,33 @@ export const userByIdQuery = gql`
   }
   # la requête attend des arguments :
   ${userDetailsFragment}
+`;
+
+// fragment pour une partie de la requête CURRENT BOOK
+const userCurrentBooksFragment = gql`
+  fragment UserCurrentBooks on User {
+    id
+    pseudo
+    currentBooks(limit: $limit) {
+      id
+      isbn
+      numberOfPages
+      resume
+      title
+      year
+      genre
+      cover
+      author
+    }
+  }
+`;
+
+// la requête CURRENT BOOK
+export const userCurrentBooksQuery = gql`
+  query UserCurrentBooks($id: Int!, $limit: Int) {
+    user(id: $id) {
+      ...UserCurrentBooks
+    }
+  }
+  ${userCurrentBooksFragment}
 `;

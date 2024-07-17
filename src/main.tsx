@@ -29,7 +29,7 @@ const root = ReactDOM.createRoot(
 
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
-  <React.StrictMode>
+ 
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -37,5 +37,5 @@ root.render(
         </PersistGate>
       </Provider>
     </ApolloProvider>
-  </React.StrictMode>
+  
 );

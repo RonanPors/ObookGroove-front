@@ -14,10 +14,8 @@ const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
 
 const store = configureStore({
   reducer: {
-
     user: persistedUserReducer,
     books: spotifyReducer,
-
   },
 });
 

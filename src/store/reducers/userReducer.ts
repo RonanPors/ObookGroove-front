@@ -289,6 +289,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = true;
       // on utilise ce "true" pour faire une redirection :
       state.authSuccess = true;
+      // on récupère l'id via le token :
       state.userData.id = action.payload.id;
     })
     .addCase(confirmSignUp.rejected, (state, action) => {
@@ -311,13 +312,8 @@ const userReducer = createReducer(initialState, (builder) => {
       // vider les changer une fois que c'est validé
       state.userData.credentials.email = '';
       state.userData.credentials.password = '';
+      // on récupère l'id via le token :
       state.userData.id = action.payload.id;
-
-      // if (action.payload.id) {
-      //   console.log(action.payload.id);
-
-      //   state.userData.id = parseInt(action.payload.id, 10);
-      // }
     })
     .addCase(signin.rejected, (state, action) => {
       state.loading = false;
