@@ -71,6 +71,7 @@ const userCurrentBooksFragment = gql`
       genre
       cover
       author
+      isFavorite
     }
   }
 `;
@@ -104,6 +105,7 @@ const userSuggestBooksFragment = gql`
       genre
       cover
       author
+      isFavorite
     }
   }
 `;

@@ -50,12 +50,17 @@ export default function CardBook({ book }: CardBookProps) {
         </Segment>
 
         <CardContent fluid>
-          <div className='card__content__favori'>
-            <Popup content='Ajouter à ma bibliothèque' trigger={ <Image floated="right" src={BookShell} />} />
-          </div>
-          <div className='card__content__favori'>
-            <Popup content='Retirer de ma bibliothèque' trigger={ <Image floated="right" src={BookShellActive} />} />
-          </div> 
+          {book.isFavorite && (
+            <div className='card__content__favorite--blue'>
+              <Popup content='Retirer de ma bibliothèque' trigger={ <Image floated="right" src={BookShellActive} />} />
+            </div> 
+          )}
+          {!book.isFavorite && (
+            <div className='card__content__favorite--white'>
+              <Popup content='Ajouter à ma bibliothèque' trigger={ <Image floated="right" src={BookShell} />} />
+            </div>
+          )}
+
           {/* <Button primary icon='favorite' /> */}
  
           <Header inverted color="grey" id="card_author" as="h2" >

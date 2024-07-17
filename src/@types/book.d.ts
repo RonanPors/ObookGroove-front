@@ -8,4 +8,5 @@ export type Book = {
   cover: string;
   year: number;
   numberOfPages: number;
+  isFavorite: boolean;
 };
