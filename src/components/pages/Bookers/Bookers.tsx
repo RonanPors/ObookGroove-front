@@ -86,7 +86,8 @@ export default function Bookers() {
 
   return (
     <Container className="bookers__container">
-      {!loading && !error && booksGraphql.length === 0 && (
+      {loading2 && (<p>Patientez, nous traitons votre demande.</p>)}
+      {!loading && !loading2 && !error && booksGraphql.length === 0 && books.length === 0 && (
         <>
           <Header
             className="bookers__header"
