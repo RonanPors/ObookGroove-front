@@ -15,47 +15,16 @@ import { useEffect, useRef, useState } from 'react';
 import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import {
-  getSpotifyToken,
-  spotifyAuthorization,
-} from '../../../store/reducers/spotifyReducer';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
 // import refresh from '../../../assets/logo/svg/logo1_noir.svg';
 import CardBook from '../../elements/Card/Card';
 
-// Graphql:
-// import { useUserByIdQuery } from '../../../hooks/graphql';
-import {
-  useUserCurrentBooksQuery,
-  useUserSuggestBooksQuery,
-} from '../../../hooks/graphql';
-
 import { Book } from '../../../@types/book';
-import { currentBooks } from '../../../store/reducers/booksReducer';
+import { currentBooks, suggestBooks, getSpotifyToken, spotifyAuthorization, } from '../../../store/reducers/booksReducer';
 
 export default function Bookers() {
-  const {
-    books,
-    error: error2,
-    loading: loading2,
-  } = useAppSelector((store) => store.books);
-  const {
-    books: booksGraphql,
-    error,
-    loading,
-    pseudo,
-  } = useAppSelector((store) => store.booksGraphql);
-
+  const { books, error, loading, pseudo } = useAppSelector((store) => store.books);
   const { id: userId } = useAppSelector((store) => store.user.userData);
-
-  // Graphql pour afficher les infos de l'utilisateur :
-  // const { user, loading, error } = useUserByIdQuery(userId);
-  // const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
-  // const {
-  //   user: userSuggest,
-  //   loading: loadingSuggest,
-  //   error: errorSuggest,
-  // } = useUserSuggestBooksQuery(userId);
 
   const dispatch = useAppDispatch();
 
@@ -63,9 +32,10 @@ export default function Bookers() {
     dispatch(spotifyAuthorization());
   };
 
-  // const handleClickRefresh = () => {
-  //   useUserSuggestBooksQuery(userId);
-  // };
+  const handleClickRefresh = () => {
+    dispatch(suggestBooks({id: userId}));
+  };
+  
   // pour récupérer les params de l'URI afin de faire une redirection
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
@@ -86,8 +56,9 @@ export default function Bookers() {
 
   return (
     <Container className="bookers__container">
-      {loading2 && (<p>Patientez, nous traitons votre demande.</p>)}
-      {!loading && !loading2 && !error && booksGraphql.length === 0 && books.length === 0 && (
+      {loading && (<p>Patientez, nous traitons votre demande.</p>)}
+
+      {!loading && !error && books.length === 0 && (
         <>
           <Header
             className="bookers__header"
@@ -166,7 +137,7 @@ export default function Bookers() {
                 <GridRow stretched>
                   <GridColumn width={16}>
                     <Button
-                      onClick={() => dispatch(spotifyAuthorization())}
+                      onClick={handleClick}
                       animated
                       inverted
                       size="large"
@@ -187,32 +158,7 @@ export default function Bookers() {
         </>
       )}
 
-      {!loading && !error && booksGraphql.length > 0 && books.length === 0 && (
-        <>
-          <Header
-            className="bookers__header"
-            inverted
-            as="h1"
-            textAlign="center"
-          >
-            Bienvenue {pseudo}
-          </Header>
-
-          <Grid>
-            {booksGraphql.map((book: Book) => (
-              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
-                <Segment>
-                  <CardBook book={book} />
-                </Segment>
-              </GridColumn>
-            ))}
-          </Grid>
-
-          <Button className="bookers__refresh" circular icon="refresh" />
-        </>
-      )}
-
-      {!loading2 && !error2 && books.length > 0 && (
+      {!loading && !error && books.length > 0 && (
         <>
           <Header
             className="bookers__header"
@@ -233,13 +179,12 @@ export default function Bookers() {
             ))}
           </Grid>
 
-          <Button className="bookers__refresh" circular icon="refresh" />
+          <Button 
+          onClick={handleClickRefresh}
+          className="bookers__refresh" circular icon="refresh" />
         </>
       )}
 
-      {/* books &&
-        books.length > 0 &&
-        books.map((book, i) => <p key={i}>{book.author}</p>) */}
     </Container>
   );
 }
