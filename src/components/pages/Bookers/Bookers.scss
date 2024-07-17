@@ -5,7 +5,12 @@
   padding-block: 3rem;
   background-color: black;
   display: flex;
+  // padding-left: 20rem;
+  // padding-right: 20rem;
+  padding-bottom: 10rem;
 }
+
+
 
 h1,
 h3,
@@ -40,19 +45,25 @@ p {
   font-size: 1.5rem;
 }
 
+.ui.container {
+  background-color: black;
+  width: none;
+}
+
 #bookers__image {
   padding-top: 3rem;
   padding-bottom: 4rem;
 }
 
 .ui.grid {
+  max-width: 1400px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0;
   align-content: center;
-  justify-content: center;
+  justify-content: left;
 }
 
 .ui.circular.button.bookers__refresh {

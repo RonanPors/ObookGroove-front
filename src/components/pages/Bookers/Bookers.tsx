@@ -170,21 +170,16 @@ export default function Bookers() {
           </Header>
 
           <Grid>
-            {books.map((book: Book) => (
-              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
+            {user?.currentBooks.map((book: Book, i: Key) => (
+              <GridColumn key={i} mobile={16} tablet={7} computer={5}>
                 <Segment>
                   <CardBook book={book} />
                 </Segment>
               </GridColumn>
-            ))}
+            )
+            )
+            }
           </Grid>
-
-          <Button 
-          onClick={handleClickRefresh}
-          className="bookers__refresh" circular icon="refresh" />
-        </>
-      )}
-
-    </Container>
-  );
+  </Container>
+  );)
 }
