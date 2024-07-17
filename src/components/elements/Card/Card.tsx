@@ -11,12 +11,15 @@ import {
   Item,
   ItemImage,
   Popup,
-  Container
+  Container,
+  Button,
+  Radio
 
 } from 'semantic-ui-react';
 
-import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
 import { Book } from '../../../@types/book';
+import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
+import BookShellActive from '../../../assets/logo/svg/toggle-on-favori.svg'
 import placeholder from '../../../assets/logo/svg/logo2_blanc.svg';
 
 type CardBookProps = {
@@ -29,9 +32,6 @@ const cardStyle = {
 };
 
 export default function CardBook({ book }: CardBookProps) {
-  // const { user } = useUserByIdQuery(2);
-  // console.log(book.genre);
-
   return (
     <div>
       <Card id="card__container">
@@ -50,11 +50,14 @@ export default function CardBook({ book }: CardBookProps) {
         </Segment>
 
         <CardContent fluid>
-          <a>
+          <div className='card__content__favori'>
             <Popup content='Ajouter à ma bibliothèque' trigger={ <Image floated="right" src={BookShell} />} />
-          </a>
-          
-          
+          </div>
+          <div className='card__content__favori'>
+            <Popup content='Retirer de ma bibliothèque' trigger={ <Image floated="right" src={BookShellActive} />} />
+          </div> 
+          {/* <Button primary icon='favorite' /> */}
+ 
           <Header inverted color="grey" id="card_author" as="h2" >
             {book.title}
           </Header>
