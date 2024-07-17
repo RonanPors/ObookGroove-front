@@ -1,16 +1,10 @@
 @use '../../../styles/variables' as v;
 
-.ui.container.bookers__container {
+.bookers__container {
   margin-block: 3rem;
   padding-block: 3rem;
-  background-color: black;
-  display: flex;
-  // padding-left: 20rem;
-  // padding-right: 20rem;
   padding-bottom: 10rem;
 }
-
-
 
 h1,
 h3,
@@ -66,6 +60,11 @@ p {
   justify-content: left;
 }
 
+.bookers__container--refresh {
+  display: flex;
+}
 .ui.circular.button.bookers__refresh {
   margin: 2rem auto;
 }
+
+

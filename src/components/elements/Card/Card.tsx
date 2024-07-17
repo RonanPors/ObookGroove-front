@@ -17,6 +17,7 @@ import {
 
 import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
 import { Book } from '../../../@types/book';
+import placeholder from '../../../assets/logo/svg/logo2_blanc.svg';
 
 type CardBookProps = {
   book: Book;
@@ -39,7 +40,7 @@ export default function CardBook({ book }: CardBookProps) {
             
             <ItemImage id="card__image" fluid
              style={cardStyle}
-              src={book.cover}
+              src={ book.cover || placeholder }
               wrapped ui={false}
               size="tiny"
               centered

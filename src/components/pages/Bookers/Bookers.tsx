@@ -55,7 +55,7 @@ export default function Bookers() {
   }, [code, state, dispatch, navigate, userId]);
 
   return (
-    <Container className="bookers__container">
+    <div className="bookers__container">
       {loading && (<p>Patientez, nous traitons votre demande.</p>)}
 
       {!loading && !error && books.length === 0 && (
@@ -169,9 +169,9 @@ export default function Bookers() {
             Bienvenue {pseudo}
           </Header>
 
-          <Grid>
-            {user?.currentBooks.map((book: Book, i: Key) => (
-              <GridColumn key={i} mobile={16} tablet={7} computer={5}>
+          {/* <Grid>
+            {books.map((book: Book) => (
+              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
                 <Segment>
                   <CardBook book={book} />
                 </Segment>
@@ -179,7 +179,62 @@ export default function Bookers() {
             )
             )
             }
-          </Grid>
-  </Container>
-  );)
+          </Grid> */}
+          <MediaQuery minWidth={1224}>
+            <Grid columns='five' padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                    <CardBook book={book} />   
+                </GridColumn>
+                ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={1223} minWidth={1024}>
+            <Grid columns='four' padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                    <CardBook book={book} />   
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={1023} minWidth={768}>
+            <Grid columns='three' padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                    <CardBook book={book} />   
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={767} minWidth={520}>
+            <Grid columns='two' padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                    <CardBook book={book} />   
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={519} >
+            <Grid columns='one' padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                    <CardBook book={book} />   
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <div className='bookers__container--refresh'>
+            <Button onclick={handleClickRefresh} className="bookers__refresh" circular icon="refresh" />
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
