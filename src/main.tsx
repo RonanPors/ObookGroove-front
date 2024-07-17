@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 import router from './router';
 
 // le client de GraphQL :
-import { apolloClient } from './lib/gql/queries';
+import { apolloClient } from './lib/gql/apolloClient';
 
 // lié au store :
 import store, { persistor } from './store/store';

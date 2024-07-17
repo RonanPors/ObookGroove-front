@@ -1,12 +1,16 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import { Book } from '../../@types/book';
 import { createAppAsyncThunk } from '../../hooks/redux';
-import { userCurrentBooksQuery, apolloClient, userSuggestBooksQuery } from '../../lib/gql/queries';
+import { apolloClient } from '../../lib/gql/apolloClient';
+import {
+  userCurrentBooksQuery,
+  userSuggestBooksQuery,
+} from '../../lib/gql/queries';
 import {
   getSpotifyTokenApi,
   spotifyAuthorizationApi,
 } from '../../lib/spotifyApi';
-
+import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 
 type BooksReducerState = {
   loading: boolean;
@@ -21,6 +25,11 @@ const initialState: BooksReducerState = {
   books: [],
   pseudo: '',
 };
+
+//Mise à jour de isFavorite des books store.
+export const updateFavoriteBookState = createAction<{ bookId: number }>(
+  'BOOKS/UPDATE_FAVORITE_BOOK_STATE'
+);
 
 /* --------------------------------------
 -------------- SPOTIFY ------------------
@@ -101,16 +110,55 @@ export const suggestBooks = createAppAsyncThunk(
     }
   }
 );
+
+/* --------------------------------------
+---------- UPDATE FAVORITE BOOK ---------
+----------------------------------------*/
+
+export const updateFavoriteBook = createAppAsyncThunk(
+  'BOOKS/UPDATE_FAVORITE_BOOK',
+  async ({
+    userId,
+    bookId,
+    isFavorite,
+  }: {
+    userId: number | null;
+    bookId: number | null;
+    isFavorite: boolean;
+  }) => {
+    try {
+      return await apolloClient.mutate({
+        mutation: updateFavoriteBookMutation,
+        variables: { input: { userId, bookId, isFavorite } },
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return 'Unknown Error';
+    }
+  }
+);
+
 /* -----------------------------------
 ---- REDUCER With --------------------
------------------ spotify -------------
------------------ spotify callback ----
+----------------- spotify ------------
+----------------- spotify callback ---
 ----------------- current books ------
 ----------------- suggest books ------
+----------------- favorite books -----
 --------------------------------------*/
 
 const booksReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(updateFavoriteBookState, (state, action) => {
+      state.books = state.books.map((book) => {
+        if (book.id === action.payload.bookId) {
+          book.isFavorite = !book.isFavorite;
+        }
+        return book;
+      });
+    })
     /* --------------------------------------
     -------------- SPOTIFY ------------------
     ----------------------------------------*/
@@ -159,15 +207,29 @@ const booksReducer = createReducer(initialState, (builder) => {
     ------------- SUGGEST BOOKS -------------
     ----------------------------------------*/
     .addCase(suggestBooks.pending, (state) => {
-      state.loading=true;
-    }) 
+      state.loading = true;
+    })
     .addCase(suggestBooks.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = false;
       console.log(action.payload);
       state.books = action.payload.data.user.suggestBooks;
       state.pseudo = action.payload.data.user.pseudo;
     })
     .addCase(suggestBooks.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+
+    /* --------------------------------------
+    ------------- SUGGEST BOOKS -------------
+    ----------------------------------------*/
+    .addCase(updateFavoriteBook.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(updateFavoriteBook.fulfilled, (state, action) => {
+      state.loading = false;
+    })
+    .addCase(updateFavoriteBook.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     });
