@@ -1,34 +1,4 @@
-import {
-  ApolloClient,
-  createHttpLink,
-  gql,
-  concat,
-  ApolloLink,
-  InMemoryCache,
-} from '@apollo/client';
-
-// création de la base url pour les requêtes graphql
-const httpLink = createHttpLink({
-  uri: `${import.meta.env.VITE_API_URL}/graphql`,
-  credentials: 'include',
-});
-
-// instance de classe qui va effectuer une action avant la requête
-const authLink = new ApolloLink((operation, forward) => forward(operation));
-
-// le client qui va effectuer ces actions avant chaque requête
-export const apolloClient = new ApolloClient({
-  link: concat(authLink, httpLink),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-    },
-  },
-});
+import { gql } from '@apollo/client';
 
 /* --------------------------------------
 ---------------- INFO USER --------------
@@ -71,6 +41,7 @@ const userCurrentBooksFragment = gql`
       genre
       cover
       author
+      isFavorite
     }
   }
 `;
@@ -104,6 +75,7 @@ const userSuggestBooksFragment = gql`
       genre
       cover
       author
+      isFavorite
     }
   }
 `;
@@ -117,3 +89,35 @@ export const userSuggestBooksQuery = gql`
   }
   ${userSuggestBooksFragment}
 `;
+
+/* --------------------------------------
+------------ FAVORITE BOOKS --------------
+----------------------------------------*/
+// fragment pour une partie de la requête FAVORITE BOOKS
+
+const userFavoriteBooksFragment = gql`
+  fragment UserFavoriteBooks on Book {
+    id
+    isbn
+    numberOfPages
+    resume
+    title
+    year
+    genre
+    cover
+    author
+    isFavorite
+  }
+`;
+
+// la requête FAVORITE BOOKS
+export const userFavoriteBooksQuery = gql `
+  query Query($id: Int!){
+    user(id: $id) {
+      favoriteBooks{
+        ...UserFavoriteBooks
+      }}
+  }
+  ${userFavoriteBooksFragment}
+`;
+
