@@ -20,10 +20,17 @@ import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.
 import CardBook from '../../elements/Card/Card';
 
 import { Book } from '../../../@types/book';
-import { currentBooks, suggestBooks, getSpotifyToken, spotifyAuthorization, } from '../../../store/reducers/booksReducer';
+import {
+  currentBooks,
+  suggestBooks,
+  getSpotifyToken,
+  spotifyAuthorization,
+} from '../../../store/reducers/booksReducer';
 
 export default function Bookers() {
-  const { books, error, loading, pseudo } = useAppSelector((store) => store.books);
+  const { books, error, loading, pseudo } = useAppSelector(
+    (store) => store.books
+  );
   const { id: userId } = useAppSelector((store) => store.user.userData);
 
   const dispatch = useAppDispatch();
@@ -33,9 +40,9 @@ export default function Bookers() {
   };
 
   const handleClickRefresh = () => {
-    dispatch(suggestBooks({id: userId}));
+    dispatch(suggestBooks({ id: userId }));
   };
-  
+
   // pour récupérer les params de l'URI afin de faire une redirection
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
@@ -56,7 +63,7 @@ export default function Bookers() {
 
   return (
     <div className="bookers__container">
-      {loading && (<p>Patientez, nous traitons votre demande.</p>)}
+      {loading && <p>Patientez, nous traitons votre demande.</p>}
 
       {!loading && !error && books.length === 0 && (
         <>
@@ -181,73 +188,81 @@ export default function Bookers() {
             }
           </Grid> */}
           <MediaQuery minWidth={1224}>
-            <Grid columns='five' padded>
+            <Grid columns="five" padded>
               {books.map((book: Book) => (
                 <GridColumn key={book.isbn}>
-                    <CardBook book={book} />   
+                  <CardBook book={book} />
                 </GridColumn>
-                ))}
+              ))}
             </Grid>
           </MediaQuery>
 
           <MediaQuery maxWidth={1223} minWidth={1024}>
-            <Grid columns='four' padded>
+            <Grid columns="four" padded>
               {books.map((book: Book) => (
                 <GridColumn key={book.isbn}>
-                    <CardBook book={book} />   
+                  <CardBook book={book} />
                 </GridColumn>
               ))}
             </Grid>
           </MediaQuery>
 
           <MediaQuery maxWidth={1023} minWidth={768}>
-            <Grid columns='three' padded>
+            <Grid columns="three" padded>
               {books.map((book: Book) => (
                 <GridColumn key={book.isbn}>
-                    <CardBook book={book} />   
+                  <CardBook book={book} />
                 </GridColumn>
               ))}
             </Grid>
           </MediaQuery>
 
           <MediaQuery maxWidth={767} minWidth={520}>
-            <Grid columns='two' padded>
+            <Grid columns="two" padded>
               {books.map((book: Book) => (
                 <GridColumn key={book.isbn}>
-                    <CardBook book={book} />   
+                  <CardBook book={book} />
                 </GridColumn>
               ))}
             </Grid>
           </MediaQuery>
 
-          <MediaQuery maxWidth={519} >
-            <Grid columns='one' padded>
+          <MediaQuery maxWidth={519}>
+            <Grid columns="one" padded>
               {books.map((book: Book) => (
                 <GridColumn key={book.isbn}>
-                    <CardBook book={book} />   
+                  <CardBook book={book} />
                 </GridColumn>
               ))}
             </Grid>
           </MediaQuery>
 
-          <div className='bookers__container--refresh'>
-            <Button onclick={handleClickRefresh} className="bookers__refresh" circular icon="refresh" />
+          <div className="bookers__container--refresh">
+            <Button
+              onClick={handleClickRefresh}
+              className="bookers__refresh"
+              circular
+              icon="refresh"
+            />
           </div>
         </>
       )}
 
       {error && (
-        <> 
+        <>
           <Header
             className="bookers__header"
             inverted
             as="h1"
             textAlign="center"
-            >
+          >
             Bienvenue {pseudo}
           </Header>
-          
-          <p>Suite à cette erreur : {error}. Merci de vous reconnecter à votre compte Spotify.</p>
+
+          <p>
+            Suite à cette erreur : {error}. Merci de vous reconnecter à votre
+            compte Spotify.
+          </p>
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">
               Associer votre compte Spotify à votre compte O&apos;Book Groove
@@ -325,7 +340,7 @@ export default function Bookers() {
                       <ButtonContent id="bookers__button" visible>
                         Associer mes comptes
                       </ButtonContent>
-                      <ButtonContent hidden size='large'>
+                      <ButtonContent hidden size="large">
                         <Icon name="sync" />{' '}
                       </ButtonContent>
                     </Button>
