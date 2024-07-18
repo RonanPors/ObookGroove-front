@@ -80,6 +80,7 @@ export default function Bookers() {
             Bienvenue {pseudo}
           </Header>
 
+
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">
               Associer votre compte Spotify à votre compte O&apos;Book Groove

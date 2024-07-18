@@ -38,67 +38,21 @@ export default function Library() {
   }, [dispatch, userId]);
 
 return (
-    
-      <>
-          <Header
-            className="bookers__header"
-            inverted
-            as="h1"
-            textAlign="center"
-          >
-            Bienvenue {pseudo}
-          </Header>
-
-          <MediaQuery minWidth={1224}>
-            <Grid columns="five" padded>
-              {books.map((book: Book) => (
-                <GridColumn key={book.isbn}>
-                  <CardBook book={book} />
-                </GridColumn>
-              ))}
-            </Grid>
-          </MediaQuery>
-
-          <MediaQuery maxWidth={1223} minWidth={1024}>
-            <Grid columns="four" padded>
-              {books.map((book: Book) => (
-                <GridColumn key={book.isbn}>
-                  <CardBook book={book} />
-                </GridColumn>
-              ))}
-            </Grid>
-          </MediaQuery>
-
-          <MediaQuery maxWidth={1023} minWidth={768}>
-            <Grid columns="three" padded>
-              {books.map((book: Book) => (
-                <GridColumn key={book.isbn}>
-                  <CardBook book={book} />
-                </GridColumn>
-              ))}
-            </Grid>
-          </MediaQuery>
-
-          <MediaQuery maxWidth={767} minWidth={520}>
-            <Grid columns="two" padded>
-              {books.map((book: Book) => (
-                <GridColumn key={book.isbn}>
-                  <CardBook book={book} />
-                </GridColumn>
-              ))}
-            </Grid>
-          </MediaQuery>
-
-          <MediaQuery maxWidth={519}>
-            <Grid columns="one" padded>
-              {books.map((book: Book) => (
-                <GridColumn key={book.isbn}>
-                  <CardBook book={book} />
-                </GridColumn>
-              ))}
-            </Grid>
-          </MediaQuery>
-
-      </>
+      <section className='library__container'>
+        <Header
+          className="library__header"
+          inverted
+          as="h1"
+          textAlign="center"
+        >
+          Bibliothèque
+        </Header>
+        <section className='wrapper'>
+            {books.map((book: Book) => (     
+                <CardBook book={book} key={book.isbn}/>
+            ))}
+        </section>  
+      </section>
+         
   );
 }
