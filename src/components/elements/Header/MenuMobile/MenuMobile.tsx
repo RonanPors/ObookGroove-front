@@ -7,21 +7,17 @@ import { toggleMenu } from '../../../../store/reducers/userReducer';
 
 export default function MenuMobile() {
   const menuIsOpen = useAppSelector((state) => state.user.menuIsOpen);
+  const { isLogged } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleClick = () => {
     dispatch(toggleMenu());
-    navigate('/signin');
   };
 
-  return (
-    <Menu
-      inverted
-      vertical
-      fluid
-      className={menuIsOpen ? 'mobile__menu is-open' : 'mobile__menu'}
-    >
+  let menuContextual : JSX.Element
+
+  if (isLogged) {
+    menuContextual = <Menu inverted vertical fluid className={menuIsOpen ? 'mobile__menu is-open' : 'mobile__menu'}>
       <MenuItem
         className="mobile__item text-chapo"
         name="Accueil"
@@ -51,8 +47,20 @@ export default function MenuMobile() {
       >
         Bibliothèque
       </MenuItem>
+      <MenuItem as={NavLink} to="/logout">
+        <Button
+          primary
+          className="mobile__button button__primary text-chapo"
+          onClick={handleClick}
+        >
+          Se déconnecter
+        </Button>
+      </MenuItem>
+    </Menu>
 
-      <MenuItem>
+  } else {
+    menuContextual = <Menu inverted vertical fluid className={menuIsOpen ? 'mobile__menu is-open' : 'mobile__menu'}>
+      <MenuItem as={NavLink} to="/signin">
         <Button
           primary
           className="mobile__button button__primary text-chapo"
@@ -62,5 +70,12 @@ export default function MenuMobile() {
         </Button>
       </MenuItem>
     </Menu>
+
+  }
+
+  return (
+    <>
+      {menuContextual}
+    </>
   );
 }

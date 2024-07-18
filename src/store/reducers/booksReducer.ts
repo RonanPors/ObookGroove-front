@@ -5,6 +5,7 @@ import { apolloClient } from '../../lib/gql/apolloClient';
 import {
   userCurrentBooksQuery,
   userSuggestBooksQuery,
+  userFavoriteBooksQuery,
 } from '../../lib/gql/queries';
 import {
   getSpotifyTokenApi,
@@ -151,14 +152,35 @@ export const updateFavoriteBook = createAppAsyncThunk(
   }
 );
 
-/* -----------------------------------
----- REDUCER With --------------------
------------------ spotify ------------
------------------ spotify callback ---
------------------ current books ------
------------------ suggest books ------
------------------ favorite books -----
---------------------------------------*/
+/* --------------------------------------
+---------- FAVORITE BOOK LIBRARY---------
+----------------------------------------*/
+export const favoriteBooks = createAppAsyncThunk(
+  'BOOKS/FAVORITES_BOOKS_ASYNC',
+  async ({ id }: { id: number | null }) => {
+    try {
+      return await apolloClient.query({
+        query: userFavoriteBooksQuery,
+        variables: { id },
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return 'Unknown Error';
+    }
+  }
+);
+
+/* ---------------------------------------
+---- REDUCER With ------------------------
+----------------- spotify ----------------
+----------------- spotify callback -------
+----------------- current books ----------
+----------------- suggest books ----------
+----------------- update favorite books --
+----------------- favorite books library -
+-----------------------------------------*/
 
 const booksReducer = createReducer(initialState, (builder) => {
   builder
@@ -236,7 +258,7 @@ const booksReducer = createReducer(initialState, (builder) => {
     })
 
     /* --------------------------------------
-    ------------- SUGGEST BOOKS -------------
+    --------- UPDATE FAVORITE BOOK ----------
     ----------------------------------------*/
     .addCase(updateFavoriteBook.pending, (state) => {
       state.loading = true;
@@ -245,6 +267,20 @@ const booksReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateFavoriteBook.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+    /* --------------------------------------
+    ---------  FAVORITE BOOK LIBRARY----------
+    ----------------------------------------*/
+    .addCase(favoriteBooks.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(favoriteBooks.fulfilled, (state, action) => {
+      state.loading = false;
+      state.books = action.payload.data.user.favoriteBooks;
+    })
+    .addCase(favoriteBooks.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     });
