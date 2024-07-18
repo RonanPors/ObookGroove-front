@@ -18,6 +18,7 @@ type BooksReducerState = {
   error: string | null;
   books: Book[];
   pseudo: string;
+  openModal: boolean;
 };
 
 const initialState: BooksReducerState = {
@@ -26,12 +27,16 @@ const initialState: BooksReducerState = {
   error: null,
   books: [],
   pseudo: '',
+  openModal: false,
 };
 
-//Mise à jour de isFavorite des books store.
+// Mise à jour de isFavorite des books store.
 export const updateFavoriteBookState = createAction<{ bookId: number }>(
   'BOOKS/UPDATE_FAVORITE_BOOK_STATE'
 );
+
+// action toggle de l'état openModal
+export const toggleOpenModal = createAction('BOOKS/TOGGLE_OPEN_MODAL');
 
 /* --------------------------------------
 -------------- SPOTIFY ------------------
@@ -160,6 +165,10 @@ const booksReducer = createReducer(initialState, (builder) => {
         }
         return book;
       });
+    })
+
+    .addCase(toggleOpenModal, (state) => {
+      state.openModal = !state.openModal;
     })
     /* --------------------------------------
     -------------- SPOTIFY ------------------

@@ -8,9 +8,13 @@ import {
 } from 'semantic-ui-react';
 import './BookDetailsModal.scss';
 import img from '../../../../assets/logo/svg/logo4_vertbleu.svg';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 
 export default function BookDetailsModal() {
   const [open, setOpen] = useState(false);
+  const { openModal } = useAppSelector((store) => store.books);
+  const dispatch = useAppDispatch();
+
   return (
     <Modal
       className="book-details__modal"

@@ -22,11 +22,6 @@
   padding-bottom: 0px;
 }
 
-// div.content {
-//   height: 130px;
-//   padding-bottom: 0px;
-// }
-
 .image {
   margin: 0;
 }
@@ -40,6 +35,7 @@
 }
 
 #card__image {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   height: 250px;
