@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 import router from './router';
 
 // le client de GraphQL :
-import { apolloClient } from './lib/gql/queries';
+import { apolloClient } from './lib/gql/apolloClient';
 
 // lié au store :
 import store, { persistor } from './store/store';
@@ -29,13 +29,11 @@ const root = ReactDOM.createRoot(
 
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
- 
-    <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </ApolloProvider>
-  
+  <ApolloProvider client={apolloClient}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </ApolloProvider>
 );
