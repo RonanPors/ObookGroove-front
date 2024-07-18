@@ -28,7 +28,7 @@ import {
 } from '../../../store/reducers/booksReducer';
 
 export default function Bookers() {
-  const { books, error, loading, pseudo } = useAppSelector(
+  const { books, error, loading, loadingSpotify, pseudo } = useAppSelector(
     (store) => store.books
   );
   const { id: userId } = useAppSelector((store) => store.user.userData);
@@ -63,9 +63,11 @@ export default function Bookers() {
 
   return (
     <div className="bookers__container">
-      {loading && <p>Patientez, nous traitons votre demande.</p>}
+      {!error && (loading || loadingSpotify) && books.length === 0 && (
+        <p>Patientez, nous traitons votre demande.</p>
+      )}
 
-      {!loading && !error && books.length === 0 && (
+      {!loading && !loadingSpotify && !error && books.length === 0 && (
         <>
           <Header
             className="bookers__header"

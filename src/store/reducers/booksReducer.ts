@@ -14,12 +14,14 @@ import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 
 type BooksReducerState = {
   loading: boolean;
+  loadingSpotify: boolean;
   error: string | null;
   books: Book[];
   pseudo: string;
 };
 
 const initialState: BooksReducerState = {
+  loadingSpotify: false,
   loading: false,
   error: null,
   books: [],
@@ -177,7 +179,7 @@ const booksReducer = createReducer(initialState, (builder) => {
     ----------- SPOTIFY CALLBACK ------------
     ----------------------------------------*/
     .addCase(getSpotifyToken.pending, (state) => {
-      state.loading = true;
+      state.loadingSpotify = true;
     })
     .addCase(getSpotifyToken.fulfilled, (state, action) => {
       state.loading = false;
