@@ -10,10 +10,6 @@ import Burger from './Burger/Burger';
 import { JSX } from 'react/jsx-runtime';
 
 function Header() {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('/signin');
-  };
   const { isLogged } = useAppSelector((store) => store.user);
 
   let menuContextual : JSX.Element
@@ -64,7 +60,6 @@ function Header() {
       <Button
         primary
         className="header__button button__primary text-chapo"
-        onClick={handleClick}
       >
         Se connecter
       </Button>
