@@ -5,10 +5,10 @@ import {
   Header,
   Segment,
   Icon,
-  Container,
   Image,
   GridRow,
   GridColumn,
+  Loader,
 } from 'semantic-ui-react';
 import './Bookers.scss';
 import { useEffect, useRef, useState } from 'react';
@@ -16,8 +16,8 @@ import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
-// import refresh from '../../../assets/logo/svg/logo1_noir.svg';
 import CardBook from '../../elements/Card/Card';
+import FailedMessage from '../../elements/Messages/FailedMessage/FailedMessage';
 
 import { Book } from '../../../@types/book';
 import {
@@ -63,8 +63,10 @@ export default function Bookers() {
 
   return (
     <div className="bookers__container">
-      {!error && (loading || loadingSpotify) && books.length === 0 && (
-        <p>Patientez, nous traitons votre demande.</p>
+      {!error && (loading || (loadingSpotify && books.length === 0)) && (
+        <Loader active inline="centered" size="medium" inverted>
+          Patientez, nous traitons votre demande
+        </Loader>
       )}
 
       {!loading && !loadingSpotify && !error && books.length === 0 && (
@@ -178,17 +180,6 @@ export default function Bookers() {
             Bienvenue {pseudo}
           </Header>
 
-          {/* <Grid>
-            {books.map((book: Book) => (
-              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
-                <Segment>
-                  <CardBook book={book} />
-                </Segment>
-              </GridColumn>
-            )
-            )
-            }
-          </Grid> */}
           <MediaQuery minWidth={1224}>
             <Grid columns="five" padded>
               {books.map((book: Book) => (
@@ -260,11 +251,11 @@ export default function Bookers() {
           >
             Bienvenue {pseudo}
           </Header>
-
-          <p>
-            Suite à cette erreur : {error}. Merci de vous reconnecter à votre
+          <FailedMessage>
+            Suite à cette erreur : {error}. Merci d'associer à nouveau votre
             compte Spotify.
-          </p>
+          </FailedMessage>
+
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">
               Associer votre compte Spotify à votre compte O&apos;Book Groove
