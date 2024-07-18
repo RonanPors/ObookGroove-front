@@ -1,4 +1,3 @@
-import React from 'react';
 import './Card.scss';
 import {
   Header,
@@ -10,12 +9,18 @@ import {
   LabelGroup,
   Item,
   ItemImage,
-  Container,
+  Popup,
 } from 'semantic-ui-react';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-import Dune from '../../../assets/illustrations/jacket-livre/Dune.jpg';
-import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
 import { Book } from '../../../@types/book';
+import BookShell from '../../../assets/logo/svg/bookshell 1.svg';
+import BookShellActive from '../../../assets/logo/svg/toggle-on-favori.svg';
+import placeholder from '../../../assets/logo/svg/logo2_blanc.svg';
+import {
+  updateFavoriteBookState,
+  updateFavoriteBook,
+} from '../../../store/reducers/booksReducer';
 
 type CardBookProps = {
   book: Book;
@@ -27,43 +32,70 @@ const cardStyle = {
 };
 
 export default function CardBook({ book }: CardBookProps) {
-  // const { user } = useUserByIdQuery(2);
-  // console.log(book.genre);
+  const { id: userId } = useAppSelector((store) => store.user.userData);
+  const dispatch = useAppDispatch();
+
+  const handleToggleFavorite = () => {
+    dispatch(
+      updateFavoriteBook({
+        userId,
+        bookId: book.id,
+        isFavorite: !book.isFavorite,
+      })
+    );
+    dispatch(updateFavoriteBookState({ bookId: book.id }));
+  };
 
   return (
     <div>
-      <Card id="card__container" fluid>
+      <Card id="card__container">
         <Segment id="card__image" inverted>
           <Item align="centered">
-            <Image
-              class="class__image"
+            <ItemImage
+              id="card__image"
               fluid
               style={cardStyle}
-              src={book.cover}
+              src={book.cover || placeholder}
               wrapped
               ui={false}
-              size="small"
+              size="tiny"
               centered
             />
           </Item>
         </Segment>
 
         <CardContent fluid>
-          <Image floated="right" src={BookShell} />
-          <Header inverted color="grey" id="card_author" as="h2">
+          <Popup
+            content={
+              book.isFavorite
+                ? 'Retirer de ma bibliothèque'
+                : 'Ajouter à ma bibliothèque'
+            }
+            trigger={
+              <Image
+                floated="right"
+                src={book.isFavorite ? BookShellActive : BookShell}
+                onClick={handleToggleFavorite}
+              />
+            }
+          />
+
+          <Header inverted color="grey" id="card_author" as="h3">
             {book.title}
           </Header>
-          <Header inverted color="grey" as="h3">
+          <Header inverted color="grey" as="h4">
             {book.author}
           </Header>
         </CardContent>
 
         <CardContent extra>
-          <LabelGroup color="blue">
+          <LabelGroup>
             {book.genre &&
               book.genre.length > 0 &&
               book.genre.map((item: string) => (
-                <Label key={item}>{item}</Label>
+                <Label id="card__label" key={item}>
+                  {item}
+                </Label>
               ))}
           </LabelGroup>
         </CardContent>

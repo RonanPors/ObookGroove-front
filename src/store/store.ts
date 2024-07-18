@@ -3,7 +3,6 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 
 import userReducer from './reducers/userReducer';
-import spotifyReducer from './reducers/spotifyReducer';
 import booksReducer from './reducers/booksReducer';
 
 const persistUserConfig = {
@@ -16,8 +15,7 @@ const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
 const store = configureStore({
   reducer: {
     user: persistedUserReducer,
-    books: spotifyReducer,
-    booksGraphql: booksReducer,
+    books: booksReducer,
   },
 });
 

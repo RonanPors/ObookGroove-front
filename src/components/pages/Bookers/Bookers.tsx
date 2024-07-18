@@ -5,57 +5,33 @@ import {
   Header,
   Segment,
   Icon,
-  Container,
   Image,
   GridRow,
   GridColumn,
+  Loader,
 } from 'semantic-ui-react';
 import './Bookers.scss';
 import { useEffect, useRef, useState } from 'react';
 import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import {
-  getSpotifyToken,
-  spotifyAuthorization,
-} from '../../../store/reducers/spotifyReducer';
 import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
-// import refresh from '../../../assets/logo/svg/logo1_noir.svg';
 import CardBook from '../../elements/Card/Card';
-
-// Graphql:
-// import { useUserByIdQuery } from '../../../hooks/graphql';
-import {
-  useUserCurrentBooksQuery,
-  useUserSuggestBooksQuery,
-} from '../../../hooks/graphql';
+import FailedMessage from '../../elements/Messages/FailedMessage/FailedMessage';
 
 import { Book } from '../../../@types/book';
-import { currentBooks } from '../../../store/reducers/booksReducer';
+import {
+  currentBooks,
+  suggestBooks,
+  getSpotifyToken,
+  spotifyAuthorization,
+} from '../../../store/reducers/booksReducer';
 
 export default function Bookers() {
-  const {
-    books,
-    error: error2,
-    loading: loading2,
-  } = useAppSelector((store) => store.books);
-  const {
-    books: booksGraphql,
-    error,
-    loading,
-    pseudo,
-  } = useAppSelector((store) => store.booksGraphql);
-
+  const { books, error, loading, loadingSpotify, pseudo } = useAppSelector(
+    (store) => store.books
+  );
   const { id: userId } = useAppSelector((store) => store.user.userData);
-
-  // Graphql pour afficher les infos de l'utilisateur :
-  // const { user, loading, error } = useUserByIdQuery(userId);
-  // const { user, loading, error } = useUserCurrentBooksQuery(userId, 10);
-  // const {
-  //   user: userSuggest,
-  //   loading: loadingSuggest,
-  //   error: errorSuggest,
-  // } = useUserSuggestBooksQuery(userId);
 
   const dispatch = useAppDispatch();
 
@@ -63,9 +39,10 @@ export default function Bookers() {
     dispatch(spotifyAuthorization());
   };
 
-  // const handleClickRefresh = () => {
-  //   useUserSuggestBooksQuery(userId);
-  // };
+  const handleClickRefresh = () => {
+    dispatch(suggestBooks({ id: userId }));
+  };
+
   // pour récupérer les params de l'URI afin de faire une redirection
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
@@ -85,8 +62,14 @@ export default function Bookers() {
   }, [code, state, dispatch, navigate, userId]);
 
   return (
-    <Container className="bookers__container">
-      {!loading && !error && booksGraphql.length === 0 && (
+    <div className="bookers__container">
+      {!error && (loading || (loadingSpotify && books.length === 0)) && (
+        <Loader active inline="centered" size="medium" inverted>
+          Patientez, nous traitons votre demande
+        </Loader>
+      )}
+
+      {!loading && !loadingSpotify && !error && books.length === 0 && (
         <>
           <Header
             className="bookers__header"
@@ -96,6 +79,7 @@ export default function Bookers() {
           >
             Bienvenue {pseudo}
           </Header>
+
 
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">
@@ -165,7 +149,7 @@ export default function Bookers() {
                 <GridRow stretched>
                   <GridColumn width={16}>
                     <Button
-                      onClick={() => dispatch(spotifyAuthorization())}
+                      onClick={handleClick}
                       animated
                       inverted
                       size="large"
@@ -186,7 +170,7 @@ export default function Bookers() {
         </>
       )}
 
-      {!loading && !error && booksGraphql.length > 0 && books.length === 0 && (
+      {!loading && !error && books.length > 0 && (
         <>
           <Header
             className="bookers__header"
@@ -197,21 +181,68 @@ export default function Bookers() {
             Bienvenue {pseudo}
           </Header>
 
-          <Grid>
-            {booksGraphql.map((book: Book) => (
-              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
-                <Segment>
+          <MediaQuery minWidth={1224}>
+            <Grid columns="five" padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
                   <CardBook book={book} />
-                </Segment>
-              </GridColumn>
-            ))}
-          </Grid>
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
 
-          <Button className="bookers__refresh" circular icon="refresh" />
+          <MediaQuery maxWidth={1223} minWidth={1024}>
+            <Grid columns="four" padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                  <CardBook book={book} />
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={1023} minWidth={768}>
+            <Grid columns="three" padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                  <CardBook book={book} />
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={767} minWidth={520}>
+            <Grid columns="two" padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                  <CardBook book={book} />
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <MediaQuery maxWidth={519}>
+            <Grid columns="one" padded>
+              {books.map((book: Book) => (
+                <GridColumn key={book.isbn}>
+                  <CardBook book={book} />
+                </GridColumn>
+              ))}
+            </Grid>
+          </MediaQuery>
+
+          <div className="bookers__container--refresh">
+            <Button
+              onClick={handleClickRefresh}
+              className="bookers__refresh"
+              circular
+              icon="refresh"
+            />
+          </div>
         </>
       )}
 
-      {!loading2 && !error2 && books.length > 0 && (
+      {error && (
         <>
           <Header
             className="bookers__header"
@@ -221,24 +252,99 @@ export default function Bookers() {
           >
             Bienvenue {pseudo}
           </Header>
+          <FailedMessage>
+            Suite à cette erreur : {error}. Merci d'associer à nouveau votre
+            compte Spotify.
+          </FailedMessage>
 
-          <Grid>
-            {books.map((book: Book) => (
-              <GridColumn key={book.isbn} mobile={16} tablet={7} computer={5}>
-                <Segment>
-                  <CardBook book={book} />
-                </Segment>
-              </GridColumn>
-            ))}
-          </Grid>
+          <Segment id="bookers__content" inverted>
+            <Header inverted size="large" as="h2">
+              Associer votre compte Spotify à votre compte O&apos;Book Groove
+            </Header>
+            <MediaQuery minWidth={768}>
+              <Grid centered columns={2} divided verticalAlign="middle">
+                <GridRow stretched>
+                  <GridColumn width={6}>
+                    <Header inverted size="tiny" as="h4">
+                      En associant vos comptes Spotify et O&apos;bookGroove vous
+                      bénéficierez de suggestions de livres personnalisées et en
+                      accord avec vos goûts musicaux
+                    </Header>
+                  </GridColumn>
+                  <GridColumn width={6}>
+                    <Image
+                      id="bookers__image"
+                      src={illustration}
+                      size="medium"
+                    />
+                  </GridColumn>
+                </GridRow>
+                <GridRow stretched>
+                  <GridColumn width={12}>
+                    <Button
+                      onClick={handleClick}
+                      animated
+                      inverted
+                      size="large"
+                      fluid
+                    >
+                      <ButtonContent id="bookers__button" visible>
+                        Associer mes comptes
+                      </ButtonContent>
+                      <ButtonContent hidden>
+                        <Icon name="sync" />{' '}
+                      </ButtonContent>
+                    </Button>
+                  </GridColumn>
+                </GridRow>
+              </Grid>
+            </MediaQuery>
 
-          <Button className="bookers__refresh" circular icon="refresh" />
+            <MediaQuery maxWidth={767}>
+              <Grid centered columns={1} divided verticalAlign="middle">
+                <GridRow stretched>
+                  <GridColumn width={16}>
+                    <Header inverted size="tiny" as="h4">
+                      En associant vos comptes Spotify et ObookGroove vous
+                      bénéficierez de suggestions de livres personnalisées et en
+                      accord avec vos goûts musicaux
+                    </Header>
+                  </GridColumn>
+                </GridRow>
+
+                <GridRow>
+                  <GridColumn width={16}>
+                    <Image
+                      id="bookers__image"
+                      src={illustration}
+                      size="medium"
+                    />
+                  </GridColumn>
+                </GridRow>
+
+                <GridRow stretched>
+                  <GridColumn width={16}>
+                    <Button
+                      onClick={handleClick}
+                      animated
+                      inverted
+                      size="large"
+                      fluid
+                    >
+                      <ButtonContent id="bookers__button" visible>
+                        Associer mes comptes
+                      </ButtonContent>
+                      <ButtonContent hidden size="large">
+                        <Icon name="sync" />{' '}
+                      </ButtonContent>
+                    </Button>
+                  </GridColumn>
+                </GridRow>
+              </Grid>
+            </MediaQuery>
+          </Segment>
         </>
       )}
-
-      {/* books &&
-        books.length > 0 &&
-        books.map((book, i) => <p key={i}>{book.author}</p>) */}
-    </Container>
+    </div>
   );
 }
