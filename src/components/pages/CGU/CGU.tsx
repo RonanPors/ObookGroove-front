@@ -1,4 +1,5 @@
 import './CGU.scss';
+
 export default function CGU() {
   return (
     <div className="CGU">

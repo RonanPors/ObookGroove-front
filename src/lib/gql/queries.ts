@@ -111,13 +111,13 @@ const userFavoriteBooksFragment = gql`
 `;
 
 // la requête FAVORITE BOOKS
-export const userFavoriteBooksQuery = gql `
-  query Query($id: Int!){
+export const userFavoriteBooksQuery = gql`
+  query Query($id: Int!) {
     user(id: $id) {
-      favoriteBooks{
+      favoriteBooks {
         ...UserFavoriteBooks
-      }}
+      }
+    }
   }
   ${userFavoriteBooksFragment}
 `;
-

@@ -89,7 +89,7 @@ export default function ResetPassword() {
         {hasError && <Message negative>Vous devez compléter le champ</Message>}
 
         <Button
-          color="teal"
+          color="blue"
           type="submit"
           fluid
           size="large"

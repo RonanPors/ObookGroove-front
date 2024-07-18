@@ -1,9 +1,7 @@
 @use '../../../styles/variables' as v;
 
 .bookers__container {
-  margin-block: 3rem;
-  padding-block: 3rem;
-  padding-bottom: 10rem;
+  margin: 3rem;
 }
 
 h1,
@@ -17,31 +15,9 @@ p {
   font-size: 2rem;
 }
 
-.ui.segment:last-child {
-  background-color: black;
-}
-
-#bookers__message__sucess {
-  background-color: #2a2b2a;
-  color: #2ee6b2;
-  box-shadow:
-    0 0 0 1px #2ee6b2 inset,
-    0 0 0 0 transparent;
-  width: fit-content;
-}
-
 #bookers__content {
   margin: 3rem;
   padding: 3rem;
-}
-
-.bookers__paragraph {
-  font-size: 1.5rem;
-}
-
-.ui.container {
-  background-color: black;
-  width: none;
 }
 
 #bookers__image {
@@ -49,15 +25,8 @@ p {
   padding-bottom: 4rem;
 }
 
-.ui.grid {
+.ui.grid.five {
   max-width: 1400px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  padding: 0;
-  align-content: center;
-  justify-content: left;
 }
 
 .bookers__container--refresh {
@@ -66,5 +35,3 @@ p {
 .ui.circular.button.bookers__refresh {
   margin: 2rem auto;
 }
-
-

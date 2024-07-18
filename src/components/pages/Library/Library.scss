@@ -1,20 +1,12 @@
 @use '../../../styles/variables' as v;
 
-.wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-
-}
-
 .library__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1rem;
-    padding: 1rem;
-    max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  max-width: 1400px;
 }
 
 .ui.center.aligned.header {
@@ -22,6 +14,9 @@
   font-size: 2rem;
 }
 
-
-
-
+.library__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}

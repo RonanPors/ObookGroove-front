@@ -7,11 +7,11 @@ import {
   userSuggestBooksQuery,
   userFavoriteBooksQuery,
 } from '../../lib/gql/queries';
+import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 import {
   getSpotifyTokenApi,
   spotifyAuthorizationApi,
 } from '../../lib/spotifyApi';
-import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 
 type BooksReducerState = {
   loading: boolean;
@@ -263,7 +263,7 @@ const booksReducer = createReducer(initialState, (builder) => {
     .addCase(updateFavoriteBook.pending, (state) => {
       state.loading = true;
     })
-    .addCase(updateFavoriteBook.fulfilled, (state, action) => {
+    .addCase(updateFavoriteBook.fulfilled, (state) => {
       state.loading = false;
     })
     .addCase(updateFavoriteBook.rejected, (state, action) => {
