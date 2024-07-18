@@ -1,10 +1,8 @@
-import BookDetailsModal from '../../elements/Modals/BookDetailsModal/BookDetailsModal';
 import './LegalNotice.scss';
 
 export default function LegalNotice() {
   return (
     <div className="legal-notice">
-      <BookDetailsModal />
       <h1 className="legal-notice_h1 h1">MENTIONS LÉGALES </h1>
 
       <h2 className="legal-notice_h2 h2">Éditeur du site</h2>

@@ -1,72 +1,82 @@
-import { useState } from 'react';
 import {
-  Button,
   Image,
   Modal,
   ModalContent,
   ModalDescription,
 } from 'semantic-ui-react';
 import './BookDetailsModal.scss';
-import img from '../../../../assets/logo/svg/logo4_vertbleu.svg';
+import placeholder from '../../../../assets/logo/svg/logo2_vertbleu.svg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { toggleOpenModal } from '../../../../store/reducers/booksReducer';
 
 export default function BookDetailsModal() {
-  const [open, setOpen] = useState(false);
-  const { openModal } = useAppSelector((store) => store.books);
+  const { openModal, books, idBookModal } = useAppSelector(
+    (store) => store.books
+  );
   const dispatch = useAppDispatch();
+  const modalBook = books.find((book) => book.id === idBookModal);
 
   return (
     <Modal
       className="book-details__modal"
       closeIcon
-      open={open}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      trigger={<Button>Show Modal</Button>}
+      open={openModal}
+      onClose={() => dispatch(toggleOpenModal({ idBookModal: null }))}
     >
-      <ModalContent
-        image
-        className="book-details__content book-details__content1"
-      >
-        <Image className="book-details__img" size="small" src={img} wrapped />
-        <ModalDescription className="book-details__infos">
-          <h2>Titre</h2>
-          <h3 className="h4">Auteur</h3>
-          <p>
-            <b>Date de publication</b> : AAAA
-          </p>
-          <p>
-            <b>Genre</b> : Genre
-          </p>
-          <p>
-            <b>Nombre de pages</b> : NNN
-          </p>
-          <p>
-            <b>ISBN</b> : ISBN
-          </p>
-        </ModalDescription>
-      </ModalContent>
-      <ModalContent className="book-details__resume">
-        <p>Résumé du livre :</p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia fuga
-        aspernatur sit eum, est optio veniam magnam iusto quis beatae placeat
-        magni nobis sed accusamus. Ipsam dolorum odit natus magni? Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Quia fuga aspernatur sit
-        eum, est optio veniam magnam iusto quis beatae placeat magni nobis sed
-        accusamus. Ipsam dolorum odit natus magni?
-      </ModalContent>
-      {/* <ModalActions>
-        <Button color="black" onClick={() => setOpen(false)}>
-          Nope
-        </Button>
-        <Button
-          content="Yep, that's me"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={() => setOpen(false)}
-          positive
-        />
-      </ModalActions> */}
+      {modalBook && (
+        <>
+          <ModalContent
+            image
+            className="book-details__content book-details__content1"
+          >
+            <Image
+              className="book-details__img"
+              size="small"
+              src={modalBook.cover || placeholder}
+              wrapped
+            />
+            <ModalDescription className="book-details__infos">
+              <h2>{modalBook.title || 'titre inconnu'}</h2>
+              <h3 className="h4">
+                {' '}
+                {(modalBook.author && modalBook.author.length > 0 && (
+                  <span>
+                    {modalBook.author.reduce(
+                      (acc: string, item: string) => `${acc}, ${item}`
+                    )}
+                  </span>
+                )) ||
+                  'inconnu'}
+              </h3>
+
+              <p>
+                <b>Date de publication</b> : {modalBook.year || 'inconnu'}
+              </p>
+              <p>
+                <b>Genre(s)</b> :{' '}
+                {(modalBook.genre && modalBook.genre.length > 0 && (
+                  <span>
+                    {modalBook.genre.reduce(
+                      (acc: string, item: string) => `${acc}, ${item}`
+                    )}
+                  </span>
+                )) ||
+                  'inconnu'}
+              </p>
+              <p>
+                <b>Nombre de pages</b> : {modalBook.numberOfPages || 'inconnu'}
+              </p>
+              <p>
+                <b>ISBN</b> : {modalBook.numberOfPages || 'inconnu'}
+              </p>
+            </ModalDescription>
+          </ModalContent>
+          <ModalContent className="book-details__resume">
+            <p>Résumé du livre :</p>
+            {modalBook.resume || 'inconnu'}
+          </ModalContent>
+        </>
+      )}
     </Modal>
   );
 }

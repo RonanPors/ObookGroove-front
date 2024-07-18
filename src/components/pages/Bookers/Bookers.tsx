@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import {
   Button,
   ButtonContent,
@@ -11,7 +12,6 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import './Bookers.scss';
-import { useEffect, useRef, useState } from 'react';
 import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -26,6 +26,7 @@ import {
   getSpotifyToken,
   spotifyAuthorization,
 } from '../../../store/reducers/booksReducer';
+import BookDetailsModal from '../../elements/Modals/BookDetailsModal/BookDetailsModal';
 
 export default function Bookers() {
   const { books, error, loading, loadingSpotify, pseudo } = useAppSelector(
@@ -63,6 +64,8 @@ export default function Bookers() {
 
   return (
     <div className="bookers__container">
+      <BookDetailsModal />
+
       {!error && (loading || (loadingSpotify && books.length === 0)) && (
         <Loader active inline="centered" size="medium" inverted>
           Patientez, nous traitons votre demande
