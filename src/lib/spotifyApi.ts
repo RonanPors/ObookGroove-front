@@ -35,7 +35,6 @@ export async function getSpotifyTokenApi(code: string, state: string) {
         withCredentials: true,
       }
     );
-    console.log(data);
     return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {

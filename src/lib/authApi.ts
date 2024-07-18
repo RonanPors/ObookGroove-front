@@ -30,6 +30,18 @@ export async function signupApi(body: {
 --------- CONFIRM SIGN UP --------------
 ----------------------------------------*/
 
+/* fonction pour récupérer l'id dans le token 
+(utilisé dans confirm signup et signin) */
+function getUserFromToken(token: string): { id: number | null } {
+  const { sub } = jwtDecode(token);
+  if (sub) {
+    // on transforme l'id string en number
+    return { id: parseInt(sub, 10) };
+  }
+  // sinon on renvoie un id null
+  return { id: null };
+}
+
 export type ConfirmSignupArgs = {
   userId: string;
   confirmToken: string;
@@ -44,7 +56,9 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
     );
 
     console.log(data);
-    return data;
+    // on fusionne les 2 objets data et l'id dans l'accessToken :
+    return { ...data, ...getUserFromToken(data.accessToken) };
+    // return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
       throw new Error(err.response?.data.error.message);
@@ -56,11 +70,6 @@ export async function confirmSignUpApi(args: ConfirmSignupArgs) {
 /* --------------------------------------
 ---------------- SIGN IN -----------------
 ----------------------------------------*/
-// function getUserFromToken(token: string) {
-//   const { sub } = jwtDecode(token);
-
-//   return { id: sub };
-// }
 
 export async function signinApi(body: Credentials) {
   try {
@@ -71,9 +80,10 @@ export async function signinApi(body: Credentials) {
         withCredentials: true,
       }
     );
-    // console.log(data);
-    // return { ...data, ...getUserFromToken(data.accessToken) };
-    return data;
+    console.log(data);
+    // on fusionne les 2 objets data et l'id dans l'accessToken :
+    return { ...data, ...getUserFromToken(data.accessToken) };
+    // return data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
       throw new Error(err.response?.data.error.message);
@@ -153,25 +163,30 @@ export async function generateTokensObg() {
 /* --------------------------------------
 ------ GET USER BY ID FROM TOKEN---------
 ----------------------------------------*/
+// function getUserFromToken(token: string) {
+//   const { sub } = jwtDecode(token);
 
-// export async function getUser() {
-//   try {
-//     const response = await axios.get(
-//       `${import.meta.env.VITE_API_URL}/auth/tokens`,
-//       {
-//         withCredentials: true,
-//       }
-//     );
-
-//     if (!(response.status === 200)) throw new Error('Erreur.');
-
-//     const { accessTokenObg } = await response.data;
-
-//     return { ...getUserFromToken(accessTokenObg) };
-//   } catch (err: unknown) {
-//     if (err instanceof AxiosError) {
-//       throw new Error(err.response?.data.error.message);
-//     }
-//     throw new Error('Unknown Error');
-//   }
+//   return { id: sub };
 // }
+
+export async function getUser() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/auth/tokens`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (!(response.status === 200)) throw new Error('Erreur.');
+
+    const { accessTokenObg } = await response.data;
+
+    return { ...getUserFromToken(accessTokenObg) };
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}
