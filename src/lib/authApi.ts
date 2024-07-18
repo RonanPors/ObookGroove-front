@@ -112,6 +112,50 @@ export async function resetPasswordApi(body: { email: string }) {
   }
 }
 
+/* --------------------------------------
+---------------- LOGOUT -----------------
+----------------------------------------*/
+
+export async function logoutApi() {
+  try {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/auth/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    return data;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}
+
+/* --------------------------------------
+------------ LOGOUT SPOTIFY -------------
+----------------------------------------*/
+
+export async function logoutSpotifyApi() {
+  try {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/spotify/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    return data;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}
+
 /* -------------------------------------
 ------------- NEW PASSWORD -------------
 ----------------------------------------*/
