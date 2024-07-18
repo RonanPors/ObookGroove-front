@@ -5,6 +5,7 @@ import { apolloClient } from '../../lib/gql/apolloClient';
 import {
   userCurrentBooksQuery,
   userSuggestBooksQuery,
+  userFavoriteBooksQuery,
 } from '../../lib/gql/queries';
 import {
   getSpotifyTokenApi,
@@ -113,6 +114,28 @@ export const suggestBooks = createAppAsyncThunk(
   }
 );
 
+
+/* --------------------------------------
+---------- FAVORITE BOOK ---------
+----------------------------------------*/
+export const favoriteBooks = createAppAsyncThunk(
+  'BOOKS/FAVORITES_BOOKS_ASYNC',
+  async ({ id }: { id: number | null }) => {
+    try {
+      return await apolloClient.query({
+        query: userFavoriteBooksQuery,
+        variables: { id },
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return 'Unknown Error';
+    }
+  }
+)
+
+
 /* --------------------------------------
 ---------- UPDATE FAVORITE BOOK ---------
 ----------------------------------------*/
@@ -153,6 +176,18 @@ export const updateFavoriteBook = createAppAsyncThunk(
 
 const booksReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(favoriteBooks.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(favoriteBooks.fulfilled, (state, action) => {
+      state.loading = false;
+      console.log(action.payload);
+      state.books = action.payload.data.user.favoriteBooks;
+    })
+    .addCase(favoriteBooks.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
     .addCase(updateFavoriteBookState, (state, action) => {
       state.books = state.books.map((book) => {
         if (book.id === action.payload.bookId) {

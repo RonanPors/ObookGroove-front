@@ -89,3 +89,35 @@ export const userSuggestBooksQuery = gql`
   }
   ${userSuggestBooksFragment}
 `;
+
+/* --------------------------------------
+------------ FAVORITE BOOKS --------------
+----------------------------------------*/
+// fragment pour une partie de la requête FAVORITE BOOKS
+
+const userFavoriteBooksFragment = gql`
+  fragment UserFavoriteBooks on Book {
+    id
+    isbn
+    numberOfPages
+    resume
+    title
+    year
+    genre
+    cover
+    author
+    isFavorite
+  }
+`;
+
+// la requête FAVORITE BOOKS
+export const userFavoriteBooksQuery = gql `
+  query Query($id: Int!){
+    user(id: $id) {
+      favoriteBooks{
+        ...UserFavoriteBooks
+      }}
+  }
+  ${userFavoriteBooksFragment}
+`;
+
