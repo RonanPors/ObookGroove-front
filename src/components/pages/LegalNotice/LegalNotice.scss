@@ -1,0 +1,20 @@
+@use '../../../styles/variables' as v;
+
+.legal-notice {
+  &_h1 {
+    margin-bottom: 1rem;
+  }
+
+  &_h2 {
+    color: v.$c-lightest;
+  }
+
+  &_section p {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  &_section b {
+    font-size: 1.3rem;
+  }
+}
