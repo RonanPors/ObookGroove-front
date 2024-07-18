@@ -183,7 +183,6 @@ const booksReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getSpotifyToken.fulfilled, (state, action) => {
       state.loading = false;
-      console.log(action.payload);
       state.books = action.payload;
     })
     .addCase(getSpotifyToken.rejected, (state, action) => {
@@ -213,7 +212,6 @@ const booksReducer = createReducer(initialState, (builder) => {
     })
     .addCase(suggestBooks.fulfilled, (state, action) => {
       state.loading = false;
-      console.log(action.payload);
       state.books = action.payload.data.user.suggestBooks;
       state.pseudo = action.payload.data.user.pseudo;
     })
