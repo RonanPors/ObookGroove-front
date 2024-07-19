@@ -1,0 +1,11 @@
+@use '../../../../styles/variables' as v;
+
+.book-details__modal {
+  max-width: 800px;
+}
+
+.book-details__infos p,
+.book-details__infos h2,
+.book-details__infos .h4 {
+  color: v.$c-darkest;
+}

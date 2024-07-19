@@ -142,7 +142,7 @@ export default function NewPassword() {
         )}
 
         <Button
-          color="teal"
+          color="blue"
           type="submit"
           fluid
           size="large"

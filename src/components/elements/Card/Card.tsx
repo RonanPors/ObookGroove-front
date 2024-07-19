@@ -20,6 +20,7 @@ import placeholder from '../../../assets/logo/svg/logo2_blanc.svg';
 import {
   updateFavoriteBookState,
   updateFavoriteBook,
+  toggleOpenModal,
 } from '../../../store/reducers/booksReducer';
 
 type CardBookProps = {
@@ -60,6 +61,9 @@ export default function CardBook({ book }: CardBookProps) {
               ui={false}
               size="tiny"
               centered
+              onClick={() =>
+                dispatch(toggleOpenModal({ idBookModal: book.id }))
+              }
             />
           </Item>
         </Segment>

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import {
   Button,
   ButtonContent,
@@ -8,24 +9,24 @@ import {
   Image,
   GridRow,
   GridColumn,
-  Loader,
+  Message,
+  MessageContent,
 } from 'semantic-ui-react';
 import './Bookers.scss';
-import { useEffect, useRef, useState } from 'react';
 import MediaQuery from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
-import CardBook from '../../elements/Card/Card';
-import FailedMessage from '../../elements/Messages/FailedMessage/FailedMessage';
-
 import { Book } from '../../../@types/book';
+import CardBook from '../../elements/Card/Card';
 import {
   currentBooks,
   suggestBooks,
   getSpotifyToken,
   spotifyAuthorization,
 } from '../../../store/reducers/booksReducer';
+import BookDetailsModal from '../../elements/Modals/BookDetailsModal/BookDetailsModal';
+import illustration from '../../../assets/logo/svg/illustration-sync-accounts 1.svg';
+import Loading from '../../elements/Loading/Loading';
 
 export default function Bookers() {
   const { books, error, loading, loadingSpotify, pseudo } = useAppSelector(
@@ -35,10 +36,12 @@ export default function Bookers() {
 
   const dispatch = useAppDispatch();
 
+  // action pour le bouton "associer Spotify"
   const handleClick = () => {
     dispatch(spotifyAuthorization());
   };
 
+  // action pour le bouton "recharger les livres"
   const handleClickRefresh = () => {
     dispatch(suggestBooks({ id: userId }));
   };
@@ -63,10 +66,10 @@ export default function Bookers() {
 
   return (
     <div className="bookers__container">
+      <BookDetailsModal />
+
       {!error && (loading || (loadingSpotify && books.length === 0)) && (
-        <Loader active inline="centered" size="medium" inverted>
-          Patientez, nous traitons votre demande
-        </Loader>
+        <Loading />
       )}
 
       {!loading && !loadingSpotify && !error && books.length === 0 && (
@@ -79,7 +82,6 @@ export default function Bookers() {
           >
             Bienvenue {pseudo}
           </Header>
-
 
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">
@@ -252,10 +254,19 @@ export default function Bookers() {
           >
             Bienvenue {pseudo}
           </Header>
-          <FailedMessage>
-            Suite à cette erreur : {error}. Merci d'associer à nouveau votre
-            compte Spotify.
-          </FailedMessage>
+          <Message
+            icon
+            id="bookers__message__failed"
+            compact
+            color="red"
+            size="small"
+          >
+            <Icon name="check circle" size="small" />
+            <MessageContent>
+              Suite à cette erreur : {error}. Merci d&apos;associer à nouveau
+              votre compte Spotify.
+            </MessageContent>
+          </Message>
 
           <Segment id="bookers__content" inverted>
             <Header inverted size="large" as="h2">

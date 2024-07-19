@@ -12,7 +12,7 @@
   position: relative;
   max-width: 1200px;
   margin: auto;
-  height: 120px;
+  padding: 2rem;
 }
 .ui.menu {
   justify-content: space-between;
@@ -27,7 +27,7 @@
 }
 
 .header__img {
-  width: 7rem;
+  width: 5.5rem;
 }
 .ui.stackable.inverted.pointing.menu.secondary.header__menu .item {
   align-self: center;

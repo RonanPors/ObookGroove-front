@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Grid,
@@ -9,12 +10,11 @@ import {
   Input,
   Icon,
 } from 'semantic-ui-react';
+import './Landing.scss';
 import MediaQuery from 'react-responsive';
-import { useNavigate } from 'react-router-dom';
 import { updateFieldCredentials } from '../../../store/reducers/userReducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-import './Landing.scss';
 import illustration from '../../../assets/illustrations/jacket-livre/illustration-landing-page 1.svg';
 import logoFulltext from '../../../assets/logo/svg/Obookgroove_logo_fulltext-gradient.svg';
 

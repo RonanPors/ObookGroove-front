@@ -112,6 +112,35 @@ export async function resetPasswordApi(body: { email: string }) {
   }
 }
 
+/* -------------------------------------
+------------- NEW PASSWORD -------------
+----------------------------------------*/
+
+export type NewPasswordArgs = {
+  userId: string;
+  resetToken: string;
+};
+
+export async function newPasswordApi(
+  body: { password: string; confirmPassword: string },
+  args: NewPasswordArgs
+) {
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/reset-password/${args.userId}/${args.resetToken}`,
+      body
+    );
+
+    console.log(data);
+    return data;
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.error.message);
+    }
+    throw new Error('Unknown Error');
+  }
+}
+
 /* --------------------------------------
 ---------------- LOGOUT -----------------
 ----------------------------------------*/
@@ -156,34 +185,6 @@ export async function logoutSpotifyApi() {
   }
 }
 
-/* -------------------------------------
-------------- NEW PASSWORD -------------
-----------------------------------------*/
-
-export type NewPasswordArgs = {
-  userId: string;
-  resetToken: string;
-};
-
-export async function newPasswordApi(
-  body: { password: string; confirmPassword: string },
-  args: NewPasswordArgs
-) {
-  try {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/reset-password/${args.userId}/${args.resetToken}`,
-      body
-    );
-
-    console.log(data);
-    return data;
-  } catch (err: unknown) {
-    if (err instanceof AxiosError) {
-      throw new Error(err.response?.data.error.message);
-    }
-    throw new Error('Unknown Error');
-  }
-}
 /* --------------------------------------
 ----------- GENERATE TOKEN --------------
 ----------------------------------------*/

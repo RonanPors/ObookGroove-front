@@ -11,35 +11,21 @@ import {
   Label,
 } from 'semantic-ui-react';
 import './SignIn.scss';
-
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-
-import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
-
 import {
   signin,
   updateFieldCredentials,
 } from '../../../store/reducers/userReducer';
-import Cookies from 'js-cookie';
+import logo from '../../../assets/logo/svg/logo2_vertbleu.svg';
 
 export default function SignIn() {
   const { loading, error } = useAppSelector((store) => store.user);
   const { email, password } = useAppSelector(
     (store) => store.user.userData.credentials
   );
-
-  // TODO pour vérifier les token (utilisable ?)
-  // const { accessToken, refreshToken } = useAppSelector(
-  //   (store) => store.user.userData
-  // );
-
-  // useEffect(() => {
-  //   Cookies.set('accessToken', accessToken, { expires: 7, secure: false });
-  //   Cookies.set('refreshToken', refreshToken, { expires: 7, secure: false });
-  // }, [accessToken, refreshToken]);
 
   // pour redirect vers la page de books
   const dispatch = useAppDispatch();
@@ -146,7 +132,7 @@ export default function SignIn() {
         )}
 
         <Button
-          color="teal"
+          color="blue"
           type="submit"
           fluid
           size="large"

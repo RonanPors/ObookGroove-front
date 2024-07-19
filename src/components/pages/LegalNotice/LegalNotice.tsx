@@ -1,4 +1,5 @@
 import './LegalNotice.scss';
+
 export default function LegalNotice() {
   return (
     <div className="legal-notice">

@@ -7,11 +7,11 @@ import {
   userSuggestBooksQuery,
   userFavoriteBooksQuery,
 } from '../../lib/gql/queries';
+import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 import {
   getSpotifyTokenApi,
   spotifyAuthorizationApi,
 } from '../../lib/spotifyApi';
-import { updateFavoriteBookMutation } from '../../lib/gql/mutations';
 
 type BooksReducerState = {
   loading: boolean;
@@ -19,6 +19,8 @@ type BooksReducerState = {
   error: string | null;
   books: Book[];
   pseudo: string;
+  openModal: boolean;
+  idBookModal: number | null;
 };
 
 const initialState: BooksReducerState = {
@@ -27,12 +29,19 @@ const initialState: BooksReducerState = {
   error: null,
   books: [],
   pseudo: '',
+  openModal: false,
+  idBookModal: null,
 };
 
 // Mise à jour de isFavorite des books store.
 export const updateFavoriteBookState = createAction<{ bookId: number }>(
   'BOOKS/UPDATE_FAVORITE_BOOK_STATE'
 );
+
+// action toggle de l'état openModal
+export const toggleOpenModal = createAction<{
+  idBookModal: number | null;
+}>('BOOKS/TOGGLE_OPEN_MODAL');
 
 /* --------------------------------------
 -------------- SPOTIFY ------------------
@@ -183,6 +192,12 @@ const booksReducer = createReducer(initialState, (builder) => {
         return book;
       });
     })
+
+    .addCase(toggleOpenModal, (state, action) => {
+      state.openModal = !state.openModal;
+      state.idBookModal = action.payload.idBookModal;
+    })
+
     /* --------------------------------------
     -------------- SPOTIFY ------------------
     ----------------------------------------*/
@@ -248,7 +263,7 @@ const booksReducer = createReducer(initialState, (builder) => {
     .addCase(updateFavoriteBook.pending, (state) => {
       state.loading = true;
     })
-    .addCase(updateFavoriteBook.fulfilled, (state, action) => {
+    .addCase(updateFavoriteBook.fulfilled, (state) => {
       state.loading = false;
     })
     .addCase(updateFavoriteBook.rejected, (state, action) => {

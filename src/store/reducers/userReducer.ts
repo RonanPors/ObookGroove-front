@@ -221,12 +221,10 @@ export const logoutTotal = createAppAsyncThunk(
   'USER/LOGOUT_TOTAL_ASYNC',
   async (_, thunkAPI) => {
     try {
-
       return await Promise.all([
         thunkAPI.dispatch(logout()).unwrap(),
         thunkAPI.dispatch(logoutSpotify()).unwrap(),
       ]);
-
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -401,6 +399,25 @@ const userReducer = createReducer(initialState, (builder) => {
     })
 
     /* -------------------------------
+    --------- NEW PASSWORD -----------
+    ---------------------------------*/
+
+    .addCase(newPassword.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(newPassword.fulfilled, (state) => {
+      state.loading = false;
+      state.isSuccess = true;
+      // vider les changer une fois que c'est validé
+      state.userData.credentials.password = '';
+      state.userData.confirmPassword = '';
+    })
+    .addCase(newPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || 'Error';
+    })
+
+    /* -------------------------------
     ------------- LOGOUT -------------
     ---------------------------------*/
 
@@ -444,25 +461,6 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(logoutTotal.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as string) || 'Error';
-    })
-
-    /* -------------------------------
-    --------- NEW PASSWORD ---------
-    ---------------------------------*/
-
-    .addCase(newPassword.pending, (state) => {
-      state.loading = true;
-    })
-    .addCase(newPassword.fulfilled, (state) => {
-      state.loading = false;
-      state.isSuccess = true;
-      // vider les changer une fois que c'est validé
-      state.userData.credentials.password = '';
-      state.userData.confirmPassword = '';
-    })
-    .addCase(newPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || 'Error';
     });

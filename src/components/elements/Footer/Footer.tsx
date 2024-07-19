@@ -4,8 +4,11 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../../assets/logo/svg/logo2_blanc.svg';
 
 import './Footer.scss';
+import { useAppSelector } from '../../../hooks/redux';
 
 export default function Footer() {
+  const { isLogged } = useAppSelector((store) => store.user);
+
   return (
     <Segment inverted className="footer ">
       <Menu stackable inverted pointing secondary className="footer__menu">
@@ -13,7 +16,7 @@ export default function Footer() {
           className="footer__logo"
           name="logo"
           as={NavLink}
-          to="/member/books"
+          to={isLogged ? '/member/books' : '/'}
         >
           <img className="footer__img" src={logo} alt="logo" />
         </MenuItem>
