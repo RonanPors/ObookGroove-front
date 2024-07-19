@@ -85,8 +85,6 @@ export default function SignUp() {
     }
     // recaptchaRef.current.execute();
     dispatch(signup());
-
-    // TODO message toaster : "Consulter vos mails pour valider votre inscription"
   };
 
   // toggle avec icon "eye" pour le mdp
@@ -183,7 +181,11 @@ export default function SignUp() {
                 )
               }
             />
-            <Button className="signup__field-eye" onClick={displayPassword}>
+            <Button
+              type="button"
+              className="signup__field-eye"
+              onClick={displayPassword}
+            >
               <Icon name="eye" />
             </Button>
           </Input>
