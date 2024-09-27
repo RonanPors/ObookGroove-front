@@ -19,11 +19,15 @@ Ce projet constitue la partie **front-end** de l'application **obookgroove**. Il
 
 1. **Cloner le dépôt** :
 
-   git clone <url-SSH-du-dépôt-front>
+```
+git clone <url-SSH-du-dépôt-front>
+```
 
 2. **Installer les dépendances** :
 
-   pnpm install
+```
+pnpm install
+```
 
 3. **Créer un fichier `.env`** à la racine du projet avec les variables suivantes :
 
@@ -32,7 +36,9 @@ Ce projet constitue la partie **front-end** de l'application **obookgroove**. Il
 
 4. **Lancer le serveur de développement** :
 
-   npm run dev
+```
+npm run dev
+```
 
 L'application sera accessible à l'adresse `http://localhost:5173`.
 
