@@ -21,7 +21,7 @@ Ce projet constitue la partie **front-end** de l'application **obookgroove**. Il
 
 2. Installer les dépendances :
 
-   npm install
+   pnpm install
 
 3. Créer un fichier `.env` à la racine du projet avec les variables suivantes :
 
