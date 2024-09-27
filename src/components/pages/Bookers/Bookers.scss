@@ -1,3 +1,37 @@
-main {
-  height: 80vh;
+@use '../../../styles/variables' as v;
+
+.bookers__container {
+  margin: 3rem;
+}
+
+h1,
+h3,
+p {
+  color: white;
+}
+
+.ui.center.aligned.header {
+  margin-bottom: 3rem;
+  font-size: 2rem;
+}
+
+#bookers__content {
+  margin: 3rem;
+  padding: 3rem;
+}
+
+#bookers__image {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.ui.grid.five {
+  max-width: 1400px;
+}
+
+.bookers__container--refresh {
+  display: flex;
+}
+.ui.circular.button.bookers__refresh {
+  margin: 2rem auto;
 }

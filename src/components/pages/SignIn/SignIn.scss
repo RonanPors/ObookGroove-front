@@ -1,9 +1,33 @@
 @use '../../../styles/variables' as v;
 
-.Login__header{
-  color: #2165F8;
+.signin {
+  &.ui.inverted.segment {
+    margin: 2rem;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    max-width: 30rem;
+    background-color: rgba(10, 140, 50, 0.3);
+  }
 }
 
-.ui.teal.header {
-  color: none;
+.ui.center.aligned.header.signin__header {
+  display: flex;
+  padding: 1rem;
+}
+
+.ui.form .field.signin__field {
+  margin: 0 0 3rem 0;
+
+  & #password {
+    border-radius: 0.28571429rem;
+  }
+}
+
+.ui.segment.signin__messages {
+  border: 0;
+  background-color: v.$c-darkest;
+  & .message {
+    background-color: v.$c-lightest;
+  }
+  align-items: center;
 }

@@ -2,34 +2,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// lié au persist :
+import { PersistGate } from 'redux-persist/integration/react';
+
+// lié à GraphQL :
+import { ApolloProvider } from '@apollo/client';
+
 // lié au routeur :
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import router from './router';
+
+// le client de GraphQL :
+import { apolloClient } from './lib/gql/apolloClient';
 
 // lié au store :
-import { Provider } from 'react-redux';
-import store from './store/store';
-
-// fichier racine indiquant les parties "fixes" d'une page (header et footer)
-import Root from './components/pages/Root/Root';
-
-// toutes les pages :
-import Bookers from './components/pages/Bookers/Bookers';
-import CGU from './components/pages/CGU/CGU';
-import Error from './components/pages/Error/Error';
-import Landing from './components/pages/Landing/Landing';
-import LegalNotice from './components/pages/LegalNotice/LegalNotice';
-import Library from './components/pages/Library/Library';
-import NewPassword from './components/pages/NewPassword/NewPassword';
-import Profile from './components/pages/Profile/Profile';
-import ResetPassword from './components/pages/ResetPassword/ResetPassword';
-import ConfirmSignup from './components/pages/ConfirmSignup/ConfirmSignup';
-import SignIn from './components/pages/SignIn/SignIn';
-import SignUp from './components/pages/SignUp/SignUp';
+import store, { persistor } from './store/store';
 
 // lié au CSS :
 import 'semantic-ui-css/semantic.min.css';
@@ -38,35 +26,14 @@ import './styles/index.scss';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<Error />}>
-      <Route index element={<Landing />} />
-      <Route path="/member/books" element={<Bookers />} />
-      <Route path="/member/library" element={<Library />} />
-      <Route path="/member/profile" element={<Profile />} />
-      <Route path="/general-conditions-use" element={<CGU />} />
-      <Route path="/legal-notice" element={<LegalNotice />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route
-        path="/reset-password/:userId/:resetToken"
-        element={<NewPassword />}
-      />
-      <Route
-        path="/confirm-signup/:userId/:confirmToken"
-        element={<ConfirmSignup />}
-      />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-    </Route>
-  )
-);
 
 // le rendu dans le DOM, avec redux qui encadre le routeur :
 root.render(
-  <React.StrictMode>
+  <ApolloProvider client={apolloClient}>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
-  </React.StrictMode>
+  </ApolloProvider>
 );

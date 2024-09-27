@@ -1,10 +1,31 @@
 .signup {
   &.ui.inverted.segment {
-    display: flex;
-    justify-content: center;
-    border-radius: none;
+    margin: 2rem;
+    padding: 3rem;
+    background-color: rgba(10, 140, 50, 0.3);
+    border-radius: 0.5rem;
+    max-width: 30rem;
   }
-  &__form {
-    width: 30rem;
+}
+
+.ui.center.aligned.header.signup__header {
+  display: flex;
+  padding: 1rem;
+}
+
+.ui.form .field.signup__field {
+  margin: 0 0 3rem 0;
+
+  & #email {
+    border-radius: 0.28571429rem;
   }
+  & #password {
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+  }
+}
+
+.ui.button.signup__field-eye {
+  margin: 0;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 0 0.28571429rem 0.28571429rem 0;
 }

@@ -34,6 +34,7 @@ module.exports = {
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
+    'import/prefer-default-export': 0,
     'import/extensions': [
       'error',
       'ignorePackages',

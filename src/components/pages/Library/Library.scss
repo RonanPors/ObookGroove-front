@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as v;
+
+.library__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  max-width: 1400px;
+}
+
+.ui.center.aligned.header {
+  margin-bottom: 3rem;
+  font-size: 2rem;
+}
+
+.library__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}

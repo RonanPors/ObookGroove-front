@@ -1,66 +1,104 @@
-import { Grid, Header, Form, Button, Segment, Image } from 'semantic-ui-react';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Header,
+  Form,
+  Button,
+  Segment,
+  Image,
+  FormField,
+  Input,
+  Icon,
+  Message,
+} from 'semantic-ui-react';
+import MediaQuery from 'react-responsive';
 import './ResetPassword.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   resetPassword,
-  updateField,
-} from '../../../store/reducers/passwordReducer';
+  updateFieldCredentials,
+} from '../../../store/reducers/userReducer';
+import logo from '../../../assets/logo/svg/logo2_bleuvert.svg';
 
 export default function ResetPassword() {
+  const { loading, error } = useAppSelector((store) => store.user);
+  const { email } = useAppSelector((store) => store.user.userData.credentials);
+
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((store) => store.password);
-  const { email } = useAppSelector((store) => store.password.credentials);
+
+  // met le focus sur le champ du form :
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  // vérifie si un champ est vide :
+  const emptyFieldInspector = email === '';
+  // création d'un état :
+  const [hasError, setHasError] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (loading) {
+    if (loading || emptyFieldInspector) {
+      setHasError(true);
       return;
     }
     dispatch(resetPassword());
   };
   return (
-    <Grid
-      className="signin"
-      textAlign="center"
-      style={{ height: '100vh' }}
-      verticalAlign="middle"
-    >
-      <Grid.Column style={{ maxWidth: 450 }}>
+    <Segment inverted className="reset-password">
+      <Form
+        inverted
+        size="large"
+        className="reset-password__form"
+        onSubmit={handleSubmit}
+      >
         <Header
-          color="black"
-          as="h2"
+          inverted
+          as="h1"
+          className="h1 reset-password__header"
           textAlign="center"
-          className="signin__header"
         >
-          <Image src="src/assets/logo/svg/logo2_noir.svg" /> Réinitialiser votre
-          mot de passe
+          <MediaQuery minWidth={768}>
+            <Image src={logo} />
+          </MediaQuery>
+          Réinitialiser votre mot de passe
         </Header>
-        <Form className="signin__form" size="large" onSubmit={handleSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Entrez votre adresse mail"
+        <h4>Étape 1/2</h4>
+        <FormField className="reset-password__field">
+          <Input iconPosition="left">
+            <Icon name="at" />
+            <input
+              ref={inputRef}
+              placeholder="Entrez votre adresse e-mail"
               type="email"
               value={email}
               onChange={(e) =>
                 dispatch(
-                  updateField({
+                  updateFieldCredentials({
                     value: e.target.value,
                     field: 'email',
                   })
                 )
               }
             />
+          </Input>
+        </FormField>
 
-            <Button color="teal" type="submit" fluid size="large">
-              Envoyer
-            </Button>
-            {error !== '' && <p> {error}</p>}
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+        {hasError && <Message negative>Vous devez compléter le champ</Message>}
+
+        <Button
+          color="blue"
+          type="submit"
+          fluid
+          size="large"
+          disabled={emptyFieldInspector}
+        >
+          Envoyer votre e-mail
+        </Button>
+        {error !== '' && <Message negative> {error}</Message>}
+      </Form>
+    </Segment>
   );
 }

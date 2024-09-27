@@ -3,7 +3,7 @@ export type UserData = {
   credentials: Credentials;
   pseudo: string;
   confirmPassword: string;
-  phoneNumber?: string;
+  id: number | null;
 };
 
 export type Credentials = {
@@ -16,14 +16,16 @@ export type SignupResponse = {
   accessToken: string;
   tokenType: string;
   refreshToken: string;
-  pseudo: string;
+  // pseudo: string;
+  id: number;
 };
 
 export type SigninResponse = {
   accessToken: string;
   tokenType: string;
   refreshToken: string;
-  pseudo: string;
+  // pseudo: string;
+  id: number;
 };
 
 export declare module 'react-google-recaptcha';

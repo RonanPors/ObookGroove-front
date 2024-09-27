@@ -3,7 +3,8 @@
 .ui.segment.inverted.footer {
   margin: 0;
   border-radius: 0;
-  background-color: v.$c-neutral;
+  background-color: v.$c-darkest;
+  box-shadow: 0 0 10px rgba(v.$c-light, 0.4);
 }
 
 .ui.stackable.inverted.menu.secondary.footer__menu {
@@ -11,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
 }
 
 .ui.stackable.inverted.pointing.menu.secondary.footer__menu .item {
@@ -23,7 +25,7 @@
 }
 
 .ui.menu .item > img:not(.ui).footer__img {
-  width: 5rem;
+  width: 4rem;
 }
 
 .footer__contact a {
