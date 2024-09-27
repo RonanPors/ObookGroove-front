@@ -459,6 +459,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(logoutTotal.fulfilled, (state) => {
       state.loading = false;
+      state.logoutStatus = false;
     })
     .addCase(logoutTotal.rejected, (state, action) => {
       state.loading = false;

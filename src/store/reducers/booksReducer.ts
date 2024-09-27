@@ -184,6 +184,10 @@ export const favoriteBooks = createAppAsyncThunk(
 
 const booksReducer = createReducer(initialState, (builder) => {
   builder
+
+    /* --------------------------------------
+    -------------- FAVORITE BOOK STATE---------
+    ----------------------------------------*/
     .addCase(updateFavoriteBookState, (state, action) => {
       state.books = state.books.map((book) => {
         if (book.id === action.payload.bookId) {
@@ -193,6 +197,9 @@ const booksReducer = createReducer(initialState, (builder) => {
       });
     })
 
+    /* --------------------------------------
+    -------------- MODAL BOOK----------------
+    ----------------------------------------*/
     .addCase(toggleOpenModal, (state, action) => {
       state.openModal = !state.openModal;
       state.idBookModal = action.payload.idBookModal;

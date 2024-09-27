@@ -17,6 +17,15 @@ const store = configureStore({
     user: persistedUserReducer,
     books: booksReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore l'action persist/PURGE
+        ignoredActions: ['persist/PURGE'],
+        // Ignore le path "result" dans l'action "persist/PURGE"
+        ignoredActionPaths: ['result'],
+      },
+    }),
 });
 
 export default store;

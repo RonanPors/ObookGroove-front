@@ -49,7 +49,11 @@ export default function CardBook({ book }: CardBookProps) {
 
   return (
     <div>
-      <Card id="card__container">
+      <Card
+        id="card__container"
+        aria-labelledby={`Carte du livre ${book.title}`}
+        role="region"
+      >
         <Segment id="card__image" inverted>
           <Item align="centered">
             <ItemImage
@@ -64,6 +68,8 @@ export default function CardBook({ book }: CardBookProps) {
               onClick={() =>
                 dispatch(toggleOpenModal({ idBookModal: book.id }))
               }
+              alt={`Couverture du livre ${book.title} par ${book.author}`}
+              aria-label={`Couverture du livre ${book.title} par ${book.author}`}
             />
           </Item>
         </Segment>
@@ -80,14 +86,20 @@ export default function CardBook({ book }: CardBookProps) {
                 floated="right"
                 src={book.isFavorite ? BookShellActive : BookShell}
                 onClick={handleToggleFavorite}
+                aria-label={
+                  book.isFavorite
+                    ? 'Retirer ce livre de mes favoris'
+                    : 'Ajouter ce livre à mes favoris'
+                }
+                role="bouton"
               />
             }
           />
 
-          <Header inverted color="grey" id="card_author" as="h3">
+          <Header inverted color="grey" id="card_author" as="h3" aria-level="2">
             {book.title}
           </Header>
-          <Header inverted color="grey" as="h4">
+          <Header inverted color="grey" as="h4" aria-level="3">
             {book.author}
           </Header>
         </CardContent>
@@ -97,7 +109,11 @@ export default function CardBook({ book }: CardBookProps) {
             {book.genre &&
               book.genre.length > 0 &&
               book.genre.map((item: string) => (
-                <Label id="card__label" key={item}>
+                <Label
+                  id="card__label"
+                  key={item}
+                  aria-label={`Genre: ${item}`}
+                >
                   {item}
                 </Label>
               ))}

@@ -68,9 +68,11 @@ export default function Bookers() {
     <div className="bookers__container">
       <BookDetailsModal />
 
-      {!error && (loading || (loadingSpotify && books.length === 0)) && (
-        <Loading />
-      )}
+      {!error &&
+        (loading ||
+          (loadingSpotify && loadingSpotify && books.length === 0)) && (
+          <Loading />
+        )}
 
       {!loading && !loadingSpotify && !error && books.length === 0 && (
         <>
